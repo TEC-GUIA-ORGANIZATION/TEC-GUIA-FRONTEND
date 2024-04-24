@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpExampleService } from './http-example.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'TEC-GUIA-FRONTEND';
+  data: any;
+
+  constructor(private dataService: HttpExampleService) {}
+
+  ngOnInit() {
+    this.getDataFromAPI();
+  }
+
+  getDataFromAPI() {
+    this.dataService.getData().subscribe(data => {
+      this.data = data;
+    });
+  }
 }
