@@ -1,0 +1,6 @@
+export enum EstadoActividad {
+  PLANEADA = 'PLANEADA',
+  NOTIFICADA = 'NOTIFICADA',
+  REALIZADA = 'REALIZADA',
+  CANCELADA = 'CANCELADA',
+}
