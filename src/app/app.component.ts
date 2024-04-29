@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpExampleService } from './http-example.service';
+import { HttpExampleService } from './Controller/http-example.service';
 
 @Component({
   selector: 'app-root',
