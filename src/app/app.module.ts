@@ -9,11 +9,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
-
+import { FlexLayoutServerModule } from '@angular/flex-layout/server';
+import { LoginPasswordForgottenComponent } from './login-password-forgotten/login-password-forgotten.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    LoginPasswordForgottenComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,8 @@ import { MaterialModule } from './material/material.module';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutServerModule
   ],
   providers: [
     provideClientHydration(),
