@@ -19,7 +19,8 @@ export class LoginPasswordForgottenComponent {
   private buildForm(): any {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password1: ['', [Validators.required, Validators.minLength(6)]],
+      password2: ['', [Validators.required, Validators.minLength(6)]],
         });
   }
   /* ESTA FUNCION ES ACTIVADA POR EL NGSTYLE */
@@ -37,7 +38,7 @@ export class LoginPasswordForgottenComponent {
     event.preventDefault();
     if (this.form.valid) {
       const value = this.form.value;
-      console.log(`'%c'USER: ${value.email} - PASSWORD: ${value.password}`, 'background: #222; color: #bada55');
+      console.log(`'%c'USER: ${value.email} - PASSWORD: ${value.password1}`, 'background: #222; color: #bada55');
     }
   }
 }
