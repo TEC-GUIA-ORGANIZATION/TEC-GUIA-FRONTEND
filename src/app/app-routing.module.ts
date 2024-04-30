@@ -5,7 +5,8 @@ import { LoginPasswordForgottenComponent } from './login-password-forgotten/logi
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'login-password-forgotten', component: LoginPasswordForgottenComponent }
+  { path: 'login-password-forgotten', component: LoginPasswordForgottenComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full'}
   // Add other routes as needed
 ];
 
