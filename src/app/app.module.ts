@@ -11,13 +11,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { LoginPasswordForgottenComponent } from './login-password-forgotten/login-password-forgotten.component';
+import { HomeComponent } from './home/home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SeccionEstudiantesComponent } from './seccion-estudiantes/seccion-estudiantes.component';
+import { SeccionActividadesComponent } from './seccion-actividades/seccion-actividades.component';
+import { SeccionEquipoComponent } from './seccion-equipo/seccion-equipo.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    LoginPasswordForgottenComponent
+    LoginPasswordForgottenComponent,
+    HomeComponent,
+    SeccionEstudiantesComponent,
+    SeccionActividadesComponent,
+    SeccionEquipoComponent
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
