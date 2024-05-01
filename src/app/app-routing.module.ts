@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component'; // Assuming LoginComponent is in a file named 'login.component.ts'
-import { LoginPasswordForgottenComponent } from './login-password-forgotten/login-password-forgotten.component';
-import { HomeComponent } from './home/home.component';
-import { SeccionActividadesComponent } from './seccion-actividades/seccion-actividades.component';
-import { SeccionEquipoComponent } from './seccion-equipo/seccion-equipo.component';
-import { SeccionEstudiantesComponent } from './seccion-estudiantes/seccion-estudiantes.component';
+import { LoginComponent } from './View/login/login.component'; // Assuming LoginComponent is in a file named 'login.component.ts'
+import { LoginPasswordForgottenComponent } from './View/login-password-forgotten/login-password-forgotten.component';
+import { HomeComponent } from './View/home/home.component';
+import { SeccionActividadesComponent } from './View/seccion-actividades/seccion-actividades.component';
+import { SeccionEquipoComponent } from './View/seccion-equipo/seccion-equipo.component';
+import { SeccionEstudiantesComponent } from './View/seccion-estudiantes/seccion-estudiantes.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
