@@ -6,6 +6,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ActividadesComponent } from './components/actividades/actividades.component';
 import { EquipoComponent } from './components/equipo/equipo.component';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,8 +14,11 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'actividades', component: ActividadesComponent },
   { path: 'equipo', component: EquipoComponent },
-  { path: 'estudiantes', component: EstudiantesComponent }
+  { path: 'estudiantes', component: EstudiantesComponent },
   // Add other routes as needed
+
+  // Wildcard route
+  { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
 ];
 
 //  { path: '', redirectTo: '/login', pathMatch: 'full'},
