@@ -4,20 +4,31 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
-import { LoginPasswordForgottenComponent } from './login-password-forgotten/login-password-forgotten.component';
+import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
+import { HomeComponent } from './components/home/home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
+import { ActividadesComponent } from './components/actividades/actividades.component';
+import { EquipoComponent } from './components/equipo/equipo.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    LoginPasswordForgottenComponent
+    RecoverPasswordComponent,
   ],
   imports: [
+    HomeComponent,
+    EstudiantesComponent,
+    ActividadesComponent,
+    EquipoComponent,
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
