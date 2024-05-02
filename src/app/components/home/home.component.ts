@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
+  standalone: true,
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  imports: [NavbarComponent]
 })
 export class HomeComponent implements OnInit {
-  selectedTab!: string;
-HomeComponent: any;
+  constructor() { }
 
   ngOnInit() {
 

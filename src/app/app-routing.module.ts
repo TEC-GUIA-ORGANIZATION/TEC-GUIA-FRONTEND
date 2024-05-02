@@ -1,25 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './View/login/login.component'; // Assuming LoginComponent is in a file named 'login.component.ts'
-import { LoginPasswordForgottenComponent } from './View/login-password-forgotten/login-password-forgotten.component';
-import { HomeComponent } from './View/home/home.component';
-import { SeccionActividadesComponent } from './View/seccion-actividades/seccion-actividades.component';
-import { SeccionEquipoComponent } from './View/seccion-equipo/seccion-equipo.component';
-import { SeccionEstudiantesComponent } from './View/seccion-estudiantes/seccion-estudiantes.component';
+import { LoginComponent } from './components/login/login.component'; // Assuming LoginComponent is in a file named 'login.component.ts'
+import { RecoverPasswordComponent } from './components/recover-password/recover-password.component'; // Assuming RecoverPasswordComponent is in a file named 'recover-password.component.ts'
+import { HomeComponent } from './components/home/home.component';
+import { ActividadesComponent } from './components/actividades/actividades.component';
+import { EquipoComponent } from './components/equipo/equipo.component';
+import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'login-password-forgotten', component: LoginPasswordForgottenComponent },
-  { 
-    path: '', component: HomeComponent,
-    children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default child route
-      { path: 'home', component: HomeComponent },
-      { path: 'actividades', component: SeccionActividadesComponent },
-      { path: 'equipo', component: SeccionEquipoComponent },
-      { path: 'estudiantes', component: SeccionEstudiantesComponent }
-    ]
-  },
+  { path: 'recover-password', component: RecoverPasswordComponent },
+  { path: '', component: HomeComponent },
+  { path: 'actividades', component: ActividadesComponent },
+  { path: 'equipo', component: EquipoComponent },
+  { path: 'estudiantes', component: EstudiantesComponent }
   // Add other routes as needed
 ];
 

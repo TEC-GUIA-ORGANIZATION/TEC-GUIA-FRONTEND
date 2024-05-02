@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-login-password-forgotten',
-  templateUrl: './login-password-forgotten.component.html',
-  styleUrl: './login-password-forgotten.component.css'
+  selector: 'app-recover-password',
+  templateUrl: './recover-password.component.html',
+  styleUrl: './recover-password.component.css',
 })
-export class LoginPasswordForgottenComponent {
+export class RecoverPasswordComponent {
   /* AQUI DEFINIMOS LA TEMATICA DE NUESTRA IMAGEN*/
   styleImage = 'rain';
 
