@@ -1,35 +1,66 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { API_URL } from './constantes.service';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
+import { API_URL } from './constantes.service';
 
 @Injectable({
   providedIn: 'root'
 })
-// This service is responsible for managing authentication
-// It has methods to login, logout, sign up, change password and recover password
 export class GestorAutenticacion {
-  private url = `${API_URL}/autenticacion`;
+  private authUrl = `${API_URL}/auth`;
 
-  /**
-   * Constructor
-   * @param http HttpClient
-   */
   constructor(private http: HttpClient) {}
 
-  // TODO: Implement
-  login(usuario: Usuario) {}
+  login(correo: string, contrasena: string): Observable<any> {
+    return this.http.post<any>(`${this.authUrl}/login`, { correo, contrasena }).pipe(
+      map(response => {
+        if (response && response.token) {
+          // Almacenar el token en una cookie
+          document.cookie = `token=${response.token}; Secure; SameSite=None`;
+          return true;
+        }
+        return false;
+      }),
+      catchError(error => of(false))
+    );
+  }
 
-  // TODO: Implement
-  logout() {}
+  logout(): Observable<any> {
+    return this.http.post<any>(`${this.authUrl}/logout`, {}).pipe(
+      map(() => {
+        // Eliminar la cookie de token
+        document.cookie = 'token=; Secure; SameSite=None; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        return true;
+      }),
+      catchError(error => of(false))
+    );
+  }
 
-  // TODO: Implement
-  signup(usuario: Usuario) {}
+  register(usuario: Usuario): Observable<any> {
+    return this.http.post<any>(`${this.authUrl}/register`, usuario).pipe(
+      catchError(error => of(false))
+    );
+  }
 
-  // TODO: Implement
-  cambiarContrasena(usuario: Usuario) {}
+  verifyToken(): Observable<any> {
+    // Verificar si existe la cookie de token
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    if (!token) {
+      return of(false);
+    }
 
-  // TODO: Implement
-  recuperarContrasena(usuario: Usuario) {}
+    // Realizar una solicitud al backend para verificar el token
+    return this.http.get<any>(`${this.authUrl}/verifyToken`).pipe(
+      catchError(error => of(false))
+    );
+  }
+
+  isLoggedIn(): boolean {
+    // Verificar si existe la cookie de token
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    return !!token;
+  }
 }
+

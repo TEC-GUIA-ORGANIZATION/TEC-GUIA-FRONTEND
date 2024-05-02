@@ -10,6 +10,7 @@ export class Usuario {
   segundoApellido: string;
   sede: Sede;
   fotografia: string;
+  rol: string;
 
   /**
    * Constructor
@@ -21,6 +22,7 @@ export class Usuario {
    * @param segundoApellido The second last name of the user
    * @param sede The headquarters of the user
    * @param fotografia The photo of the user
+   * @param rol The role of the user
    **/
   constructor(
     id: number,
@@ -30,7 +32,8 @@ export class Usuario {
     primerApellido: string,
     segundoApellido: string,
     sede: Sede,
-    fotografia: string
+    fotografia: string,
+    rol: string
   ) {
     this.id = id;
     this.correo = correo;
@@ -40,6 +43,7 @@ export class Usuario {
     this.segundoApellido = segundoApellido;
     this.sede = sede;
     this.fotografia = fotografia;
+    this.rol = rol;
   }
 
   /**

@@ -7,14 +7,15 @@ import { ActividadesComponent } from './components/actividades/actividades.compo
 import { EquipoComponent } from './components/equipo/equipo.component';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'recover-password', component: RecoverPasswordComponent },
-  { path: '', component: HomeComponent },
-  { path: 'actividades', component: ActividadesComponent },
-  { path: 'equipo', component: EquipoComponent },
-  { path: 'estudiantes', component: EstudiantesComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
+  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard] },
+  { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard] },
   // Add other routes as needed
 
   // Wildcard route

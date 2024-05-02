@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ export class LoginComponent implements OnInit{
   styleImage = 'rain';
 
   form!: FormGroup;
-  constructor(private formBuilder: FormBuilder){
+  constructor(private formBuilder: FormBuilder, private authService: GestorAutenticacion, private router: Router) {
   }
   ngOnInit(): void {
     this.buildForm();
@@ -37,7 +39,15 @@ export class LoginComponent implements OnInit{
     event.preventDefault();
     if (this.form.valid) {
       const value = this.form.value;
-      console.log(`'%c'USER: ${value.email} - PASSWORD: ${value.password}`, 'background: #222; color: #bada55');
+
+      this.authService.login(value.email, value.password).subscribe(
+        () => {
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     }
   }
 }

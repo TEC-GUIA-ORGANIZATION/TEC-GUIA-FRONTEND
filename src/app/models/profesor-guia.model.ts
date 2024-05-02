@@ -19,6 +19,7 @@ export class ProfesorGuia extends Usuario {
    * @param segundoApellido The second last name of the guide teacher
    * @param sede The headquarters of the guide teacher
    * @param fotografia The photo of the guide teacher
+   * @param rol The role of the user
    * @param codigo The code of the guide teacher
    * @param telefonoOficina The office phone number of the guide teacher
    * @param telefonoPersonal The personal phone number of the guide teacher
@@ -34,13 +35,14 @@ export class ProfesorGuia extends Usuario {
     segundoApellido: string,
     sede: Sede,
     fotografia: string,
+    rol: string,
     codigo: string,
     telefonoOficina: string,
     telefonoPersonal: string,
     esCoordinador: boolean,
     estaActivo: boolean
   ) {
-    super(id, correo, contrasena, nombre, primerApellido, segundoApellido, sede, fotografia);
+    super(id, correo, contrasena, nombre, primerApellido, segundoApellido, sede, fotografia, rol);
     this.codigo = codigo;
     this.telefonoOficina = telefonoOficina;
     this.telefonoPersonal = telefonoPersonal;

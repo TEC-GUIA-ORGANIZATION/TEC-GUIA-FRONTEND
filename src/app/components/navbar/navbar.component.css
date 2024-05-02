@@ -59,3 +59,7 @@
   border-bottom: 2px solid #EF3340; /* Añade el borde inferior */
   padding-bottom: 0.4rem; /* Ajusta el relleno inferior para compensar el borde */
 }
+
+.logout-btn {
+  margin-right: 1%; /* Agrega espacio entre el botón de cierre de sesión y los elementos a la izquierda */
+}

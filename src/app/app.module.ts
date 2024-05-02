@@ -3,7 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -40,7 +40,7 @@ import { EquipoComponent } from './components/equipo/equipo.component';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

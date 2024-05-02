@@ -16,6 +16,7 @@ export class AsistenteAdministrativo extends Usuario {
    * @param segundoApellido The second last name of the asistente administrativo
    * @param sede The sede of the asistente administrativo
    * @param fotografia The photo of the asistente administrativo
+   * @param rol The role of the user
    * @param esPrincipal The main asistente administrativo
    **/
   constructor(
@@ -27,9 +28,10 @@ export class AsistenteAdministrativo extends Usuario {
     segundoApellido: string,
     sede: Sede,
     fotografia: string,
+    rol: string,
     esPrincipal: boolean
   ) {
-    super(id, correo, contrasena, nombre, primerApellido, segundoApellido, sede, fotografia);
+    super(id, correo, contrasena, nombre, primerApellido, segundoApellido, sede, fotografia, rol);
     this.esPrincipal = esPrincipal;
   }
 }
