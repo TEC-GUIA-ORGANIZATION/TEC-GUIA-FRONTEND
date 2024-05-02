@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-custom">
+  <a class="navbar-brand logo" routerLink="/" style="font-family: 'Roboto', sans-serif;">TECGuia</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [class.active]="isSelected('/')">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">Inicio</a>
+      </li>
+      <li class="nav-item" [class.active]="isSelected('/estudiantes')">
+        <a class="nav-link" routerLink="/estudiantes" routerLinkActive="active">Estudiantes</a>
+      </li>
+      <li class="nav-item" [class.active]="isSelected('/actividades')">
+        <a class="nav-link" routerLink="/actividades" routerLinkActive="active">Actividades</a>
+      </li>
+      <li class="nav-item" [class.active]="isSelected('/equipo')">
+        <a class="nav-link" routerLink="/equipo" routerLinkActive="active">Equipo</a>
+      </li>
+    </ul>
+  </div>
+</nav>
