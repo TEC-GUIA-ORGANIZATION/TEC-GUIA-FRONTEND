@@ -10,6 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
+import { CookieService } from 'ngx-cookie-service';
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
 import { HomeComponent } from './components/home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -41,6 +42,7 @@ import { EquipoComponent } from './components/equipo/equipo.component';
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
+    CookieService,
   ],
   bootstrap: [AppComponent]
 })

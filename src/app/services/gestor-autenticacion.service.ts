@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 import { catchError, map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
 import { API_URL } from './constantes.service';
@@ -11,18 +12,18 @@ import { API_URL } from './constantes.service';
 export class GestorAutenticacion {
   private authUrl = `${API_URL}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  login(correo: string, contrasena: string): Observable<any> {
+  login(correo: string, contrasena: string): Observable<boolean> {
     return this.http.post<any>(`${this.authUrl}/login`, { correo, contrasena }).pipe(
       map(response => {
-        if (response && response.token) {
+        if (response) {
+          console.log('Sesión iniciada');
           // Almacenar el token en una cookie
-          document.cookie = `token=${response.token}; Secure; SameSite=None`;
-          console.log('Token almacenado en cookie');
+          this.cookieService.set('token', response.token, 7, '/', '', true, 'None');
           return true;
         }
-        console.log('No se recibió un token');
+        console.error('No se pudo iniciar sesión');
         return false;
       }),
       catchError(error => of(false))

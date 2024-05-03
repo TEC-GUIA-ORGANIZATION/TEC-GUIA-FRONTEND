@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit{
 
       this.authService.login(value.email, value.password).subscribe(
         () => {
-          console.log('Usuario logueado');
           this.router.navigate(['/']);
         },
         (error) => {
