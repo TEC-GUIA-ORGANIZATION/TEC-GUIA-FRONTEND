@@ -27,15 +27,15 @@
 }
 
 /* Estilos para la línea debajo del enlace activo */
-    /* Cambiar el color del botón cuando está seleccionado */
+/* Cambiar el color del botón cuando está seleccionado */
 
-    /* Resaltar el botón al pasar el mouse por encima */
+/* Resaltar el botón al pasar el mouse por encima */
 
-    .navbar-nav .nav-item:hover .nav-link {
-      color: #EF3340; /* Cambia el color a tu preferencia */
-      border-bottom: 2px solid #EF3340; /* Añade el borde inferior */
-      padding-bottom: 0.4rem; /* Ajusta el relleno inferior para compensar el borde */
-    }
+.navbar-nav .nav-item:hover .nav-link {
+  border-bottom: 2px solid #FFF; /* Añade el borde inferior */
+  padding-bottom: 0.4rem; /* Ajusta el relleno inferior para compensar el borde */
+}
+
 /* Estilos para el botón del navbar-toggler */
 .navbar-toggler {
   border: none; /* Eliminar el borde del botón */
@@ -62,4 +62,9 @@
 
 .logout-btn {
   margin-right: 1%; /* Agrega espacio entre el botón de cierre de sesión y los elementos a la izquierda */
+}
+
+/* When clicked */
+.logout-btn:active {
+  background-color: #A5A5A5; /* Change this to the desired color */
 }

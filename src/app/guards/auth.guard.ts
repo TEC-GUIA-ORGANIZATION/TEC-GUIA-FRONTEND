@@ -8,11 +8,18 @@ import { GestorAutenticacion } from '../services/gestor-autenticacion.service';
 export class AuthGuard {
   constructor(private authService: GestorAutenticacion, private router: Router) {}
 
-  canActivate(): boolean {
-    if (this.authService.isLoggedIn()) {
-      return true;
-    }
-    this.router.navigate(["/login"]);
-    return false;
+  canActivate() {
+    this.authService.verifyToken().subscribe(
+      (response) => {
+        if (response) {
+          return true;
+        }
+        this.router.navigate(["/login"]);
+        return false;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 }
