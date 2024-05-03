@@ -18,12 +18,10 @@ export class GestorAutenticacion {
     return this.http.post<any>(`${this.authUrl}/login`, { correo, contrasena }).pipe(
       map(response => {
         if (response) {
-          console.log('Sesión iniciada');
           // Almacenar el token en una cookie
           this.cookieService.set('token', response.token, 7, '/', '', true, 'None');
           return true;
         }
-        console.error('No se pudo iniciar sesión');
         return false;
       }),
       catchError(error => of(false))
@@ -34,7 +32,7 @@ export class GestorAutenticacion {
     return this.http.post<any>(`${this.authUrl}/logout`, {}).pipe(
       map(() => {
         // Eliminar la cookie de token
-        document.cookie = 'token=; Secure; SameSite=None; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        this.cookieService.delete('token', '/');
         return true;
       }),
       catchError(error => of(false))
@@ -49,7 +47,7 @@ export class GestorAutenticacion {
 
   verifyToken(): Observable<any> {
     // Verificar si existe la cookie de token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    const token = this.cookieService.get('token');
     if (!token) {
       return of(false);
     }
@@ -62,7 +60,7 @@ export class GestorAutenticacion {
 
   isLoggedIn(): boolean {
     // Verificar si existe la cookie de token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    const token = this.cookieService.get('token');
     return !!token;
   }
 }
