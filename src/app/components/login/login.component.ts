@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit{
       position: 'relative',
     };
   }
+
   login(event: Event): any {
     event.preventDefault();
     if (this.form.valid) {
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit{
 
       this.authService.login(value.email, value.password).subscribe(
         () => {
+          console.log('Usuario logueado');
           this.router.navigate(['/']);
         },
         (error) => {

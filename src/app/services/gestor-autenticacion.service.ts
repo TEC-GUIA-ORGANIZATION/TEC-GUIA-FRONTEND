@@ -19,8 +19,10 @@ export class GestorAutenticacion {
         if (response && response.token) {
           // Almacenar el token en una cookie
           document.cookie = `token=${response.token}; Secure; SameSite=None`;
+          console.log('Token almacenado en cookie');
           return true;
         }
+        console.log('No se recibió un token');
         return false;
       }),
       catchError(error => of(false))
