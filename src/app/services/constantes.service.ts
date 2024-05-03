@@ -1,1 +1,1 @@
-export const API_URL = 'http://backend-tec-guia.azurewebsites.net/api';
+export const API_URL = 'https://backend-tec-guia.azurewebsites.net/api';
