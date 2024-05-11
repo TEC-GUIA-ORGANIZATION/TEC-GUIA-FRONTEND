@@ -11,7 +11,7 @@ import { API_URL, API_URL_LOCAL } from './constantes.service';
   providedIn: 'root'
 })
 export class GestorAutenticacion {
-  private authUrl = `${API_URL_LOCAL}/auth`;
+  private authUrl = `${API_URL}/auth`;
 
   constructor(private http: HttpClient, @Inject(CookieService) private cookieService: CookieService, private router: Router) { }
 
