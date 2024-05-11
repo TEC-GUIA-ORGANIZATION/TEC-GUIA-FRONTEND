@@ -1,0 +1,144 @@
+.container {
+    margin-top: 20px;
+    margin-left: auto; /* Centra horizontalmente */
+    margin-right: auto; /* Centra horizontalmente */
+    
+  }
+/* Estilos para los botones */
+.btn-custom {
+    background-color: #fff;
+    border: 1px solid #002855;
+    color: #002855;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-custom:hover {
+    background-color: #002855;
+    color: #fff;
+  }
+  
+.input-group {
+    width: 100%;
+    max-width: 600px; /* Ajusta según sea necesario */
+  }
+  
+  .btn-group {
+    margin-right: 10px;
+  }
+  
+  .btn-group:last-child {
+    margin-right: 0;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .table td input {
+    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
+    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
+  }
+
+  
+  
+  .form-control {
+    width: 100%; /* Utilizar el ancho completo disponible */
+    max-width: 300px; /* Limitar el ancho máximo para que no se extienda demasiado */
+  }
+  
+  .pagination {
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Estilos para la tabla */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+/* Establece un ancho mínimo para la primera columna (Carné) */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  min-width: 100px; /* Ancho mínimo para Carné */
+}
+
+/* Establece un ancho mínimo para la segunda columna (Nombre) */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  min-width: 100px; /* Ancho mínimo para Nombre */
+}
+
+/* Establece un ancho mínimo para la tercera columna (Primer Apellido) */
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  min-width: 100px; /* Ancho mínimo para Primer Apellido */
+}
+
+/* Establece un ancho mínimo para la cuarta columna (Segundo Apellido) */
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  min-width: 100px; /* Ancho mínimo para Segundo Apellido */
+}
+
+/* Establece un ancho mínimo para la quinta columna (Correo Electrónico) */
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  min-width: 250px; /* Ancho mínimo para Correo Electrónico */
+}
+
+/* Establece un ancho mínimo para la sexta columna (Número de Teléfono) */
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  min-width: 100px; /* Ancho mínimo para Número de Teléfono */
+}
+
+/* Establece un ancho mínimo para la séptima columna (Campus) */
+.table th:nth-child(7),
+.table td:nth-child(7) {
+  min-width: 100px; /* Ancho mínimo para Campus */
+}
+
+/* Establece un ancho mínimo para la octava columna (Acciones) */
+.table th:nth-child(8),
+.table td:nth-child(8) {
+  min-width: 100px; /* Ancho mínimo para Acciones */
+}
+  
+  /* Estilos para las celdas de la tabla */
+  .table td {
+    vertical-align: middle;
+  }
+  
+  /* Estilos para las filas alternas */
+  .table tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Ajustar el color de las filas alternas para que combine con el tema */
+  }
+  
+  /* Estilos para los enlaces de paginación */
+  .pagination .page-item .page-link {
+    color: #002855; /* Cambia el color de los enlaces según tus preferencias */
+    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
+    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
+  }
+  .pagination .page-item .page-link:hover {
+    color: #EF3340; /* Color del enlace al pasar por encima */
+
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #002855;
+    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
+    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
+    
+  }
+  .pagination .page-item.active .page-link:hover {
+    background-color: #EF3340;
+    
+  }
+  .pagination .page-item.disabled .page-link {
+    color: #002855;
+    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
+    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
+  }
+  .pagination .page-item.disabled .page-link:hover {
+    color: #EF3340;
+  }
