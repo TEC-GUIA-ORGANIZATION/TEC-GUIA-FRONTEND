@@ -17,12 +17,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { ActividadesComponent } from './components/actividades/actividades.component';
 import { EquipoComponent } from './components/equipo/equipo.component';
+import { TestingComponent } from './testing/testing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RecoverPasswordComponent,
+    RecoverPasswordComponent
   ],
   imports: [
     HomeComponent,

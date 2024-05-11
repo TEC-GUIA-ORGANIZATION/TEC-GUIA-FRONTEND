@@ -8,8 +8,10 @@ import { EquipoComponent } from './components/equipo/equipo.component';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
+import { TestingComponent } from './testing/testing.component';
 
 const routes: Routes = [
+  { path: 'testing', component: TestingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'recover-password', component: RecoverPasswordComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },

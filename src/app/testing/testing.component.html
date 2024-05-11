@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Buscar...">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary btn-custom" type="button">Buscar</button>
+    </div>
+  </div>
+
+  <div class="btn-group mb-3" role="group" aria-label="Filtros">
+    <button type="button" class="btn btn-secondary btn-custom">Filtro 1</button>
+    <button type="button" class="btn btn-secondary btn-custom">Filtro 2</button>
+    <button type="button" class="btn btn-secondary btn-custom">Filtro 3</button>
+  </div>
+
+  <div class="btn-group mb-3" role="group" aria-label="Registros">
+    <button type="button" class="btn btn-success btn-custom">
+      <i class="bi bi-download"></i> Descargar
+    </button>
+    <button type="button" class="btn btn-info btn-custom">
+      <i class="bi bi-upload"></i> Cargar
+    </button>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Carné</th>
+        <th>Nombre</th>
+        <th>Primer Apellido</th>
+        <th>Segundo Apellido</th>
+        <th>Correo Electrónico</th>
+        <th>Número de Teléfono</th>
+        <th>Campus</th>
+        <th>Acciones</th>
+        <!-- Agrega más columnas según tus necesidades -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items">
+        <td>
+          <input type="text" class="form-control" [value]="item.id" [readonly]="!item.editable">
+        </td>
+        <td>
+          <input type="text" class="form-control" [value]="item.nombre" [readonly]="!item.editable">
+        </td>
+        <td>
+          <input type="text" class="form-control" [value]="item.primerApellido" [readonly]="!item.editable">
+        </td>
+        <td>
+          <input type="text" class="form-control" [value]="item.segundoApellido" [readonly]="!item.editable">
+        </td>
+        <td>
+          <input type="text" class="form-control" [value]="item.email" [readonly]="!item.editable">
+        </td>
+        <td>
+          <input type="text" class="form-control" [value]="item.numeroTelefono" [readonly]="!item.editable">
+        </td>
+        <td>
+          <input type="text" class="form-control" [value]="item.campus" [readonly]="!item.editable">
+        </td>
+        <td>
+          <button class="btn btn-primary btn-custom" (click)="toggleEdit(item)">
+            {{ item.editable ? 'Guardar' : 'Editar' }}
+          </button>
+        </td>
+        <!-- Agrega más celdas según tus necesidades -->
+      </tr>
+    </tbody>
+  </table>
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <!-- Agrega más páginas según sea necesario -->
+    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+  </ul>
+</div>
