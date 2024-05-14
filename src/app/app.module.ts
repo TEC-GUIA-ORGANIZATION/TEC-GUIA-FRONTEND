@@ -17,12 +17,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { ActividadesComponent } from './components/actividades/actividades.component';
 import { EquipoComponent } from './components/equipo/equipo.component';
+import { ActividadComponent } from './actividad/actividad.component';
+import { ComentariosComponent } from './comentarios/comentarios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    ComentariosComponent
   ],
   imports: [
     HomeComponent,
@@ -35,6 +38,7 @@ import { EquipoComponent } from './components/equipo/equipo.component';
     HttpClientModule,
     FlexLayoutModule,
     FormsModule,
+    ActividadComponent,
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutServerModule

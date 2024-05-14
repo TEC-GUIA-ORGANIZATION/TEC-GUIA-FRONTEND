@@ -8,6 +8,7 @@ import { EquipoComponent } from './components/equipo/equipo.component';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ActividadComponent } from './actividad/actividad.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,6 +17,8 @@ const routes: Routes = [
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
   { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard] },
   { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard] },
+  { path: 'actividad', component: ActividadComponent, canActivate: [AuthGuard] },
+  { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
   // Add other routes as needed
 
   // Wildcard route
