@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL_LOCAL } from './constantes.service';
+import { API_URL } from './constantes.service';
 import { Estudiante } from '../models/estudiante.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GestorEstudiantes {
-  private url = `${API_URL_LOCAL}/studentList`;
+  private url = `${API_URL}/studentList`;
 
   constructor(private http: HttpClient) {}
 
