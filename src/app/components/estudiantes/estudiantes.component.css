@@ -20,8 +20,27 @@
 .input-group {
     width: 100%;
     max-width: 600px; /* Ajusta según sea necesario */
+
   }
-  
+  /* Estilos para los combobox */
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-group label {
+  margin-right: 10px;
+}
+
+.form-group select {
+  flex: 1;
+  max-width: 200px; /* Ajusta según sea necesario */
+}
+
+/* Traslado al lado derecho */
+.right-group {
+  justify-content: flex-end;
+}
   .btn-group {
     margin-right: 10px;
   }
