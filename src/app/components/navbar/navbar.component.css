@@ -55,8 +55,8 @@
 
 /* Estilos para el enlace activo */
 .navbar-nav .nav-item.active .nav-link {
-  color: #EF3340; /* Cambia el color a tu preferencia */
-  border-bottom: 2px solid #EF3340; /* Añade el borde inferior */
+  color: #fff; /* Cambia el color a tu preferencia */
+  border-bottom: 2px solid #fff; /* Añade el borde inferior */
   padding-bottom: 0.4rem; /* Ajusta el relleno inferior para compensar el borde */
 }
 

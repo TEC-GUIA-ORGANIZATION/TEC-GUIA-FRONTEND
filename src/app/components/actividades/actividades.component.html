@@ -1,3 +1,21 @@
 <app-navbar></app-navbar>
+<a href="/actividad" class="btn btn-activity-creation mt-3">Crear Actividad</a>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let actividad of actividades">
+      <div class="card">
+        <div class="card-body">
+          <img *ngIf="actividad.poster" [src]="actividad.poster" class="img-fluid mt-3" alt="Poster de la actividad">
+          <h5 class="card-title">{{ actividad.activityName }}</h5>
+          <p class="card-text">Tipo de Actividad: {{ actividad.activity }}</p>
+          <p class="card-text">Responsables: {{ actividad.responsible.join(', ') }}</p>
+          <p class="card-text">Días para Anunciar: {{ actividad.daysToAnnounce }}</p>
+          <p class="card-text">Días para Recordar: {{ actividad.daysToRemember }}</p>
+          <p class="card-text">Presencial: {{ actividad.isInPerson ? 'Sí' : 'No' }}</p>
+          
 
-<p>seccion-actividades works!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

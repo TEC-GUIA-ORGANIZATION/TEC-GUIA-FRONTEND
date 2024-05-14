@@ -49,8 +49,8 @@
 .login-button {
     margin-bottom: 1rem;
     background-color: white;
-    color: #3f51b5;
-    border: 2px solid #3f51b5;
+    color: #002855;
+    border: 2px solid #002855;
     padding: 8px 16px;
     font-size: 1rem;
     cursor: pointer;
@@ -61,7 +61,7 @@
 }
 
 .login-button:hover {
-    background-color: #3f51b5;
+    background-color: #002855;
     color: white;
 }
 .forgot-link {

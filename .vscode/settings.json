@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/4109886e-2562-4ed6-b255-e2cd162f9450/resourceGroups/frontend-tec-guia_group/providers/Microsoft.Web/sites/frontend-tec-guia",
+    "appService.deploySubpath": "."
+}

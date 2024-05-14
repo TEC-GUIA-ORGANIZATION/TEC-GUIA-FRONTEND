@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
-import { API_URL } from './constantes.service';
+import { API_URL, API_URL_LOCAL } from './constantes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +13,29 @@ import { API_URL } from './constantes.service';
 export class GestorAutenticacion {
   private authUrl = `${API_URL}/auth`;
 
-  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) { }
+  constructor(private http: HttpClient, @Inject(CookieService) private cookieService: CookieService, private router: Router) { }
+
 
   login(correo: string, contrasena: string): Observable<boolean> {
-    return this.http.post<any>(`${this.authUrl}/login`, { correo, contrasena }).pipe(
+    return this.http.post<any>(`${this.authUrl}/signin`, { "email": correo, "password": contrasena }, { observe: 'response' }).pipe(
       map(response => {
         if (response) {
-          // Guardar el token en una cookie (con duración de 1 día)
-          this.cookieService.set('token', response.token, 1, '/');
-          return true;
+          const authToken = response.headers.get('auth-token');
+          if (authToken !== null) {
+            // Guardar el token en una cookie (con duración de 1 día)
+            this.cookieService.set('token', authToken, 1, '/');
+            return true;
+          } else {
+            // Auth token not found in headers
+            console.error('Auth token not found in response headers');
+            return false;
+          }
         }
         return false;
       }),
       catchError(_ => of(false))
     );
   }
-
   logout(): Observable<any> {
     // Eliminar la cookie de token
     this.cookieService.delete('token', '/');
@@ -50,8 +57,14 @@ export class GestorAutenticacion {
       return of(false);
     }
 
-    // Realizar una solicitud al backend para verificar el token
-    return this.http.post<any>(`${this.authUrl}/verifyToken`, { token }).pipe(
+    // Crear el encabezado con el token
+    
+    const headers = new HttpHeaders({
+      'auth-token': token
+    });
+
+    // Realizar una solicitud al backend para verificar el token con el token en el encabezado
+    return this.http.get<any>(`${this.authUrl}/profile`, { headers }).pipe(
       map(response => {
         if (response) {
           return true;
@@ -68,12 +81,14 @@ export class GestorAutenticacion {
     if (!token) {
       return Promise.resolve(false);
     }
-
-    try {
-      const verified = this.verifyToken().toPromise();
-      return verified;
-    } catch (error) {
-      return Promise.resolve(false);
-    }
+  
+    return this.verifyToken().toPromise()
+      .then(verified => {
+        return verified;
+      })
+      .catch(error => {
+        return false;
+      });
   }
+  
 }
