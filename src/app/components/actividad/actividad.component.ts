@@ -1,11 +1,11 @@
 
 import { Router } from '@angular/router';
-import { GestorActividades } from '../services/gestor-actividades.service';
+import { GestorActividades } from '../../services/gestor-actividades.service';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms'; // Asegúrate de importar NgForm desde @angular/forms
 
-import { NavbarComponent } from '../components/navbar/navbar.component';
-import { MaterialModule } from '../material/material.module';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
 
 export interface Actividad {

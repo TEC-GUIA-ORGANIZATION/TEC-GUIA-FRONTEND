@@ -8,7 +8,7 @@ import { EquipoComponent } from './components/equipo/equipo.component';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
-import { ActividadComponent } from './actividad/actividad.component';
+import { ActividadComponent } from './components/actividad/actividad.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
