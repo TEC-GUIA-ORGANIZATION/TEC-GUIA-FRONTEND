@@ -1,3 +1,55 @@
 <app-navbar></app-navbar>
 
-<p>seccion-equipo works!</p>
+<div class="container mt-5">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Rol</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Primer Apellido</th>
+        <th scope="col">Segundo Apellido</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Telefono Oficina</th>
+        <th scope="col">Telefono Celular</th>
+        <th scope="col">Código</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="profesores.length === 0">
+      <tr>
+        <td colspan="9">No hay profesores registrados</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="profesores.length > 0">
+      <tr *ngFor="let profesor of profesores">
+        <td *ngIf="profesor.esCoordinador">{{profesor.rol}} (Coordinador)</td>
+        <td *ngIf="!profesor.esCoordinador">{{profesor.rol}}</td>
+        <td>{{profesor.nombre}}</td>
+        <td>{{profesor.primerApellido}}</td>
+        <td>{{profesor.segundoApellido}}</td>
+        <td>{{profesor.correo}}</td>
+        <td>{{profesor.telefonoOficina}}</td>
+        <td>{{profesor.telefonoPersonal}}</td>
+        <td>{{profesor.obtenerCodigo()}}</td>
+        <td>
+          <button class="btn btn-secondary btn-action" (click)="seleccionarProfesor(profesor)">Ver</button>
+
+          <!-- TODO: Implement privileges checks -->
+          <button class="btn btn-primary btn-action">Editar</button>
+          <button class="btn btn-danger btn-action">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="container mt-5" *ngIf="profesores.length > 0 && profesorSeleccionado">
+    <div class="d-flex justify-content-start">
+      <div class="card">
+        <div class="card-body">
+          <img src="{{profesorSeleccionado.fotografia}}" class="card-img-top card-img" alt="...">
+          <h3 class="card-title">{{profesorSeleccionado.obtenerNombreCompleto()}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

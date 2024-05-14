@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'recover-password', component: RecoverPasswordComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
-  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard] },
+  { path: 'equipo', component: EquipoComponent },
   { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard] },
   // Add other routes as needed
 
