@@ -1,6 +1,10 @@
 <app-navbar></app-navbar>
 
 <div class="container mt-5">
+  <div class="d-flex justify-content-between table-header">
+    <h1>Equipo de Profesores</h1>
+    <button *ngIf="hasPrivileges" class="btn btn-custom action-btn">Agregar Profesor</button>
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -32,23 +36,76 @@
         <td>{{profesor.telefonoPersonal}}</td>
         <td>{{profesor.obtenerCodigo()}}</td>
         <td>
-          <button class="btn btn-custom" (click)="seleccionarProfesor(profesor)">Ver</button>
+          <button class="btn btn-custom action-btn" (click)="seleccionarProfesor(profesor);changeEditMode(false)">Ver Detalles</button>
 
-          <!-- TODO: Implement privileges checks -->
-          <button class="btn btn-custom">Editar</button>
-          <button class="btn btn-custom">Eliminar</button>
+          <button *ngIf="hasPrivileges" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarProfesor(profesor)">Editar</button>
+          <button *ngIf="hasPrivileges" class="btn btn-custom action-btn">Dar de Baja</button>
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <!-- TODO: Add pagination -->
+    </tfoot>
   </table>
 
-  <div class="container mt-5" *ngIf="profesores.length > 0 && profesorSeleccionado">
+  <div class="container mt-5 professor-info" *ngIf="profesores.length > 0 && profesorSeleccionado">
     <div class="d-flex justify-content-start">
       <div class="card">
         <div class="card-body">
           <img src="{{profesorSeleccionado.fotografia}}" class="card-img-top card-img" alt="...">
           <h3 class="card-title">{{profesorSeleccionado.obtenerNombreCompleto()}}</h3>
         </div>
+      </div>
+    </div>
+    <div class="professor-info-details" *ngIf="!editMode">
+      <p><strong>Rol:</strong> {{profesorSeleccionado.rol}}</p>
+      <p><strong>Correo:</strong> {{profesorSeleccionado.correo}}</p>
+      <p><strong>Telefono Oficina:</strong> {{profesorSeleccionado.telefonoOficina}}</p>
+      <p><strong>Telefono Celular:</strong> {{profesorSeleccionado.telefonoPersonal}}</p>
+      <p><strong>Código:</strong> {{profesorSeleccionado.obtenerCodigo()}}</p>
+    </div>
+    <div class="professor-info-details" *ngIf="editMode">
+      <form class="">
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" id="nombre" value="{{profesorSeleccionado.nombre}}">
+            </div>
+            <div class="col">
+              <label for="primerApellido">Primer Apellido</label>
+              <input type="text" class="form-control" id="primerApellido" value="{{profesorSeleccionado.primerApellido}}">
+            </div>
+            <div class="col">
+              <label for="segundoApellido">Segundo Apellido</label>
+              <input type="text" class="form-control" id="segundoApellido" value="{{profesorSeleccionado.segundoApellido}}">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="correo">Correo</label>
+              <input type="email" class="form-control" id="correo" value="{{profesorSeleccionado.correo}}">
+            </div>
+            <div class="col">
+              <label for="telefonoOficina">Telefono Oficina</label>
+              <input type="text" class="form-control" id="telefonoOficina" value="{{profesorSeleccionado.telefonoOficina}}">
+            </div>
+            <div class="col">
+              <label for="telefonoPersonal">Telefono Personal</label>
+              <input type="text" class="form-control" id="telefonoPersonal" value="{{profesorSeleccionado.telefonoPersonal}}">
+            </div>
+          </div>
+
+          <label for="fotografia">Fotografía</label>
+          <input class="form-control" type="file" id="fotografia">
+
+          <label for="coordinador">Es Coordinador?</label>
+          <input class="form-checkbox" type="checkbox" id="coordinador" [checked]="profesorSeleccionado.esCoordinador">
+        </div>
+      </form>
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-custom action-btn" (click)="changeEditMode(false)">Cancelar</button>
+        <button class="btn btn-custom action-btn">Guardar</button>
       </div>
     </div>
   </div>

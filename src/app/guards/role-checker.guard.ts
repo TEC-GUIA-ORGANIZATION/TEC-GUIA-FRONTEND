@@ -14,7 +14,6 @@ export class RoleChecker implements CanActivate {
     let allowedRoles = route.data["allowedRoles"] as Array<string>;
 
     if (rol === null) {
-      alert('Acceso Denegado');
       this.router.navigate(["/"])
       return of(false);
     }

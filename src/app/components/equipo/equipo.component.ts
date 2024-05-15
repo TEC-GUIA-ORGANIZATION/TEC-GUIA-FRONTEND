@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
-
 import { ProfesorGuia } from '../../models/profesor-guia.model';
 import { Sede } from '../../models/sede.model';
+import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 
 @Component({
   standalone: true,
@@ -51,10 +51,29 @@ export class EquipoComponent {
     ),
   ];
   profesorSeleccionado: ProfesorGuia | null = null;
+  editMode: boolean = false;
 
-  constructor() { }
+  constructor(private gestorAutenticacion: GestorAutenticacion) {}
 
   seleccionarProfesor(profesor: ProfesorGuia): void {
     this.profesorSeleccionado = profesor;
+  }
+
+  hasPrivileges(): boolean {
+    var user = this.gestorAutenticacion.getCurrentUser();
+
+    if (user !== null) {
+      if (user.rol === 'profesor guia') { // TODO: && user.isCoordinador
+        return true;
+      } else if (user.rol === 'admin') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  changeEditMode(mode: boolean): void {
+    this.editMode = mode;
   }
 }

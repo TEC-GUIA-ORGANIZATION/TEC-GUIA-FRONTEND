@@ -41,7 +41,7 @@
     background-image: url('../../../assets/images/primerosIngresos.jpg');
     background-size: cover; /* Ajusta la imagen para cubrir el contenedor */
     background-position: center;
-    height: 92vh; /* Ajusta la altura para que ocupe toda la ventana */
+    height: 100vh; /* Ajusta la altura para que ocupe toda la ventana */
     text-align: center;
     position: relative;
     overflow: hidden; /* Para ocultar cualquier contenido que se desborde */
@@ -59,4 +59,15 @@
 
 .branding img {
     display: none; /* Oculta la etiqueta de imagen */
+}
+
+.home-title {
+  font-size: 4em !important;
+  margin-bottom: 0.5em !important;
+  font-weight: 700;
+}
+
+.home-description {
+  font-size: 1.5em !important;
+  margin-bottom: 1em !important;
 }

@@ -57,15 +57,15 @@ export class ProfesorGuia extends Usuario {
   obtenerCodigo(): string {
     switch (this.sede) {
       case Sede.CARTAGO:
-        return "CA" + this.codigo;
+        return "CA-" + this.codigo;
       case Sede.ALAJUELA:
-        return "AL" + this.codigo;
+        return "AL-" + this.codigo;
       case Sede.SAN_CARLOS:
-        return "SC" + this.codigo;
+        return "SC-" + this.codigo;
       case Sede.SAN_JOSE:
-        return "SJ" + this.codigo;
+        return "SJ-" + this.codigo;
       case Sede.LIMON:
-        return "LI" + this.codigo;
+        return "LI-" + this.codigo;
     }
   }
 }

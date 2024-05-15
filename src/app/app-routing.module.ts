@@ -18,8 +18,8 @@ const routes: Routes = [
   // { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
-  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor', 'profesor guia'] } },
-  { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor', 'profesor guia'] } },
+  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia'] } },
+  { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia'] } },
   { path: 'actividad', component: ActividadComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
 

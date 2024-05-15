@@ -22,3 +22,28 @@
   background-color: #002855;
   color: #fff;
 }
+
+.action-btn {
+  margin: 0 5px 5px 0;
+}
+
+.professor-info {
+  display: flex;
+}
+
+.table-header {
+  margin-bottom: 1em;
+}
+
+.professor-info-details {
+  margin-left: 1em;
+}
+
+.form-checkbox {
+  margin-left: 1em;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
