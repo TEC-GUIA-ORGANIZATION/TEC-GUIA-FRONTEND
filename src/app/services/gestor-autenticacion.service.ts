@@ -25,12 +25,9 @@ export class GestorAutenticacion {
             // Guardar el token en una cookie (con duración de 1 día)
             this.cookieService.set('token', authToken, 1, '/');
 
-            console.log(response.body);
             // Guardar el usuario actual
             var r = response.body;
-            this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstlastname, r.secondlastanem, r.campus, r.photo, r.rol);
-
-            console.log(this.currentUser);
+            this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstlastname, r.secondlastname, r.campus, r.photo, r.rol);
 
             return true;
           } else {
@@ -70,12 +67,15 @@ export class GestorAutenticacion {
     const headers = new HttpHeaders({
       'auth-token': token
     });
-    this.http.get<any>(`${this.authUrl}/profile`, { headers })
+
     // Realizar una solicitud al backend para verificar el token con el token en el encabezado
     return this.http.get<any>(`${this.authUrl}/profile`, { headers }).pipe(
       map(response => {
         if (response) {
-          console.log(response)
+          // Guardar el usuario actual
+          var r = response
+          this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstlastname, r.secondlastname, r.campus, r.photo, r.rol);
+
           return true;
         }
         return false;

@@ -9,6 +9,7 @@ import { EstudiantesComponent } from './components/estudiantes/estudiantes.compo
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ActividadComponent } from './components/actividad/actividad.component';
+import { RoleChecker } from './guards/role-checker.guard';
 // import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
@@ -17,8 +18,8 @@ const routes: Routes = [
   // { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
-  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard] },
-  { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard] },
+  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor', 'profesor guia'] } },
+  { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor', 'profesor guia'] } },
   { path: 'actividad', component: ActividadComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
 
