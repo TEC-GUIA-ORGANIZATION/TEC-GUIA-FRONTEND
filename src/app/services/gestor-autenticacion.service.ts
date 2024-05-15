@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
-import { API_URL, API_URL_LOCAL } from './constantes.service';
+import { API_URL } from './constantes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -62,11 +62,12 @@ export class GestorAutenticacion {
     const headers = new HttpHeaders({
       'auth-token': token
     });
-
+    this.http.get<any>(`${this.authUrl}/profile`, { headers })
     // Realizar una solicitud al backend para verificar el token con el token en el encabezado
     return this.http.get<any>(`${this.authUrl}/profile`, { headers }).pipe(
       map(response => {
         if (response) {
+          console.log(response)
           return true;
         }
         return false;

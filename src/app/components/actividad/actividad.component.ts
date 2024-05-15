@@ -40,7 +40,7 @@ export class ActividadComponent {
   touchedAttendance: boolean= false; // Propiedad para determinar si un campo ha sido tocado
   touchedRecording: boolean= false; // Propiedad para determinar si un campo ha sido tocado
   activityStatusTypes = ['PLANEADA', 'NOTIFICADA', 'REALIZADA', 'CANCELADA']; // Tipos de estado de actividad
-  activityTypes: string[] = ['Orientadora', 'Motivacional', 'De apoyo a la vida estudiantil', 'De orden técnico', 'De recreación'];
+  activityTypes: string[] = ['Orientadora', 'Motivacional', 'De apoyo a la vida estudiantil', 'De orden tecnico', 'De recreacion'];
 
 
   actividad: Actividad = {
