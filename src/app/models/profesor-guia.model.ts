@@ -27,7 +27,7 @@ export class ProfesorGuia extends Usuario {
    * @param estaActivo The active status of the guide teacher
    **/
   constructor(
-    id: number,
+    id: string,
     correo: string,
     contrasena: string,
     nombre: string,

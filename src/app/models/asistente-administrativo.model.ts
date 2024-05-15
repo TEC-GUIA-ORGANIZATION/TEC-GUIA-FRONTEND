@@ -20,7 +20,7 @@ export class AsistenteAdministrativo extends Usuario {
    * @param esPrincipal The main asistente administrativo
    **/
   constructor(
-    id: number,
+    id: string,
     correo: string,
     contrasena: string,
     nombre: string,

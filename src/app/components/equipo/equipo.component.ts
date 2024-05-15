@@ -4,6 +4,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ProfesorGuia } from '../../models/profesor-guia.model';
 import { Sede } from '../../models/sede.model';
 import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   standalone: true,
@@ -12,13 +13,16 @@ import { GestorAutenticacion } from '../../services/gestor-autenticacion.service
   styleUrl: './equipo.component.css',
   imports: [
     CommonModule,
-    NavbarComponent
+    NavbarComponent,
+    NgxPaginationModule
   ]
 })
 export class EquipoComponent {
+  pageSize: number = 5; // Number of items per page
+  p: number = 1; // Current page, initialized to 1
   profesores: ProfesorGuia[] = [
     new ProfesorGuia(
-      1,
+      '6643c6211bcce33b1cc6056f',
       'profe@gmail.com',
       '123456',
       'Profesor 1',
@@ -34,7 +38,199 @@ export class EquipoComponent {
       true
     ),
     new ProfesorGuia(
-      2,
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
+      'profe2@gmail.com',
+      '123456',
+      'Profesor 2',
+      'Apellido 1',
+      'Apellido 2',
+      Sede.CARTAGO,
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
+      'Profesor Guía',
+      '1',
+      '12345678',
+      '87654321',
+      false,
+      true
+    ),
+    new ProfesorGuia(
+      'wfwaafw',
       'profe2@gmail.com',
       '123456',
       'Profesor 2',
@@ -63,9 +259,19 @@ export class EquipoComponent {
     var user = this.gestorAutenticacion.getCurrentUser();
 
     if (user !== null) {
-      if (user.rol === 'profesor guia') { // TODO: && user.isCoordinador
+      if (user.rol === 'admin') {
         return true;
-      } else if (user.rol === 'admin') {
+      }
+    }
+
+    return false;
+  }
+
+  isCurrentUser(profesor: ProfesorGuia): boolean {
+    var user = this.gestorAutenticacion.getCurrentUser();
+
+    if (user !== null) {
+      if (user.rol === 'profesor guia' && user.id === profesor.id) {
         return true;
       }
     }

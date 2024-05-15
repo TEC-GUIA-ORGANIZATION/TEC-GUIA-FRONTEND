@@ -47,3 +47,15 @@ label {
   font-weight: bold;
   margin-top: 0.5em;
 }
+
+table {
+  width: 100%;
+}
+
+tfoot {
+  display: table-row-group;
+}
+
+.table-footer td {
+  text-align: center;
+}

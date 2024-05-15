@@ -2,7 +2,7 @@ import { Sede } from './sede.model';
 
 // This class is used to represent a user in the system
 export class Usuario {
-  id: number;
+  id: string;
   correo: string;
   contrasena: string;
   nombre: string;
@@ -25,7 +25,7 @@ export class Usuario {
    * @param rol The role of the user
    **/
   constructor(
-    id: number,
+    id: string,
     correo: string,
     contrasena: string,
     nombre: string,

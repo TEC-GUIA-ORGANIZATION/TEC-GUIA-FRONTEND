@@ -3,7 +3,7 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between table-header">
     <h1>Equipo de Profesores</h1>
-    <button *ngIf="hasPrivileges" class="btn btn-custom action-btn">Agregar Profesor</button>
+    <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn">Agregar Profesor</button>
   </div>
   <table class="table">
     <thead>
@@ -25,8 +25,9 @@
       </tr>
     </tbody>
     <tbody *ngIf="profesores.length > 0">
-      <tr *ngFor="let profesor of profesores">
-        <td *ngIf="profesor.esCoordinador">{{profesor.rol}} (Coordinador)</td>
+      <tr *ngFor="let profesor of profesores | paginate: { itemsPerPage: pageSize, currentPage: p }">
+        <ng-container *ngIf="profesor.estaActivo">
+        <td *ngIf="profesor.esCoordinador">{{profesor.rol}} (Coordinador)<p *ngIf="isCurrentUser(profesor)">(Tú)</p></td>
         <td *ngIf="!profesor.esCoordinador">{{profesor.rol}}</td>
         <td>{{profesor.nombre}}</td>
         <td>{{profesor.primerApellido}}</td>
@@ -38,13 +39,18 @@
         <td>
           <button class="btn btn-custom action-btn" (click)="seleccionarProfesor(profesor);changeEditMode(false)">Ver Detalles</button>
 
-          <button *ngIf="hasPrivileges" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarProfesor(profesor)">Editar</button>
-          <button *ngIf="hasPrivileges" class="btn btn-custom action-btn">Dar de Baja</button>
+          <button *ngIf="isCurrentUser(profesor) || hasPrivileges()" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarProfesor(profesor)">Editar</button>
+          <button *ngIf="isCurrentUser(profesor) || hasPrivileges()" class="btn btn-custom action-btn">Dar de Baja</button>
         </td>
+        </ng-container>
       </tr>
     </tbody>
-    <tfoot>
-      <!-- TODO: Add pagination -->
+    <tfoot *ngIf="profesores.length > 0" class="table-footer">
+      <tr>
+        <td colspan="9">
+          <pagination-controls (pageChange)="p = $event" class="table-pagination"></pagination-controls>
+        </td>
+      </tr>
     </tfoot>
   </table>
 
