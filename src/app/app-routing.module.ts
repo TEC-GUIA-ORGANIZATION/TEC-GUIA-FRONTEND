@@ -9,12 +9,12 @@ import { EstudiantesComponent } from './components/estudiantes/estudiantes.compo
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ActividadComponent } from './components/actividad/actividad.component';
-import { RegisterComponent } from './components/register/register.component';
+// import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'recover-password', component: RecoverPasswordComponent },
-  { path: 'register', component: RegisterComponent },
+  // { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
   { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard] },
