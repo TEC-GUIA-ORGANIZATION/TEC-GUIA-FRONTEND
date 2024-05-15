@@ -5,16 +5,16 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
-import { API_URL, API_URL_LOCAL } from './constantes.service';
+import { API_URL } from './constantes.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GestorAutenticacion {
   private authUrl = `${API_URL}/auth`;
+  private currentUser: Usuario | null = null;
 
   constructor(private http: HttpClient, @Inject(CookieService) private cookieService: CookieService, private router: Router) { }
-
 
   login(correo: string, contrasena: string): Observable<boolean> {
     return this.http.post<any>(`${this.authUrl}/signin`, { "email": correo, "password": contrasena }, { observe: 'response' }).pipe(
@@ -24,6 +24,14 @@ export class GestorAutenticacion {
           if (authToken !== null) {
             // Guardar el token en una cookie (con duración de 1 día)
             this.cookieService.set('token', authToken, 1, '/');
+
+            console.log(response.body);
+            // Guardar el usuario actual
+            var r = response.body;
+            this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstlastname, r.secondlastanem, r.campus, r.photo, r.rol);
+
+            console.log(this.currentUser);
+
             return true;
           } else {
             // Auth token not found in headers
@@ -36,6 +44,7 @@ export class GestorAutenticacion {
       catchError(_ => of(false))
     );
   }
+
   logout(): Observable<any> {
     // Eliminar la cookie de token
     this.cookieService.delete('token', '/');
@@ -58,7 +67,6 @@ export class GestorAutenticacion {
     }
 
     // Crear el encabezado con el token
-    
     const headers = new HttpHeaders({
       'auth-token': token
     });
@@ -81,14 +89,21 @@ export class GestorAutenticacion {
     if (!token) {
       return Promise.resolve(false);
     }
-  
+
     return this.verifyToken().toPromise()
       .then(verified => {
         return verified;
       })
-      .catch(error => {
+      .catch(_ => {
         return false;
       });
   }
-  
+
+  getCurrentUser(): Usuario | null {
+    return this.currentUser;
+  }
+
+  getCurrentUserRol(): string | null {
+    return this.currentUser?.rol || null;
+  }
 }

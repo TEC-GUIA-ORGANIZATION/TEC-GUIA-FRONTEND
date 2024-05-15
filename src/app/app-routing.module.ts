@@ -9,23 +9,22 @@ import { EstudiantesComponent } from './components/estudiantes/estudiantes.compo
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ActividadComponent } from './components/actividad/actividad.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'recover-password', component: RecoverPasswordComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
-  { path: 'equipo', component: EquipoComponent },
+  { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard] },
   { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard] },
   { path: 'actividad', component: ActividadComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
-  // Add other routes as needed
 
   // Wildcard route
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
 ];
-
-//  { path: '', redirectTo: '/login', pathMatch: 'full'},
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
