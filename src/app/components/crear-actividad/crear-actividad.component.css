@@ -1,0 +1,66 @@
+/* Estilos para el formulario */
+.container {
+  margin-top: 40px; /* Aumentar el espacio sobre el formulario */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-check {
+  margin-bottom: 20px;
+}
+
+/* Estilos para los botones */
+.btn {
+  margin-right: 10px;
+  margin-top: 10px; /* Agregar espacio por encima de los botones */
+}
+
+/* Estilos para los campos de entrada de archivos */
+.form-control-file {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+/* Estilos para los campos de texto */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+/* Estilos para los botones personalizados */
+.btn-custom {
+  background-color: #fff;
+  border: 1px solid #002855;
+  color: #002855;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #002855;
+  color: #fff;
+}
+
+/* Establecer el color del texto dentro de los combobox */
+select.form-select {
+    color: #000; /* Cambiar el color del texto a negro */
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { API_URL} from './constantes.service';
 import { Actividad } from '../models/actividad.model';
 import { BlobServiceClient, ContainerClient} from "@azure/storage-blob";
@@ -16,21 +17,70 @@ const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.wi
 // It has methods to get, add, update and delete activities
 export class GestorActividades {
   private url = `${API_URL}/activities/`;
-  private containerClient!: ContainerClient;
-  
-  constructor(private http: HttpClient) {
 
+  constructor(private http: HttpClient) { }
+
+  getActividades(): Observable<Actividad[] | null> {
+    return this.http.get<any[]>(this.url).pipe(
+      map(response => {
+        return response.map(item => {
+          return new Actividad(
+            item.id,
+            item.name,
+            item.description,
+            item.poster,
+            item.date,
+            item.week,
+            item.responsible,
+            item.type,
+            item.status,
+            item.daysToAnnounce,
+            item.daysToRemember,
+            item.modality,
+            item.placeLink,
+            item.comments,
+            item.evidence
+          );
+        });
+      }),
+      catchError(_ => {
+        return [null];
+      })
+    );
   }
 
-  getActividades(): Observable<any[]> {
-    return this.http.get<any[]>(this.url);
-  }
   getActividadesTotal(): Observable<Actividad[]> {
     return this.http.get<any[]>(`${this.url}total`);
   }
-  getActividad(id: number): Observable<Actividad> {
-    return this.http.get<Actividad>(`${this.url}/${id}`);
+
+  getActividad(id: number): Observable<Actividad | null> {
+    return this.http.get<any>(`${this.url}/${id}`).pipe(
+      map(response => {
+        console.log(response);
+        return new Actividad(
+          response.id,
+          response.name,
+          response.description,
+          response.poster,
+          response.date,
+          response.week,
+          response.responsible,
+          response.type,
+          response.status,
+          response.daysToAnnounce,
+          response.daysToRemember,
+          response.modality,
+          response.placeLink,
+          response.comments,
+          response.evidence
+        );
+      }),
+      catchError(_ => {
+        return [null];
+      })
+    );
   }
+
   async addActividad(
     week: number,
     activity: string,
@@ -46,14 +96,14 @@ export class GestorActividades {
     participantsPhoto: File|null,
     recording: string|null,
   ): Promise<Actividad> {
-  
+
     var posterUrl:string="";
     const evidence = {
       attendancePhoto: "",
       participantsPhoto: "",
       recordingLink: recording
     };
-    
+
     const containerClientAttendance = blobServiceClient.getContainerClient('fotos-actividades-attendance');
     const containerClientParticipants = blobServiceClient.getContainerClient('fotos-actividades-participants');
     const containerClientPoster = blobServiceClient.getContainerClient('fotos-actividades-poster');
@@ -65,7 +115,7 @@ export class GestorActividades {
         await posterBlobClient.uploadData(poster);
         posterUrl = posterBlobClient.url;
       }
-       
+
       if (attendancePhoto) {
         const attendanceBlobName = `${new Date().getTime()}-attendance-${attendancePhoto.name}`;
         const attendanceBlobClient = containerClientAttendance.getBlockBlobClient(attendanceBlobName);
@@ -87,7 +137,7 @@ export class GestorActividades {
     }
 
 
-    
+
  // hazlo para todos los campos
     const body = {
       week,
@@ -102,7 +152,7 @@ export class GestorActividades {
       activityStatus,
       evidence, // Agregar el campo evidence
     };
-  
+
     try {
       const response = await this.http.post<Actividad>(this.url, body).toPromise();
       return response || {} as Actividad;
@@ -111,7 +161,7 @@ export class GestorActividades {
       throw error;
     }
   }
-  
+
 
   updateActividad(actividad: Actividad): Observable<Actividad> {
     return this.http.put<Actividad>(`${this.url}/${actividad.id}`, actividad);

@@ -1,20 +1,59 @@
 <app-navbar></app-navbar>
-<a href="/actividad" class="btn btn-activity-creation mt-3">Crear Actividad</a>
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-4" *ngFor="let actividad of actividades">
-      <div class="card">
-        <div class="card-body">
-          <img *ngIf="actividad.poster" [src]="actividad.poster" class="img-fluid mt-3" alt="Poster de la actividad">
-          <h5 class="card-title">{{ actividad.activityName }}</h5>
-          <p class="card-text">Tipo de Actividad: {{ actividad.activity }}</p>
-          <p class="card-text">Responsables: {{ actividad.responsible.join(', ') }}</p>
-          <p class="card-text">Días para Anunciar: {{ actividad.daysToAnnounce }}</p>
-          <p class="card-text">Días para Recordar: {{ actividad.daysToRemember }}</p>
-          <p class="card-text">Presencial: {{ actividad.isInPerson ? 'Sí' : 'No' }}</p>
-          
 
+<div class="container mt-5">
+  <div class="d-flex justify-content-between">
+    <h1>Actividades</h1>
+    <button *ngIf="hasPrivileges()" class="btn btn-primary" [routerLink]="['/crear-actividad']">Crear Actividad</button>
+  </div>
+
+  <div class="filter-sort-options row">
+    <div class="col">
+      <label for="nameSearch">Buscar por Nombre:</label>
+      <input type="text" class="form-control" id="nameSearch" [(ngModel)]="searchText" (input)="onSearchChange()">
+    </div>
+
+    <div class="col">
+      <label for="estadoFilter">Filtrar por Estado:</label>
+      <select class="form-control" id="estadoFilter" [(ngModel)]="selectedEstado" (change)="onFilterChange()">
+        <option value="">Todos</option>
+        <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
+      </select>
+    </div>
+
+    <div class="col">
+      <label for="dateSort">Ordenar por Fecha:</label>
+      <select class="form-control" id="dateSort" [(ngModel)]="selectedDateSort" (change)="onSortChange()">
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+      </select>
+    </div>
+  </div>
+
+  <hr>
+  <div class="container mt-3">
+    <div class="row row-eq-height">
+      <div class="col-md-4" *ngFor="let actividad of actividades | paginate: { itemsPerPage: 6, currentPage: p }">
+        <div class="card">
+          <div class="card-header">
+            <img [src]="actividad.poster" alt="Actividad" class="activity-img" *ngIf="actividad.poster">
+            <img src="https://t3.ftcdn.net/jpg/00/72/98/56/360_F_72985661_LU1Xk0YQiPBwOuesuuJgwTn0NPlwP8ob.jpg" alt="Actividad" class="activity-img" *ngIf="!actividad.poster">
+          </div>
+
+          <div class="card-body">
+            <h1 class="activity-title">{{actividad.nombre}}</h1>
+            <h2><span class="badge text-bg-secondary">{{actividad.estado}}</span></h2>
+
+            <p>{{actividad.descripcion}}</p>
+
+            <a class="btn btn-primary" [routerLink]="['/actividad/', actividad.id]">Ver Actividad</a>
+          </div>
         </div>
+      </div>
+
+      <hr class="mt-3">
+
+      <div class="d-flex justify-content-center">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
       </div>
     </div>
   </div>

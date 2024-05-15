@@ -3,6 +3,7 @@ import { TipoActividad } from './tipo-actividad.model';
 import { EstadoActividad } from './estado-actividad.model';
 import { ModalidadActividad } from './modalidad-actividad.model';
 import { Comentario } from './comentario.model';
+import { Evidencia } from './evidencia.model';
 
 // Actividad model class
 // This class is used to represent an activity in the system
@@ -10,6 +11,7 @@ export class Actividad {
   id: number;
   nombre: string;
   descripcion: string;
+  poster: File | null;
   fecha: Date;
   semana: number;
   responsables: ProfesorGuia[];
@@ -20,6 +22,7 @@ export class Actividad {
   modalidad: ModalidadActividad;
   lugarEnlace: string;
   comentarios: Comentario[];
+  evidencias: Evidencia[];
 
   /**
    * Constructor
@@ -36,11 +39,13 @@ export class Actividad {
    * @param modalidad The modality of the activity
    * @param lugarEnlace The link of the activity
    * @param comentarios The comments of the activity
+   * @param evidencias The evidences of the activity
    **/
   constructor(
     id: number,
     nombre: string,
     descripcion: string,
+    poster: File | null,
     fecha: Date,
     semana: number,
     responsables: ProfesorGuia[],
@@ -50,11 +55,13 @@ export class Actividad {
     diasRequeridosRecordatorio: number,
     modalidad: ModalidadActividad,
     lugarEnlace: string,
-    comentarios: Comentario[]
+    comentarios: Comentario[],
+    evidencias: Evidencia[]
   ) {
     this.id = id;
     this.nombre = nombre;
     this.descripcion = descripcion;
+    this.poster = poster;
     this.fecha = fecha;
     this.semana = semana;
     this.responsables = responsables;
@@ -65,5 +72,6 @@ export class Actividad {
     this.modalidad = modalidad;
     this.lugarEnlace = lugarEnlace;
     this.comentarios = comentarios;
+    this.evidencias = evidencias;
   }
 }
