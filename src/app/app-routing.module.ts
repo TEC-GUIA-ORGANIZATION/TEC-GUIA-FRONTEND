@@ -8,6 +8,7 @@ import { EquipoComponent } from './components/equipo/equipo.component';
 import { EstudiantesComponent } from './components/estudiantes/estudiantes.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CrearActividadComponent } from './components/crear-actividad/crear-actividad.component';
 import { ActividadComponent } from './components/actividad/actividad.component';
 import { RoleChecker } from './guards/role-checker.guard';
 // import { RegisterComponent } from './components/register/register.component';
@@ -17,10 +18,10 @@ const routes: Routes = [
   { path: 'recover-password', component: RecoverPasswordComponent },
   // { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
   { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia'] } },
   { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia'] } },
-  { path: 'actividad', component: ActividadComponent, canActivate: [AuthGuard] },
+  { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
+  { path: 'crear-actividad', component: CrearActividadComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['profesor guia'] } },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
 
   // Wildcard route

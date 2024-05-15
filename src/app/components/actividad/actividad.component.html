@@ -1,104 +1,72 @@
 <app-navbar></app-navbar>
 
-<div class="container mt-4">
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <!-- TODO: Cambiar la imagen por la imagen de la actividad -->
+          <img src="https://w.wallhaven.cc/full/rr/wallhaven-rrxqm1.png" alt="Actividad" class="activity-img">
+        </div>
+        <div class="card-body">
+          <!-- TODO: Cambiar el nombre por el nombre de la actividad -->
+          <h1 class="activity-title">Actividad</h1>
+          <h2><span class="badge text-bg-secondary">Finalizada</span></h2>
 
-    <form (ngSubmit)="enviarActividad()" class="p-4 border rounded bg-light" #actividadForm="ngForm">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="week" class="form-label">Semana:</label>
-          <input type="number" class="form-control" id="week" [(ngModel)]="actividad.week" name="week" required min="1" #week="ngModel">
-          <div *ngIf="week?.errors?.['required'] && week.touched" class="text-danger">La semana es requerida.</div>
-          <div *ngIf="week?.errors?.['min'] && week.touched" class="text-danger">La semana debe ser mayor que cero.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="activity" class="form-label">Actividad:</label>
-          <select class="form-select" id="activity" [(ngModel)]="actividad.activity" name="activity" required>
-            <option value="" disabled selected>Selecciona una actividad</option>
-            <option *ngFor="let type of activityTypes" [value]="type">{{ type }}</option>
-          </select>
-          <div *ngIf="actividadForm.controls['activity']?.errors?.['required'] && actividadForm.controls['activity'].touched" class="text-danger">La actividad es requerida.</div>
+          <!-- TODO: Cambiar la descripción por la descripción de la actividad -->
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, quod.</p>
         </div>
       </div>
-      
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="activityName" class="form-label">Nombre de la Actividad:</label>
-          <input type="text" class="form-control" id="activityName" [(ngModel)]="actividad.activityName" name="activityName" required #activityName="ngModel">
-          <div *ngIf="activityName?.errors?.['required'] && activityName.touched" class="text-danger">El nombre de la actividad es requerido.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="responsible" class="form-label">Responsable:</label>
-          <input type="text" class="form-control" id="responsible" [(ngModel)]="actividad.responsible[0]" name="responsible" required #responsible="ngModel">
-          <div *ngIf="responsible?.errors?.['required'] && responsible.touched" class="text-danger">El responsable es requerido.</div>
-        </div>
-      </div>
-      
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="daysToAnnounce" class="form-label">Días para Anunciar:</label>
-          <input type="number" class="form-control" id="daysToAnnounce" [(ngModel)]="actividad.daysToAnnounce" name="daysToAnnounce" required min="1" #daysToAnnounce="ngModel">
-          <div *ngIf="daysToAnnounce?.errors?.['required'] && daysToAnnounce.touched" class="text-danger">Los días para anunciar son requeridos.</div>
-          <div *ngIf="daysToAnnounce?.errors?.['min'] && daysToAnnounce.touched" class="text-danger">Los días para anunciar deben ser mayores que cero.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="daysToRemember" class="form-label">Días para Recordar:</label>
-          <input type="number" class="form-control" id="daysToRemember" [(ngModel)]="actividad.daysToRemember" name="daysToRemember" required min="1" #daysToRemember="ngModel">
-          <div *ngIf="daysToRemember?.errors?.['required'] && daysToRemember.touched" class="text-danger">Los días para recordar son requeridos.</div>
-          <div *ngIf="daysToRemember?.errors?.['min'] && daysToRemember.touched" class="text-danger">Los días para recordar deben ser mayores que cero.</div>
-        </div>
-      </div>
-      
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="isInPerson" class="form-label">¿Es en persona?</label>
-          <select class="form-select" id="isInPerson" [(ngModel)]="actividad.isInPerson" name="isInPerson" required>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-          </select>
-          <div *ngIf="actividadForm.controls['isInPerson']?.errors?.['required'] && actividadForm.controls['isInPerson'].touched" class="text-danger">Por favor, selecciona si la actividad es en persona.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="meetingLink" class="form-label">Enlace de la Reunión:</label>
-          <input type="text" class="form-control" id="meetingLink" [(ngModel)]="actividad.meetingLink" name="meetingLink">
-        </div>
-      </div>
-      
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="grabacion" class="form-label">Enlace a la grabación:</label>
-          <input type="text" class="form-control" id="grabacion" [(ngModel)]="actividad.evidence.recordingLink" name="grabacion" required #grabacion="ngModel">
-          <div *ngIf="grabacion?.errors?.['required'] && grabacion.touched" class="text-danger">La grabación es requerida es requerido.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="activityStatus" class="form-label">Estado de la Actividad:</label>
-          <select class="form-select" id="activityStatus" [(ngModel)]="actividad.activityStatus" name="activityStatus" required>
-            <option value="" disabled selected>Selecciona un estado</option>
-            <option *ngFor="let status of activityStatusTypes" [value]="status">{{ status }}</option>
-          </select>
-          <div *ngIf="actividadForm.controls['activityStatus']?.errors?.['required'] && actividadForm.controls['activityStatus'].touched" class="text-danger">El estado de la actividad es requerido.</div>
-        </div>
-      </div>
-      
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="attendancePhoto" class="form-label">Foto de Asistencia:</label>
-          <input type="file" class="form-control" id="attendancePhoto" (change)="onAttendancePhotoSelected($event)"  accept="image/*" required #attendancePhotoInput>
-          <div *ngIf="actividadForm.controls['attendancePhoto']?.errors?.['required']" class="text-danger">La foto de asistencia es requerida.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="participantsPhoto" class="form-label">Foto de Participantes:</label>
-          <input type="file" class="form-control" id="participantsPhoto" (change)="onParticipantsPhotoSelected($event)"  accept="image/*" required #participantsPhotoInput>
-          <div *ngIf="actividadForm.controls['participantsPhoto']?.errors?.['required']" class="text-danger">La foto de participantes es requerida.</div>
-        </div>
-      </div>
-      
-      <div class="col-md-6">
-        <label for="poster" class="form-label">Poster de la actividad:</label>
-        <input type="file" class="form-control" id="poster" (change)="onPosterPhotoSelected($event)"  accept="image/*" required #posterPhotoInput>
-        <div *ngIf="actividadForm.controls['poster']?.errors?.['required']" class="text-danger">El poster es requerido.</div>
-      </div>
+    </div>
 
-      <button type="submit" class="btn btn-success btn-custom" [disabled]="actividadForm.invalid">Enviar Actividad</button>
-      <button type="button" class="btn btn-secondary btn-custom" (click)="irPaginaPrincipal()">Volver a Actividades</button>
-    </form>
+    <div class="col-md-7">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- TODO: Cambiar la fecha por la fecha de la actividad -->
+          <label for="date"><h2>Fecha:</h2></label>
+          <input type="date" id="date" class="form-control" value="2021-01-01" disabled>
+
+          <!-- TODO: Cambiar la semana por la semana de la actividad -->
+          <label for="week"><h2>Semana:</h2></label>
+          <input type="number" id="week" class="form-control" value="1" disabled>
+
+          <!-- TODO: Cambiar responsables por los responsables de la actividad -->
+          <label for="responsibles"><h2>Responsables:</h2></label>
+          <input type="text" id="responsibles" class="form-control" value="Juan, Pedro, María" disabled>
+
+          <!-- TODO: Cambiar tipo por el tipo de la actividad -->
+          <label for="type"><h2>Tipo:</h2></label>
+          <input type="text" id="type" class="form-control" value="Apoyo Estudiantil" disabled>
+
+          <!-- TODO: Cambiar dias para recordatorios por los de la actividad -->
+          <label for="reminderDays"><h2>Días para recordatorios:</h2></label>
+          <input type="number" id="reminderDays" class="form-control" value="2" disabled>
+        </div>
+        <div class="col-md-6">
+          <!-- TODO: Cambiar la hora por la hora de la actividad -->
+          <label for="time"><h2>Hora:</h2></label>
+          <input type="time" id="time" class="form-control" value="12:00" disabled>
+
+          <!-- TODO: Cambiar dias para anunciar por los de la actividad -->
+          <label for="days"><h2>Días para anunciar:</h2></label>
+          <input type="number" id="days" class="form-control" value="3" disabled>
+
+          <!-- TODO: Cambiar la modalidad por la modalidad de la actividad -->
+          <label for="modality"><h2>Modalidad:</h2></label>
+          <input type="text" id="modality" class="form-control" value="Presencial" disabled>
+
+          <!-- TODO: Cambiar lugarEnlace por el lugar o enlace de la actividad -->
+          <label for="place"><h2>Lugar/Enlace:</h2></label>
+          <input type="text" id="place" class="form-control" value="Salón 1" disabled>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Action buttons -->
+  <div class="d-flex justify-content-center mt-3">
+    <button class="btn btn-primary activity-btn">Ver Comentarios</button>
+    <button class="btn btn-primary activity-btn">Ver Evidencias</button>
+    <button class="btn btn-primary activity-btn">Modificar Actividad</button>
+  </div>
+</div>
