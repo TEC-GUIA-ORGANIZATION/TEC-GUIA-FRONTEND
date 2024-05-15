@@ -5,6 +5,26 @@
     <h1>Equipo de Profesores</h1>
     <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn">Agregar Profesor</button>
   </div>
+
+  <div class="filter-options row mb-5">
+    <div class="col">
+      <label for="sedeFilter">Filtrar por Sede:</label>
+      <select class="form-control" id="sedeFilter" [(ngModel)]="selectedSede" (change)="onFilterChange()">
+        <option value="">Todos</option>
+        <option *ngFor="let sede of sedes" [value]="sede">{{sede}}</option>
+      </select>
+    </div>
+
+    <div class="col">
+      <label for="coordinadorFilter">Filtrar por Coordinador:</label>
+      <select class="form-control" id="coordinadorFilter" [(ngModel)]="selectedCoordinador" (change)="onFilterChange()">
+        <option value="">Todos</option>
+        <option value="true">Si</option>
+        <option value="false">No</option>
+      </select>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr>
@@ -105,8 +125,8 @@
           <label for="fotografia">Fotografía</label>
           <input class="form-control" type="file" id="fotografia">
 
-          <label for="coordinador">Es Coordinador?</label>
-          <input class="form-checkbox" type="checkbox" id="coordinador" [checked]="profesorSeleccionado.esCoordinador">
+          <label for="coordinador" *ngIf="hasMainPrivileges()">Es Coordinador?</label>
+          <input class="form-checkbox" type="checkbox" id="coordinador" [checked]="profesorSeleccionado.esCoordinador" *ngIf="hasMainPrivileges()">
         </div>
       </form>
       <div class="d-flex justify-content-between mt-3">
