@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL } from './constantes.service';
+import { API_URL} from './constantes.service';
 import { Actividad } from '../models/actividad.model';
 import { BlobServiceClient, ContainerClient} from "@azure/storage-blob";
 

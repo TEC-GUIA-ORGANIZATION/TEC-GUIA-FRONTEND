@@ -70,11 +70,12 @@ export class GestorAutenticacion {
     const headers = new HttpHeaders({
       'auth-token': token
     });
-
+    this.http.get<any>(`${this.authUrl}/profile`, { headers })
     // Realizar una solicitud al backend para verificar el token con el token en el encabezado
     return this.http.get<any>(`${this.authUrl}/profile`, { headers }).pipe(
       map(response => {
         if (response) {
+          console.log(response)
           return true;
         }
         return false;
