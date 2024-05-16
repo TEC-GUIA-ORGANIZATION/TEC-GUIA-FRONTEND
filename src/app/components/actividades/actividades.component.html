@@ -8,12 +8,12 @@
 
   <div class="filter-sort-options row">
     <div class="col">
-      <label for="nameSearch">Buscar por Nombre:</label>
+      <label for="nameSearch"><strong>Buscar por Nombre:</strong></label>
       <input type="text" class="form-control" id="nameSearch" [(ngModel)]="searchText" (input)="onSearchChange()">
     </div>
 
     <div class="col">
-      <label for="estadoFilter">Filtrar por Estado:</label>
+      <label for="estadoFilter"><strong>Filtrar por Estado:</strong></label>
       <select class="form-control" id="estadoFilter" [(ngModel)]="selectedEstado" (change)="onFilterChange()">
         <option value="">Todos</option>
         <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="col">
-      <label for="dateSort">Ordenar por Fecha:</label>
+      <label for="dateSort"><strong>Ordenar por Fecha:</strong></label>
       <select class="form-control" id="dateSort" [(ngModel)]="selectedDateSort" (change)="onSortChange()">
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>

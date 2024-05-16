@@ -1,0 +1,92 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <img [src]="actividad?.poster" alt="Actividad" class="activity-img" *ngIf="actividad?.poster">
+          <img src="https://t3.ftcdn.net/jpg/00/72/98/56/360_F_72985661_LU1Xk0YQiPBwOuesuuJgwTn0NPlwP8ob.jpg" alt="Actividad" class="activity-img" *ngIf="!actividad?.poster">
+        </div>
+        <div class="card-body">
+          <h1 class="activity-title">{{actividad?.nombre}}</h1>
+          <h2><span class="badge text-bg-secondary">{{actividad?.estado}}</span></h2>
+
+          <p>{{actividad?.descripcion}}</p>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-left mb-3 align-items-center" *ngIf="actividad?.modalidad === 'REMOTA' && actividad?.evidencia?.linkGrabacion === ''">
+        <!-- Input field and button to upload the recording link -->
+        <input type="text" class="form-control recording-input" placeholder="Enlace de grabación" [(ngModel)]="grabacion">
+        <button class="btn btn-custom" (click)="uploadRecordingLink()">Subir</button>
+      </div>
+
+      <div class="d-flex justify-content-between mb-3 align-items-center" *ngIf="actividad?.modalidad === 'REMOTA' && actividad?.evidencia?.linkGrabacion !== ''">
+        <a [href]="actividad?.evidencia?.linkGrabacion" target="_blank" class="recording-link">
+          <img src="/assets/images/record-logo.svg" alt="Grabación" class="recording-logo">
+          Enlace de grabación
+        </a>
+        <button class="btn btn-custom" (click)="editRecordingLink()">Editar</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-custom" (click)="goBack()">Volver</button>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="d-flex justify-content-between">
+        <h1 class="mb-1">Asistencia</h1>
+
+        <!-- Button to upload a new image -->
+        <div *ngIf="!uploadAsistenciaIsVisible">
+          <button class="btn btn-custom" (click)="uploadAsistencia()">Subir nueva</button>
+          <button class="btn btn-custom" (click)="eliminarAsistenciaActual()">Eliminar actual</button>
+        </div>
+
+        <div *ngIf="uploadAsistenciaIsVisible" class="d-flex align-items-center">
+          <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
+          <button class="btn btn-custom" (click)="uploadAsistencia()">Subir</button>
+          <button class="btn btn-custom" (click)="cancelUploadAsistencia()">Cancelar</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div *ngFor="let asistencia of asistencias | paginate: { itemsPerPage: 1, currentPage: p1, id: 'asistencias' }" class="d-flex justify-content-center">
+        <img [src]="asistencia" alt="Asistencia" class="pagination-img">
+      </div>
+
+      <div class="d-flex justify-content-center mt-3">
+        <pagination-controls (pageChange)="p1 = $event" id="asistencias"></pagination-controls>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <h1 class="mb-1">Participantes</h1>
+
+        <!-- Button to upload a new image -->
+        <div *ngIf="!uploadParticipanteIsVisible">
+          <button class="btn btn-custom" (click)="uploadParticipante()">Subir nueva</button>
+          <button class="btn btn-custom" (click)="eliminarParticipanteActual()">Eliminar actual</button>
+        </div>
+
+        <div *ngIf="uploadParticipanteIsVisible" class="d-flex align-items-center">
+          <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
+          <button class="btn btn-custom" (click)="uploadParticipante()">Subir</button>
+          <button class="btn btn-custom" (click)="cancelUploadParticipante()">Cancelar</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div *ngFor="let participante of participantes | paginate: { itemsPerPage: 1, currentPage: p2, id: 'participantes' }" class="d-flex justify-content-center">
+        <img [src]="participante" alt="Participante" class="pagination-img">
+      </div>
+
+      <div class="d-flex justify-content-center mt-3 mb-5">
+        <pagination-controls (pageChange)="p2 = $event" id="participantes"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

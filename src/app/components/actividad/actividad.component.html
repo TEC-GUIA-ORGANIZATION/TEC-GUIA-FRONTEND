@@ -56,7 +56,7 @@
   <div class="d-flex justify-content-center mt-3">
     <button class="btn btn-primary activity-btn" (click)="goBack()">Volver</button>
     <button class="btn btn-primary activity-btn" (click)="showComments()">Ver Comentarios</button>
-    <button class="btn btn-primary activity-btn">Ver Evidencias</button>
+    <button class="btn btn-primary activity-btn" (click)="showEvidences()" *ngIf="actividad?.estado === 'REALIZADA'">Ver Evidencias</button>
     <button class="btn btn-primary activity-btn">Modificar Actividad</button>
   </div>
 </div>

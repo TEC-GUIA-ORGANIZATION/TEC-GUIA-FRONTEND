@@ -6,6 +6,7 @@ import { API_URL} from './constantes.service';
 import { Actividad } from '../models/actividad.model';
 import { BlobServiceClient } from "@azure/storage-blob";
 import { GestorUsuarios } from './gestor-usuarios.service';
+import { Evidencia } from '../models/evidencia.model';
 
 const account = "tecguiastorage";
 const sas = "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-06-13T11:00:24Z&st=2024-05-13T03:00:24Z&spr=https&sig=ISrprONOqg7brd%2FRSbs4mOABut12mBLdoCIZpA19E7s%3D";
@@ -33,6 +34,9 @@ export class GestorActividades {
                 console.log('Error getting user');
                 return null;
               }
+
+              var evidencia: Evidencia = new Evidencia(item.evidence.attendance, item.evidence.participants, item.evidence.recordingLink);
+
               // Create and return Actividad object
               return new Actividad(
                 item._id,
@@ -49,7 +53,7 @@ export class GestorActividades {
                 item.modality,
                 item.placeLink,
                 item.comments,
-                item.evidence
+                evidencia
               );
             })
           );
@@ -80,6 +84,9 @@ export class GestorActividades {
               console.log('Error getting user');
               return null;
             }
+
+            var evidencia: Evidencia = new Evidencia(response.evidence.attendance, response.evidence.participants, response.evidence.recordingLink);
+
             // Create the Actividad object once the usuario is retrieved
             return new Actividad(
               response._id,
@@ -96,7 +103,7 @@ export class GestorActividades {
               response.modality,
               response.placeLink,
               response.comments,
-              response.evidence
+              evidencia
             );
           })
         );

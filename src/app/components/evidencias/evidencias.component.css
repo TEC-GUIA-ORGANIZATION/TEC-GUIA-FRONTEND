@@ -1,0 +1,66 @@
+.card {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  padding: 0;
+}
+
+.activity-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.btn-custom {
+  margin: 0 10px;
+  background-color: #fff;
+  border: 1px solid #002855;
+  color: #002855;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #002855;
+  color: #fff;
+}
+
+.activity-title {
+  margin: 0;
+}
+
+label {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+label h2 {
+  margin-bottom: 0;
+}
+
+.recording-logo {
+  width: 2.5em;
+  height: 2.5em;
+  object-fit: cover;
+}
+
+.recording-link {
+  color: #002855;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.recording-input {
+  margin-left: 10px;
+}
+
+.pagination-img {
+  width: 100%;
+  height: 30em;
+  object-fit: contain;
+  border-radius: 10px;
+}

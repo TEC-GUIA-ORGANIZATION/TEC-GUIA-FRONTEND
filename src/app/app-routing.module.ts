@@ -12,6 +12,7 @@ import { CrearActividadComponent } from './components/crear-actividad/crear-acti
 import { ActividadComponent } from './components/actividad/actividad.component';
 import { ComentariosComponent } from './components/comentarios/comentarios.component';
 import { RoleChecker } from './guards/role-checker.guard';
+import { EvidenciasComponent } from './components/evidencias/evidencias.component';
 // import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'crear-actividad', component: CrearActividadComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['profesor guia'] } },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id/comentarios', component: ComentariosComponent, canActivate: [AuthGuard] },
+  { path: 'actividad/:id/evidencias', component: EvidenciasComponent, canActivate: [AuthGuard] },
 
   // Wildcard route
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }

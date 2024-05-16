@@ -21,7 +21,7 @@ export class Actividad {
   modalidad: ModalidadActividad;
   lugarEnlace: string;
   comentarios: string[];
-  evidencias: Evidencia[];
+  evidencia: Evidencia;
 
   /**
    * Constructor
@@ -55,7 +55,7 @@ export class Actividad {
     modalidad: ModalidadActividad,
     lugarEnlace: string,
     comentarios: string[],
-    evidencias: Evidencia[]
+    evidencia: Evidencia
   ) {
     this.id = id;
     this.nombre = nombre;
@@ -71,6 +71,6 @@ export class Actividad {
     this.modalidad = modalidad;
     this.lugarEnlace = lugarEnlace;
     this.comentarios = comentarios;
-    this.evidencias = evidencias;
+    this.evidencia = evidencia;
   }
 }

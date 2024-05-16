@@ -43,6 +43,10 @@ export class ActividadComponent {
     this.router.navigate(['actividad', this.actividadId, 'comentarios']);
   }
 
+  showEvidences() {
+    this.router.navigate(['actividad', this.actividadId, 'evidencias']);
+  }
+
   getPlaceLinkLabel() {
     if (this.actividad === null) {
       return '';
