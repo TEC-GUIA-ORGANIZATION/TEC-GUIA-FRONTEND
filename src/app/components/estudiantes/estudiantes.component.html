@@ -1,95 +1,90 @@
 <app-navbar></app-navbar>
-<!-- Tu plantilla HTML -->
 
-<div class="container">
-  <!-- Combobox para seleccionar el semestre -->
-  <div class="form-group right-group">
-    <label for="semester">Semestre:</label>
-    <select class="form-control" id="semester" [(ngModel)]="selectedSemester" (change)="loadEstudiantes()">
-      <option *ngFor="let semester of semesters" [value]="semester">{{ semester }}</option>
-    </select>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between table-header">
+    <h1>Estudiantes</h1>
+    <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn">Agregar Estudiante</button>
   </div>
-  
-  <!-- Combobox para seleccionar el año de ingreso -->
-  <div class="form-group right-group">
-    <label for="entryYear">Año de ingreso:</label>
-    <select class="form-control" id="entryYear" [(ngModel)]="selectedEntryYear" (change)="loadEstudiantes()">
-      <option *ngFor="let year of entryYears" [value]="year">{{ year }}</option>
-    </select>
-  </div>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Buscar...">
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary btn-custom" type="button">Buscar</button>
+
+  <div class="filter-options row">
+    <div class="d-flex justify-content-between">
+      <div class="row w-100">
+        <div class="col-3">
+          <label for="nameSearch"><strong>Buscar Estudiante:</strong></label>
+          <input type="text" class="form-control" id="nameSearch" [(ngModel)]="searchText" (input)="onSearchChange()" placeholder="Buscar por nombre o correo">
+        </div>
+        <div class="col-3">
+          <label for="sedeFilter"><strong>Filtrar por Sede:</strong></label>
+          <select class="form-control" id="sedeFilter" [(ngModel)]="selectedSede" (change)="onFilterChange()">
+            <option value="">Todos</option>
+            <option *ngFor="let sede of sedes" [value]="sede">{{sede}}</option>
+          </select>
+        </div>
+
+        <div class="col-3">
+          <label for="orderFilter"><strong>Ordenar por:</strong></label>
+          <select class="form-control" id="orderFilter" [(ngModel)]="selectedOrder" (change)="onFilterChange()">
+            <option value="nombre">Nombre</option>
+            <option value="primerApellido">Primer Apellido</option>
+            <option value="segundoApellido">Segundo Apellido</option>
+            <option value="correo">Correo</option>
+            <option value="telefono">Telefono</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group mt-2" role="group" aria-label="Registros">
+        <button type="button" class="btn btn-success btn-custom">
+          <i class="bi bi-download"></i> Descargar
+        </button>
+        <button type="button" class="btn btn-info btn-custom">
+          <i class="bi bi-upload"></i> Cargar
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="btn-group mb-3" role="group" aria-label="Filtros">
-    <button type="button" class="btn btn-secondary btn-custom">Orden Alfabético</button>
-    <button type="button" class="btn btn-secondary btn-custom">Por Campus</button>
-    <button type="button" class="btn btn-secondary btn-custom">Por Carné</button>
-  </div>
+  <hr>
 
-  <div class="btn-group mb-3" role="group" aria-label="Registros">
-    <button type="button" class="btn btn-success btn-custom">
-      <i class="bi bi-download"></i> Descargar
-    </button>
-    <button type="button" class="btn btn-info btn-custom">
-      <i class="bi bi-upload"></i> Cargar
-    </button>
-  </div>
-  <!-- Tabla para mostrar los estudiantes -->
   <table class="table">
     <thead>
       <tr>
-        <th>Carné</th>
-        <th>Nombre</th>
-        <th>Primer Apellido</th>
-        <th>Segundo Apellido</th>
-        <th>Correo Electrónico</th>
-        <th>Número de Teléfono</th>
-        <th>Campus</th>
-        <th>Acciones</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Primer Apellido</th>
+        <th scope="col">Segundo Apellido</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Sede</th>
+        <th scope="col">Acciones</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let estudiante of estudiantes">
+    <tbody *ngIf="estudiantes.length === 0">
+      <tr>
+        <td colspan="9">No hay estudiantes registrados</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="estudiantes.length > 0">
+      <tr *ngFor="let estudiante of estudiantes | paginate: { itemsPerPage: pageSize, currentPage: p }">
+        <td>{{estudiante.nombre}}</td>
+        <td>{{estudiante.primerApellido}}</td>
+        <td>{{estudiante.segundoApellido}}</td>
+        <td>{{estudiante.correo}}</td>
+        <td>{{estudiante.telefono}}</td>
+        <td>{{estudiante.sede}}</td>
         <td>
-          <input type="text" class="form-control" [value]="estudiante.institutionId" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <input type="text" class="form-control" [value]="estudiante.name" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <input type="text" class="form-control" [value]="estudiante.firstLastname" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <input type="text" class="form-control" [value]="estudiante.secondLastname" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <input type="text" class="form-control" [value]="estudiante.email" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <input type="text" class="form-control" [value]="estudiante.personalPhone" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <input type="text" class="form-control" [value]="estudiante.campus" [readonly]="!estudiante.editable">
-        </td>
-        <td>
-          <button class="btn btn-primary btn-custom" (click)="toggleEdit(estudiante)">
-            {{ estudiante.editable ? 'Guardar' : 'Editar' }}
-          </button>
+          <!-- <button class="btn btn-custom action-btn" (click)="seleccionarEstudiante(estudiante);changeEditMode(false)">Ver Detalles</button> -->
+
+          <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarEstudiante(estudiante)">Editar</button>
+          <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn">Eliminar</button>
         </td>
       </tr>
     </tbody>
+    <tfoot *ngIf="estudiantes.length > 0" class="table-footer">
+      <tr>
+        <td colspan="9">
+          <pagination-controls (pageChange)="p = $event" class="table-pagination"></pagination-controls>
+        </td>
+      </tr>
+    </tfoot>
   </table>
-
-  <!-- Paginación -->
-  <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <!-- Agrega más páginas según sea necesario -->
-    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-  </ul>
 </div>

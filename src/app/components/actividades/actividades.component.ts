@@ -49,7 +49,7 @@ export class ActividadesComponent {
     var user = this.gestorAutenticacion.getCurrentUser();
 
     if (user !== null) {
-      if (user.rol === 'profesor guia') { // TODO: Check if is a coordinador
+      if (user.rol === 'coordinador') {
         return true;
       }
     }

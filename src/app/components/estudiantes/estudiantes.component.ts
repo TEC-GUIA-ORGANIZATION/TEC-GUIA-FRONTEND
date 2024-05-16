@@ -1,50 +1,66 @@
-
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MaterialModule } from '../../material/material.module';
 import { GestorEstudiantes } from '../../services/gestor-estudiantes.service';
 import { FormsModule } from '@angular/forms';
+import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
+import { Estudiante } from '../../models/estudiante.model';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Sede } from '../../models/sede.model';
 
 @Component({
   standalone: true,
   selector: 'app-estudiantes',
   templateUrl: './estudiantes.component.html',
   styleUrl: './estudiantes.component.css',
-  imports: [NavbarComponent,MaterialModule,FormsModule],
+  imports: [
+    NavbarComponent,
+    FormsModule,
+    CommonModule,
+    NgxPaginationModule
+  ],
 })
+export class EstudiantesComponent {
+  estudiantes: Estudiante[] = []
+  estudianteSeleccionado: Estudiante | null = null;
+  editMode: boolean = false;
+  p: number = 1; // Current page, initialized to 1
+  pageSize: number = 5; // Number of items per page
+  selectedSede: string = ''; // To store selected sede filter value
+  sedes: string[] = Object.values(Sede); // To store the list of sedes
+  selectedOrder: string = 'nombre'; // To store selected order filter value
+  searchText: string = ''; // To store the search text
 
-  export class EstudiantesComponent implements OnInit {
-    estudiantes: any[] = [];
-    selectedItem: any | null = null;
-  
-    // Listas de opciones para los combobox
-    semesters: string[] = ['primer semestre', 'segundo semestre']; // Ajusta según tus necesidades
-    entryYears: number[] = [2023, 2024, 2025]; // Ajusta según tus necesidades
-    selectedSemester: string = this.semesters[0]; // Valor por defecto para el combobox de semester
-    selectedEntryYear: number = this.entryYears[1]; // Valor por defecto para el combobox de entryYear
-  
-    constructor(private gestorEstudiantes: GestorEstudiantes) { }
-  
-    ngOnInit(): void {
-      this.loadEstudiantes();
-    }
-  
-    loadEstudiantes() {
-      this.gestorEstudiantes.getEstudiantes({semester:this.selectedSemester,entryYear: this.selectedEntryYear}).subscribe(estudiantes => {
-        this.estudiantes = estudiantes;
-      });
-    }
-  
-    toggleEdit(estudiante: any) {
-      if (estudiante.editable) {
-        this.gestorEstudiantes.updateEstudiante(estudiante).subscribe(updatedEstudiante => {
-          // Puedes manejar la respuesta si es necesario
-        });
-      }
-      estudiante.editable = !estudiante.editable;
-    }
+  constructor(
+    private gestorEstudiantes: GestorEstudiantes,
+    private gestorAutenticacion: GestorAutenticacion
+  ) {
   }
-  
+
+  hasPrivileges(): boolean {
+    var user = this.gestorAutenticacion.getCurrentUser();
+
+    if (user !== null) {
+      if (user.rol === 'admin' || user.rol === 'profesor guia' || user.rol === 'coordinador') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  seleccionarEstudiante(estudiante: Estudiante): void {
+    this.estudianteSeleccionado = estudiante;
+  }
+
+  changeEditMode(mode: boolean): void {
+    this.editMode = mode;
+  }
+
+  onFilterChange(): void {
+  }
+
+  onSearchChange(): void {
+  }
+}
+
