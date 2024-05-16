@@ -1,0 +1,69 @@
+.card {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  padding: 0;
+}
+
+.activity-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.btn-custom {
+  margin: 0 10px;
+  background-color: #fff;
+  border: 1px solid #002855;
+  color: #002855;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #002855;
+  color: #fff;
+}
+
+.activity-title {
+  margin: 0;
+}
+
+label {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+label h2 {
+  margin-bottom: 0;
+}
+
+.btn-filter {
+  margin: 0;
+  background-color: #002855;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.btn-filter:hover {
+  background-color: #fff;
+  color: #002855;
+  border: 1px solid #002855;
+}
+
+.btn-left {
+  margin-left: 10px;
+  border-radius: 10px 0 0 10px;
+}
+
+.btn-right {
+  border-radius: 0 10px 10px 0;
+}
+
+.divider {
+  width: 0.5px;
+  background-color: #fff;
+}

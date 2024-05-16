@@ -1,1 +1,62 @@
-<p>comentarios works!</p>
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <img [src]="actividad?.poster" alt="Actividad" class="activity-img" *ngIf="actividad?.poster">
+          <img src="https://t3.ftcdn.net/jpg/00/72/98/56/360_F_72985661_LU1Xk0YQiPBwOuesuuJgwTn0NPlwP8ob.jpg" alt="Actividad" class="activity-img" *ngIf="!actividad?.poster">
+        </div>
+        <div class="card-body">
+          <h1 class="activity-title">{{actividad?.nombre}}</h1>
+          <h2><span class="badge text-bg-secondary">{{actividad?.estado}}</span></h2>
+
+          <p>{{actividad?.descripcion}}</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-custom" (click)="goBack()">Volver</button>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="d-flex justify-content-between">
+        <h1>Comentarios</h1>
+
+        <!-- Date sort order -->
+        <div class="d-flex align-items-center">
+          <h2>Ordenar por fecha: </h2>
+          <button class="btn btn-filter btn-left mb-3" (click)="sortComments('asc')">Más antiguos</button>
+          <div class="divider"></div>
+          <button class="btn btn-filter btn-right mb-3" (click)="sortComments('desc')">Más recientes</button>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Escribe un comentario" aria-label="Escribe un comentario" aria-describedby="button-post-comment" [(ngModel)]="comment" id="input-comment">
+        <button class="btn btn-primary" type="button" id="button-post-comment" (click)="postComment()">Publicar</button>
+      </div>
+
+      <hr>
+
+      <div *ngFor="let comentario of comentarios | paginate: { itemsPerPage: 5, currentPage: p }" class="mb-3 comment">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <p class="comment-author"><strong>{{comentario?.autor}}</strong></p>
+              <p class="comment-date">{{getDate(comentario?.fechaHora)}}</p>
+            </div>
+            <p>{{comentario?.contenido}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="comentarios.length === 0" class="alert alert-info">No hay comentarios</div>
+      <div class="d-flex justify-content-center">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

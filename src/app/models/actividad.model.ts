@@ -1,27 +1,26 @@
-import { ProfesorGuia } from './profesor-guia.model';
 import { TipoActividad } from './tipo-actividad.model';
 import { EstadoActividad } from './estado-actividad.model';
 import { ModalidadActividad } from './modalidad-actividad.model';
-import { Comentario } from './comentario.model';
 import { Evidencia } from './evidencia.model';
+import { Usuario } from './usuario.model';
 
 // Actividad model class
 // This class is used to represent an activity in the system
 export class Actividad {
-  id: number;
+  id: string;
   nombre: string;
   descripcion: string;
   poster: File | null;
   fecha: Date;
   semana: number;
-  responsables: ProfesorGuia[];
+  responsable: Usuario;
   tipo: TipoActividad;
   estado: EstadoActividad;
   diasPreviosAnunciar: number;
   diasRequeridosRecordatorio: number;
   modalidad: ModalidadActividad;
   lugarEnlace: string;
-  comentarios: Comentario[];
+  comentarios: string[];
   evidencias: Evidencia[];
 
   /**
@@ -42,20 +41,20 @@ export class Actividad {
    * @param evidencias The evidences of the activity
    **/
   constructor(
-    id: number,
+    id: string,
     nombre: string,
     descripcion: string,
     poster: File | null,
     fecha: Date,
     semana: number,
-    responsables: ProfesorGuia[],
+    responsables: Usuario,
     tipo: TipoActividad,
     estado: EstadoActividad,
     diasPreviosAnunciar: number,
     diasRequeridosRecordatorio: number,
     modalidad: ModalidadActividad,
     lugarEnlace: string,
-    comentarios: Comentario[],
+    comentarios: string[],
     evidencias: Evidencia[]
   ) {
     this.id = id;
@@ -64,7 +63,7 @@ export class Actividad {
     this.poster = poster;
     this.fecha = fecha;
     this.semana = semana;
-    this.responsables = responsables;
+    this.responsable = responsables;
     this.tipo = tipo;
     this.estado = estado;
     this.diasPreviosAnunciar = diasPreviosAnunciar;

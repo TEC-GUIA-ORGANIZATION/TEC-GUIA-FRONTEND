@@ -5,16 +5,14 @@
     <div class="col-md-5">
       <div class="card">
         <div class="card-header">
-          <!-- TODO: Cambiar la imagen por la imagen de la actividad -->
-          <img src="https://w.wallhaven.cc/full/rr/wallhaven-rrxqm1.png" alt="Actividad" class="activity-img">
+          <img [src]="actividad?.poster" alt="Actividad" class="activity-img" *ngIf="actividad?.poster">
+          <img src="https://t3.ftcdn.net/jpg/00/72/98/56/360_F_72985661_LU1Xk0YQiPBwOuesuuJgwTn0NPlwP8ob.jpg" alt="Actividad" class="activity-img" *ngIf="!actividad?.poster">
         </div>
         <div class="card-body">
-          <!-- TODO: Cambiar el nombre por el nombre de la actividad -->
-          <h1 class="activity-title">Actividad</h1>
-          <h2><span class="badge text-bg-secondary">Finalizada</span></h2>
+          <h1 class="activity-title">{{actividad?.nombre}}</h1>
+          <h2><span class="badge text-bg-secondary">{{actividad?.estado}}</span></h2>
 
-          <!-- TODO: Cambiar la descripción por la descripción de la actividad -->
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, quod.</p>
+          <p>{{actividad?.descripcion}}</p>
         </div>
       </div>
     </div>
@@ -22,42 +20,33 @@
     <div class="col-md-7">
       <div class="row">
         <div class="col-md-6">
-          <!-- TODO: Cambiar la fecha por la fecha de la actividad -->
           <label for="date"><h2>Fecha:</h2></label>
-          <input type="date" id="date" class="form-control" value="2021-01-01" disabled>
+          <input type="text" id="date" class="form-control" value="{{getDate()}}" disabled>
 
-          <!-- TODO: Cambiar la semana por la semana de la actividad -->
+          <label for="time"><h2>Hora:</h2></label>
+          <input type="text" id="time" class="form-control" value="{{getTime()}}" disabled>
+
           <label for="week"><h2>Semana:</h2></label>
-          <input type="number" id="week" class="form-control" value="1" disabled>
+          <input type="number" id="week" class="form-control" value="{{actividad?.semana}}" disabled>
 
-          <!-- TODO: Cambiar responsables por los responsables de la actividad -->
           <label for="responsibles"><h2>Responsables:</h2></label>
-          <input type="text" id="responsibles" class="form-control" value="Juan, Pedro, María" disabled>
+          <input type="text" id="responsibles" class="form-control" value="{{actividad?.responsable?.obtenerNombreCompleto()}}" disabled>
 
-          <!-- TODO: Cambiar tipo por el tipo de la actividad -->
           <label for="type"><h2>Tipo:</h2></label>
-          <input type="text" id="type" class="form-control" value="Apoyo Estudiantil" disabled>
-
-          <!-- TODO: Cambiar dias para recordatorios por los de la actividad -->
-          <label for="reminderDays"><h2>Días para recordatorios:</h2></label>
-          <input type="number" id="reminderDays" class="form-control" value="2" disabled>
+          <input type="text" id="type" class="form-control" value="{{actividad?.tipo}}" disabled>
         </div>
         <div class="col-md-6">
-          <!-- TODO: Cambiar la hora por la hora de la actividad -->
-          <label for="time"><h2>Hora:</h2></label>
-          <input type="time" id="time" class="form-control" value="12:00" disabled>
-
-          <!-- TODO: Cambiar dias para anunciar por los de la actividad -->
           <label for="days"><h2>Días para anunciar:</h2></label>
-          <input type="number" id="days" class="form-control" value="3" disabled>
+          <input type="number" id="days" class="form-control" value="{{actividad?.diasPreviosAnunciar}}" disabled>
 
-          <!-- TODO: Cambiar la modalidad por la modalidad de la actividad -->
+          <label for="reminderDays"><h2>Días para recordatorios:</h2></label>
+          <input type="number" id="reminderDays" class="form-control" value="{{actividad?.diasRequeridosRecordatorio}}" disabled>
+
           <label for="modality"><h2>Modalidad:</h2></label>
-          <input type="text" id="modality" class="form-control" value="Presencial" disabled>
+          <input type="text" id="modality" class="form-control" value="{{actividad?.modalidad}}" disabled>
 
-          <!-- TODO: Cambiar lugarEnlace por el lugar o enlace de la actividad -->
-          <label for="place"><h2>Lugar/Enlace:</h2></label>
-          <input type="text" id="place" class="form-control" value="Salón 1" disabled>
+          <label for="place"><h2>{{getPlaceLinkLabel()}}</h2></label>
+          <input type="text" id="place" class="form-control" value="{{actividad?.lugarEnlace}}" disabled>
         </div>
       </div>
     </div>
@@ -65,7 +54,8 @@
 
   <!-- Action buttons -->
   <div class="d-flex justify-content-center mt-3">
-    <button class="btn btn-primary activity-btn">Ver Comentarios</button>
+    <button class="btn btn-primary activity-btn" (click)="goBack()">Volver</button>
+    <button class="btn btn-primary activity-btn" (click)="showComments()">Ver Comentarios</button>
     <button class="btn btn-primary activity-btn">Ver Evidencias</button>
     <button class="btn btn-primary activity-btn">Modificar Actividad</button>
   </div>

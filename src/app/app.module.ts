@@ -25,7 +25,6 @@ import { ComentariosComponent } from './components/comentarios/comentarios.compo
     AppComponent,
     LoginComponent,
     RecoverPasswordComponent,
-    ComentariosComponent
   ],
   imports: [
     HomeComponent,
@@ -41,6 +40,7 @@ import { ComentariosComponent } from './components/comentarios/comentarios.compo
     ActividadComponent,
     ReactiveFormsModule,
     MaterialModule,
+    ComentariosComponent,
     FlexLayoutServerModule
   ],
   providers: [

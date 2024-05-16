@@ -1,82 +1,108 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, zip } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { API_URL} from './constantes.service';
 import { Actividad } from '../models/actividad.model';
-import { BlobServiceClient, ContainerClient} from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { GestorUsuarios } from './gestor-usuarios.service';
 
 const account = "tecguiastorage";
 const sas = "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-06-13T11:00:24Z&st=2024-05-13T03:00:24Z&spr=https&sig=ISrprONOqg7brd%2FRSbs4mOABut12mBLdoCIZpA19E7s%3D";
 const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
 
-@Injectable({
+  @Injectable({
   providedIn: 'root'
 })
 // This service is responsible for managing activities
 // It has methods to get, add, update and delete activities
 export class GestorActividades {
-  private url = `${API_URL}/activities/`;
+  private url = `${API_URL}/activities`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private gestorUsuarios: GestorUsuarios) {}
 
   getActividades(): Observable<Actividad[] | null> {
     return this.http.get<any[]>(this.url).pipe(
-      map(response => {
-        return response.map(item => {
-          return new Actividad(
-            item.id,
-            item.name,
-            item.description,
-            item.poster,
-            item.date,
-            item.week,
-            item.responsible,
-            item.type,
-            item.status,
-            item.daysToAnnounce,
-            item.daysToRemember,
-            item.modality,
-            item.placeLink,
-            item.comments,
-            item.evidence
+      switchMap(response => {
+        // Create an array of observables for each getUsuario call
+        const observables: Observable<Actividad | null>[] = response.map(item => {
+          return this.gestorUsuarios.getUsuario(item.responsible).pipe(
+            catchError(_ => of(null)),
+              map(responsable => {
+              if (responsable === null) {
+                console.log('Error getting user');
+                return null;
+              }
+              // Create and return Actividad object
+              return new Actividad(
+                item._id,
+                item.name,
+                item.description,
+                item.poster,
+                item.date,
+                item.week,
+                responsable,
+                item.type,
+                item.status,
+                item.daysToAnnounce,
+                item.daysToRemember,
+                item.modality,
+                item.placeLink,
+                item.comments,
+                item.evidence
+              );
+            })
           );
         });
+
+        // Combine the results of all observables into one observable emitting arrays
+        return zip(...observables).pipe(
+          map(actividades => actividades.filter(actividad => actividad !== null) as Actividad[])
+        );
       }),
       catchError(_ => {
-        return [null];
+        return of(null);
       })
     );
   }
 
   getActividadesTotal(): Observable<Actividad[]> {
-    return this.http.get<any[]>(`${this.url}total`);
+    return this.http.get<any[]>(`${this.url}/total`);
   }
 
-  getActividad(id: number): Observable<Actividad | null> {
+  getActividad(id: string): Observable<Actividad | null> {
     return this.http.get<any>(`${this.url}/${id}`).pipe(
-      map(response => {
-        console.log(response);
-        return new Actividad(
-          response.id,
-          response.name,
-          response.description,
-          response.poster,
-          response.date,
-          response.week,
-          response.responsible,
-          response.type,
-          response.status,
-          response.daysToAnnounce,
-          response.daysToRemember,
-          response.modality,
-          response.placeLink,
-          response.comments,
-          response.evidence
+      switchMap(response => {
+        // Load the responsible professors
+        return this.gestorUsuarios.getUsuario(response.responsible).pipe(
+          map(usuario => {
+            if (usuario === null) {
+              console.log('Error getting user');
+              return null;
+            }
+            // Create the Actividad object once the usuario is retrieved
+            return new Actividad(
+              response._id,
+              response.name,
+              response.description,
+              response.poster,
+              response.date,
+              response.week,
+              usuario,
+              response.type,
+              response.status,
+              response.daysToAnnounce,
+              response.daysToRemember,
+              response.modality,
+              response.placeLink,
+              response.comments,
+              response.evidence
+            );
+          })
         );
       }),
       catchError(_ => {
-        return [null];
+        return of(null);
       })
     );
   }
@@ -123,14 +149,14 @@ export class GestorActividades {
         evidence.attendancePhoto = attendanceBlobClient.url;
       }
 
-    if (participantsPhoto) {
-      const participantsBlobName = `${new Date().getTime()}-participants-${participantsPhoto.name}`;
-      const participantsBlobClient = containerClientParticipants.getBlockBlobClient(participantsBlobName);
-      await participantsBlobClient.uploadData(participantsPhoto);
-      evidence.participantsPhoto = participantsBlobClient.url;
-    }
+      if (participantsPhoto) {
+        const participantsBlobName = `${new Date().getTime()}-participants-${participantsPhoto.name}`;
+        const participantsBlobClient = containerClientParticipants.getBlockBlobClient(participantsBlobName);
+        await participantsBlobClient.uploadData(participantsPhoto);
+        evidence.participantsPhoto = participantsBlobClient.url;
+      }
 
-  }
+    }
     catch (error) {
       console.error('Error al subir archivos:', error);
       throw error;
@@ -138,7 +164,7 @@ export class GestorActividades {
 
 
 
- // hazlo para todos los campos
+    // hazlo para todos los campos
     const body = {
       week,
       activity,

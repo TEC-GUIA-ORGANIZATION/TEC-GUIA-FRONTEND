@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map, catchError } from 'rxjs';
 import { API_URL } from './constantes.service';
 import { Usuario } from '../models/usuario.model';
 
@@ -10,7 +10,7 @@ import { Usuario } from '../models/usuario.model';
 // This service is responsible for managing users
 // It has methods to get, add, update and delete users
 export class GestorUsuarios {
-  private url = `${API_URL}/usuarios`;
+  private url = `${API_URL}/users`;
 
   /**
    * Constructor
@@ -22,8 +22,31 @@ export class GestorUsuarios {
    * Gets the users
    * @returns An observable of the users
    **/
-  getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.url);
+  getUsuarios(): Observable<Usuario[] | null> {
+    return this.http.get<any[]>(this.url).pipe(
+      map(response => {
+        if (response === null) {
+          return null;
+        }
+
+        return response.map(usuario => {
+          return new Usuario(
+            usuario._id,
+            usuario.email,
+            usuario.password,
+            usuario.name,
+            usuario.firstlastname,
+            usuario.secondlastname,
+            usuario.sede,
+            usuario.photo,
+            usuario.role
+          );
+        });
+      }),
+      catchError(_ => {
+        return [null];
+      })
+    );
   }
 
   /**
@@ -31,8 +54,29 @@ export class GestorUsuarios {
    * @param id The ID of the user
    * @returns An observable of the user
    **/
-  getUsuario(id: number): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.url}/${id}`);
+  getUsuario(id: string): Observable<Usuario | null> {
+    return this.http.get<any>(`${this.url}/${id}`).pipe(
+      map(response => {
+        if (response === null) {
+          return null;
+        }
+
+        return new Usuario(
+          response._id,
+          response.email,
+          response.password,
+          response.name,
+          response.firstLastname,
+          response.secondLastname,
+          response.campus,
+          response.photo,
+          response.rol
+        );
+      }),
+      catchError(_ => {
+        return [null];
+      })
+    );
   }
 
   /**

@@ -27,7 +27,7 @@ export class GestorAutenticacion {
 
             // Guardar el usuario actual
             var r = response.body;
-            this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstlastname, r.secondlastname, r.campus, r.photo, r.rol);
+            this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstLastname, r.secondLastname, r.campus, r.photo, r.rol);
 
             return true;
           } else {
@@ -74,7 +74,7 @@ export class GestorAutenticacion {
         if (response) {
           // Guardar el usuario actual
           var r = response
-          this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstlastname, r.secondlastname, r.campus, r.photo, r.rol);
+          this.currentUser = new Usuario(r._id, r.email, r.password, r.name, r.firstLastname, r.secondLastname, r.campus, r.photo, r.rol);
 
           return true;
         }

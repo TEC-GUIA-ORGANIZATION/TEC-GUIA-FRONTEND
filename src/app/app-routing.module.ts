@@ -10,6 +10,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { AuthGuard } from './guards/auth.guard';
 import { CrearActividadComponent } from './components/crear-actividad/crear-actividad.component';
 import { ActividadComponent } from './components/actividad/actividad.component';
+import { ComentariosComponent } from './components/comentarios/comentarios.component';
 import { RoleChecker } from './guards/role-checker.guard';
 // import { RegisterComponent } from './components/register/register.component';
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
   { path: 'crear-actividad', component: CrearActividadComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['profesor guia'] } },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
+  { path: 'actividad/:id/comentarios', component: ComentariosComponent, canActivate: [AuthGuard] },
 
   // Wildcard route
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
