@@ -4,10 +4,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',
-  styleUrl: './recover-password.component.css',
+  styleUrl: './recover-password.component.css'
 })
 export class RecoverPasswordComponent {
-  /* AQUI DEFINIMOS LA TEMATICA DE NUESTRA IMAGEN*/
+
   styleImage = 'rain';
 
   form!: FormGroup;

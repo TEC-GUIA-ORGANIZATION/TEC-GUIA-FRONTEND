@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MaterialModule } from '../../material/material.module';
@@ -8,6 +8,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { Actividad } from '../../models/actividad.model';
 import { EstadoActividad } from '../../models/estado-actividad.model';
+import { GestorPlanTrabajo } from '../../services/gestor-planes-trabajo.service';
+import { CommonModule } from '@angular/common';
+import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -19,10 +22,13 @@ import { EstadoActividad } from '../../models/estado-actividad.model';
     MaterialModule,
     RouterLink,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ]
 })
-export class ActividadesComponent {
+export class ActividadesComponent{
+  @ViewChild('planningConfirmationModal') planningConfirmationModal!: ElementRef;
+
   originalActividades: Actividad[] = [];
   actividades: Actividad[] = [];
   estados: string[] = Object.values(EstadoActividad);
@@ -30,11 +36,12 @@ export class ActividadesComponent {
   selectedEstado: string = '';
   selectedDateSort: string = 'asc';
   searchText: string = '';
-
-  constructor(private gestor: GestorActividades, private gestorAutenticacion: GestorAutenticacion) {
+  confirmationPlanningMessage: string = '';
+  constructor(
+    private gestorPlanes:GestorPlanTrabajo,
+     private gestor: GestorActividades, private gestorAutenticacion: GestorAutenticacion) {
     this.getActividades()
   }
-
   getActividades(){
     this.gestor.getActividades().subscribe(actividades => {
       if (actividades === null) {
@@ -44,7 +51,47 @@ export class ActividadesComponent {
       this.originalActividades = actividades;
     });
   }
+  isCoordinador():boolean{
+    return this.gestorAutenticacion.getCurrentUser()?.rol === 'coordinador';
+  }
+  createPlanning(){
+    this.gestorPlanes.createPlanning().subscribe(
 
+      (response) => {
+        if (response ==  undefined) {
+          console.log('Error al crear plan: no se pudo obtener la respuesta del servidor');
+          this.confirmationPlanningMessage = `Error al crear el plan para campus ${this.gestorAutenticacion.getCurrentUser()?.sede}.`;
+          this.showModal();
+        }
+        else{
+        console.log('Planificación creada con éxito:', response);
+        this.confirmationPlanningMessage = `Plan creado para campus ${this.gestorAutenticacion.getCurrentUser()?.sede}`;
+        }
+        this.showModal();
+        
+      },
+      (error) => {
+        console.log('Error al crear plan:', error);
+        this.confirmationPlanningMessage = `Error al crear el plan para campus ${this.gestorAutenticacion.getCurrentUser()?.sede}. `;
+        this.showModal();
+      }
+    );
+  }
+  showModal() {
+    const modalElement = document.getElementById('planningConfirmationModal');
+    if (modalElement) {
+      modalElement.classList.add('show'); // Agrega la clase 'show' para mostrar el modal
+      modalElement.style.display = 'block'; // Cambia el estilo para mostrar el modal
+    }
+  }
+  closeModal() {
+    const modalElement = document.getElementById('planningConfirmationModal');
+    if (modalElement) {
+      modalElement.classList.remove('show'); // Elimina la clase 'show' para ocultar el modal
+      modalElement.style.display = 'none'; // Cambia el estilo para ocultar el modal
+    }
+  }
+  
   hasPrivileges(): boolean {
     var user = this.gestorAutenticacion.getCurrentUser();
 

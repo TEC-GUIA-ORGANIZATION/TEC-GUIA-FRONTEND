@@ -20,6 +20,8 @@ import { EquipoComponent } from './components/equipo/equipo.component';
 import { ActividadComponent } from './components/actividad/actividad.component';
 import { ComentariosComponent } from './components/comentarios/comentarios.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +29,7 @@ import { ComentariosComponent } from './components/comentarios/comentarios.compo
     RecoverPasswordComponent,
   ],
   imports: [
+
     HomeComponent,
     EstudiantesComponent,
     ActividadesComponent,
