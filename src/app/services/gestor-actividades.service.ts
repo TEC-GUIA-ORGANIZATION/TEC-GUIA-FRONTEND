@@ -141,7 +141,7 @@ export class GestorActividades {
     const containerClientParticipants = blobServiceClient.getContainerClient('fotos-actividades-participants');
     const containerClientPoster = blobServiceClient.getContainerClient('fotos-actividades-poster');
 
-    try{
+    try {
       if (poster) {
         const posterBlobName = `${new Date().getTime()}-poster-${poster.name}`;
         const posterBlobClient = containerClientPoster.getBlockBlobClient(posterBlobName);
@@ -162,14 +162,10 @@ export class GestorActividades {
         await participantsBlobClient.uploadData(participantsPhoto);
         evidence.participantsPhoto = participantsBlobClient.url;
       }
-
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error al subir archivos:', error);
       throw error;
     }
-
-
 
     // hazlo para todos los campos
     const body = {
@@ -194,7 +190,6 @@ export class GestorActividades {
       throw error;
     }
   }
-
 
   updateActividad(actividad: Actividad): Observable<Actividad> {
     return this.http.put<Actividad>(`${this.url}/${actividad.id}`, actividad);

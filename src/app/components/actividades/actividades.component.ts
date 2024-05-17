@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MaterialModule } from '../../material/material.module';
@@ -37,12 +37,14 @@ export class ActividadesComponent{
   selectedDateSort: string = 'asc';
   searchText: string = '';
   confirmationPlanningMessage: string = '';
+
   constructor(
     private gestorPlanes:GestorPlanTrabajo,
-     private gestor: GestorActividades, private gestorAutenticacion: GestorAutenticacion) {
-    this.getActividades()
+    private gestor: GestorActividades, private gestorAutenticacion: GestorAutenticacion) {
+      this.getActividades()
   }
-  getActividades(){
+
+  getActividades() {
     this.gestor.getActividades().subscribe(actividades => {
       if (actividades === null) {
         return;
@@ -51,24 +53,27 @@ export class ActividadesComponent{
       this.originalActividades = actividades;
     });
   }
-  isCoordinador():boolean{
+
+  isCoordinador(): boolean {
     return this.gestorAutenticacion.getCurrentUser()?.rol === 'coordinador';
   }
-  createPlanning(){
-    this.gestorPlanes.createPlanning().subscribe(
 
+  isAsistenteAdministrativo(): boolean {
+    return this.gestorAutenticacion.getCurrentUser()?.rol === 'admin';
+  }
+
+  createPlanning() {
+    this.gestorPlanes.createPlanning().subscribe(
       (response) => {
         if (response ==  undefined) {
           console.log('Error al crear plan: no se pudo obtener la respuesta del servidor');
           this.confirmationPlanningMessage = `Error al crear el plan para campus ${this.gestorAutenticacion.getCurrentUser()?.sede}.`;
           this.showModal();
-        }
-        else{
+        } else {
         console.log('Planificación creada con éxito:', response);
         this.confirmationPlanningMessage = `Plan creado para campus ${this.gestorAutenticacion.getCurrentUser()?.sede}`;
         }
         this.showModal();
-        
       },
       (error) => {
         console.log('Error al crear plan:', error);
@@ -77,6 +82,7 @@ export class ActividadesComponent{
       }
     );
   }
+
   showModal() {
     const modalElement = document.getElementById('planningConfirmationModal');
     if (modalElement) {
@@ -84,6 +90,7 @@ export class ActividadesComponent{
       modalElement.style.display = 'block'; // Cambia el estilo para mostrar el modal
     }
   }
+
   closeModal() {
     const modalElement = document.getElementById('planningConfirmationModal');
     if (modalElement) {
@@ -91,7 +98,7 @@ export class ActividadesComponent{
       modalElement.style.display = 'none'; // Cambia el estilo para ocultar el modal
     }
   }
-  
+
   hasPrivileges(): boolean {
     var user = this.gestorAutenticacion.getCurrentUser();
 

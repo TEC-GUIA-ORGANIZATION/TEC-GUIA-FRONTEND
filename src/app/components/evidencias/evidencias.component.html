@@ -20,6 +20,7 @@
         <!-- Input field and button to upload the recording link -->
         <input type="text" class="form-control recording-input" placeholder="Enlace de grabación" [(ngModel)]="grabacion">
         <button class="btn btn-custom" (click)="uploadRecordingLink()">Subir</button>
+        <button class="btn btn-custom" (click)="cancelRecordingLink()" *ngIf="backupGrabacion !== ''">Cancelar</button>
       </div>
 
       <div class="d-flex justify-content-between mb-3 align-items-center" *ngIf="actividad?.modalidad === 'REMOTA' && actividad?.evidencia?.linkGrabacion !== ''">
@@ -47,7 +48,7 @@
 
         <div *ngIf="uploadAsistenciaIsVisible" class="d-flex align-items-center">
           <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
-          <button class="btn btn-custom" (click)="uploadAsistencia()">Subir</button>
+          <button class="btn btn-custom" (click)="uploadAsistenciaFile()">Subir</button>
           <button class="btn btn-custom" (click)="cancelUploadAsistencia()">Cancelar</button>
         </div>
       </div>
@@ -73,7 +74,7 @@
 
         <div *ngIf="uploadParticipanteIsVisible" class="d-flex align-items-center">
           <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
-          <button class="btn btn-custom" (click)="uploadParticipante()">Subir</button>
+          <button class="btn btn-custom" (click)="uploadParticipanteFile()">Subir</button>
           <button class="btn btn-custom" (click)="cancelUploadParticipante()">Cancelar</button>
         </div>
       </div>

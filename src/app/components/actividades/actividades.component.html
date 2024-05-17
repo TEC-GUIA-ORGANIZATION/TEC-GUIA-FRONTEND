@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="!isAsistenteAdministrativo()">
   <div class="d-flex justify-content-between">
     <h1>Plan de Trabajo</h1>
     <button *ngIf="isCoordinador()" type="button" class="btn btn-primary" (click)="createPlanning()">Crear un Plan de Trabajo</button>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    
+
     <button *ngIf="hasPrivileges()" class="btn btn-primary" [routerLink]="['/crear-actividad']">Crear Actividad</button>
   </div>
 
