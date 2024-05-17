@@ -1,112 +1,154 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GestorActividades } from '../../services/gestor-actividades.service';
-import { NgForm } from '@angular/forms'; // Asegúrate de importar NgForm desde @angular/forms
-
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
+import { ModalidadActividad } from '../../models/modalidad-actividad.model';
+import { EstadoActividad } from '../../models/estado-actividad.model';
+import { TipoActividad } from '../../models/tipo-actividad.model';
+import { GestorBlobStorage } from '../../services/gestor-blob-storage.service';
 
-export interface Actividad {
-  week: number;
-  activity: string;
-  activityName: string;
-  responsible: string[];
-  daysToAnnounce: number;
-  daysToRemember: number;
-  isInPerson: boolean;
-  meetingLink: string;
-  poster: File | null;
-  activityStatus: string;
-  evidence: {
-    attendancePhoto: File | null;
-    participantsPhoto: File | null;
-    recordingLink: string |null;
-  };
-}
 @Component({
   standalone: true,
   selector: 'app-crear-actividad',
   templateUrl: './crear-actividad.component.html',
   styleUrl: './crear-actividad.component.css',
-  imports: [NavbarComponent, MaterialModule, FormsModule]
+  imports: [
+    NavbarComponent,
+    MaterialModule,
+    FormsModule
+  ]
 })
+export class CrearActividadComponent implements OnInit {
+  error: string = '';
+  nombre: string = '';
+  descripcion: string = '';
+  poster: File | null = null;
+  fecha: string = '';
+  hora: string = '';
+  semana: number = 1;
+  responsable: string = '';
+  tipo: TipoActividad = TipoActividad.ORIENTADORA;
+  estado: EstadoActividad = EstadoActividad.PLANEADA;
+  diasPreviosAnunciar: number = 0;
+  diasRequeridosRecordatorio: number = 0;
+  modalidad: ModalidadActividad = ModalidadActividad.REMOTA;
+  lugarEnlace: string = '';
+  responsables: string[] = [];
+  estados: string[] = [];
+  modalidades: string[] = [];
+  tipos: string[] = [];
 
-export class CrearActividadComponent {
-  @ViewChild('actividadForm') actividadForm: NgForm|undefined; // Declara una variable para obtener una referencia al formulario
-  edicionHabilitada: boolean = false;
-  touchedParticipants: boolean= false; // Propiedad para determinar si un campo ha sido tocado
-  touchedAttendance: boolean= false; // Propiedad para determinar si un campo ha sido tocado
-  touchedRecording: boolean= false; // Propiedad para determinar si un campo ha sido tocado
-  activityStatusTypes = ['PLANEADA', 'NOTIFICADA', 'REALIZADA', 'CANCELADA']; // Tipos de estado de actividad
-  activityTypes: string[] = ['Orientadora', 'Motivacional', 'De apoyo a la vida estudiantil', 'De orden tecnico', 'De recreacion'];
+  constructor(
+    private gestorActividades: GestorActividades,
+    private router: Router,
+    private gestorBlobStorage: GestorBlobStorage
+  ) { }
 
+  ngOnInit(): void {
+    this.estados = Object.values(EstadoActividad);
+    this.modalidades = Object.values(ModalidadActividad);
+    this.tipos = Object.values(TipoActividad);
 
-  actividad: Actividad = {
-    week: 1,
-    activity: "Orientadora",
-    activityName: " ",
-    responsible: [" "],
-    daysToAnnounce: 1,
-    daysToRemember: 1,
-    isInPerson: false,
-    meetingLink: " ",
-    poster: null,
-    activityStatus: "PLANEADA",
-    evidence: {
-      attendancePhoto: null,
-      participantsPhoto: null,
-      recordingLink: null
-    },
-  };
+    // TODO: Obtener responsables
+  }
 
-  constructor(private gestorActividades: GestorActividades, private router: Router) { }
+  getPlaceLinkLabel() {
+    return this.modalidad === ModalidadActividad.PRESENCIAL ? 'Lugar' : 'Enlace';
+  }
 
-  async enviarActividad() {
-    if (this.actividadForm && this.actividadForm.controls) {
-      try {
-        await this.gestorActividades.addActividad(
-          this.actividad.week,
-          this.actividad.activity,
-          this.actividad.activityName,
-          this.actividad.responsible,
-          this.actividad.daysToAnnounce,
-          this.actividad.daysToRemember,
-          this.actividad.isInPerson,
-          this.actividad.meetingLink,
-          this.actividad.poster,
-          this.actividad.activityStatus,
-          this.actividad.evidence.attendancePhoto,
-          this.actividad.evidence.participantsPhoto,
-          this.actividad.evidence.recordingLink,
-        );
-        // Reiniciar el formulario o realizar alguna acción después de enviar los datos
-      } catch (error) {
-        console.error('Error al enviar la actividad:', error);
-        // Manejar el error adecuadamente
-      }
+  save() {
+    if (!this.validate()) {
+      return;
     }
+
+    this.gestorActividades.createActividad(
+      this.nombre,
+      this.descripcion,
+      this.poster,
+      new Date(this.fecha + 'T' + this.hora),
+      this.semana,
+      this.responsable,
+      this.tipo,
+      this.estado,
+      this.diasPreviosAnunciar,
+      this.diasRequeridosRecordatorio,
+      this.modalidad,
+      this.lugarEnlace,
+    ).subscribe((item) => {
+      if (this.poster !== null) {
+        var fileName = this.poster.name;
+        this.gestorBlobStorage.uploadFile('posters', item.id + '-' + fileName, this.poster).then(() => {
+        }, error => {
+          console.error('Error uploading file: ' + error);
+        });
+      }
+      this.router.navigate(['/actividades']);
+    }, error => {
+      console.error(error);
+    });
   }
 
-  onAttendancePhotoSelected(event: any) {
-    this.actividad.evidence.attendancePhoto = event.target.files[0];
-    this.touchedAttendance = true;
-  }
-
-  onParticipantsPhotoSelected(event: any) {
-    this.actividad.evidence.participantsPhoto = event.target.files[0];
-    this.touchedParticipants = true;
-  }
-
-  onPosterPhotoSelected(event: any) {
-    this.actividad.poster = event.target.files[0];
-  }
-
-  habilitarEdicion() {
-    this.edicionHabilitada = !this.edicionHabilitada;
-  }
-
-  irPaginaPrincipal() {
+  goBack() {
     this.router.navigate(['/actividades']);
+  }
+
+  onFileSelected(event: any) {
+    this.poster = event.target.files[0];
+  }
+
+  validate(): boolean {
+    if (this.nombre === '') {
+      this.error = 'El nombre no puede estar vacío';
+      return false;
+    }
+
+    if (this.fecha === '') {
+      this.error = 'La fecha no puede estar vacía';
+      return false;
+    }
+
+    if (this.hora === '') {
+      this.error = 'La hora no puede estar vacía';
+      return false;
+    }
+
+    if (this.descripcion === '') {
+      this.error = 'La descripción no puede estar vacía';
+      return false;
+    }
+
+    if (this.responsable === '') {
+      this.error = 'El responsable no puede estar vacío';
+      return false;
+    }
+
+    if (this.diasPreviosAnunciar < 0) {
+      this.error = 'Los días previos a anunciar no pueden ser negativos';
+      return false;
+    }
+
+    if (this.diasRequeridosRecordatorio < 0) {
+      this.error = 'Los días requeridos para recordatorio no pueden ser negativos';
+      return false;
+    }
+
+    if (this.semana < 1 || this.semana > 16) {
+      this.error = 'La semana debe estar entre 1 y 16';
+      return false;
+    }
+
+    if (this.modalidad === ModalidadActividad.PRESENCIAL && this.lugarEnlace === '') {
+      this.error = 'El lugar no puede estar vacío';
+      return false;
+    }
+
+    if (this.modalidad === ModalidadActividad.REMOTA && this.lugarEnlace === '') {
+      this.error = 'El enlace no puede estar vacío';
+      return false;
+    }
+
+    return true;
   }
 }

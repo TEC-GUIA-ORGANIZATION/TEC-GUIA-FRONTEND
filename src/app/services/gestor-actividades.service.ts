@@ -114,81 +114,8 @@ export class GestorActividades {
     );
   }
 
-  async addActividad(
-    week: number,
-    activity: string,
-    activityName: string,
-    responsible: string[],
-    daysToAnnounce: number,
-    daysToRemember: number,
-    isInPerson: boolean,
-    meetingLink: string,
-    poster: File|null,
-    activityStatus: string,
-    attendancePhoto: File|null,
-    participantsPhoto: File|null,
-    recording: string|null,
-  ): Promise<Actividad> {
-
-    var posterUrl:string="";
-    const evidence = {
-      attendancePhoto: "",
-      participantsPhoto: "",
-      recordingLink: recording
-    };
-
-    const containerClientAttendance = blobServiceClient.getContainerClient('fotos-actividades-attendance');
-    const containerClientParticipants = blobServiceClient.getContainerClient('fotos-actividades-participants');
-    const containerClientPoster = blobServiceClient.getContainerClient('fotos-actividades-poster');
-
-    try {
-      if (poster) {
-        const posterBlobName = `${new Date().getTime()}-poster-${poster.name}`;
-        const posterBlobClient = containerClientPoster.getBlockBlobClient(posterBlobName);
-        await posterBlobClient.uploadData(poster);
-        posterUrl = posterBlobClient.url;
-      }
-
-      if (attendancePhoto) {
-        const attendanceBlobName = `${new Date().getTime()}-attendance-${attendancePhoto.name}`;
-        const attendanceBlobClient = containerClientAttendance.getBlockBlobClient(attendanceBlobName);
-        await attendanceBlobClient.uploadData(attendancePhoto);
-        evidence.attendancePhoto = attendanceBlobClient.url;
-      }
-
-      if (participantsPhoto) {
-        const participantsBlobName = `${new Date().getTime()}-participants-${participantsPhoto.name}`;
-        const participantsBlobClient = containerClientParticipants.getBlockBlobClient(participantsBlobName);
-        await participantsBlobClient.uploadData(participantsPhoto);
-        evidence.participantsPhoto = participantsBlobClient.url;
-      }
-    } catch (error) {
-      console.error('Error al subir archivos:', error);
-      throw error;
-    }
-
-    // hazlo para todos los campos
-    const body = {
-      week,
-      activity,
-      activityName,
-      responsible,
-      daysToAnnounce,
-      daysToRemember,
-      isInPerson,
-      meetingLink,
-      posterUrl,
-      activityStatus,
-      evidence, // Agregar el campo evidence
-    };
-
-    try {
-      const response = await this.http.post<Actividad>(this.url, body).toPromise();
-      return response || {} as Actividad;
-    } catch (error) {
-      console.error('Error al agregar actividad:', error);
-      throw error;
-    }
+  createActividad(nombre: string, descripcion: string, poster: File | null, fecha: Date, semana: number, responsable: string, tipo: string, estado: string, diasPreviosAnunciar: number, diasRequeridosRecordatorio: number, modalidad: string, lugarEnlace: string): Observable<Actividad> {
+    return this.http.post<Actividad>(this.url, { name: nombre, description: descripcion, poster: poster, date: fecha, week: semana, responsible: responsable, type: tipo, status: estado, daysToAnnounce: diasPreviosAnunciar, daysToRemember: diasRequeridosRecordatorio, modality: modalidad, placeLink: lugarEnlace });
   }
 
   updateActividad(actividad: Actividad): Observable<Actividad> {

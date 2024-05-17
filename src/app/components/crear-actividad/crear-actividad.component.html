@@ -1,104 +1,97 @@
 <app-navbar></app-navbar>
 
-<div class="container mt-4">
-
-    <form (ngSubmit)="enviarActividad()" class="p-4 border rounded bg-light" #actividadForm="ngForm">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="week" class="form-label">Semana:</label>
-          <input type="number" class="form-control" id="week" [(ngModel)]="actividad.week" name="week" required min="1" #week="ngModel">
-          <div *ngIf="week?.errors?.['required'] && week.touched" class="text-danger">La semana es requerida.</div>
-          <div *ngIf="week?.errors?.['min'] && week.touched" class="text-danger">La semana debe ser mayor que cero.</div>
+<div class="container mt-5 card p-3">
+  <form>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="name"><h2>Nombre:</h2></label>
+          <input type="text" class="form-control" [(ngModel)]="nombre" placeholder="Nombre de la actividad" name="nombre" required>
         </div>
-        <div class="col-md-6">
-          <label for="activity" class="form-label">Actividad:</label>
-          <select class="form-select" id="activity" [(ngModel)]="actividad.activity" name="activity" required>
-            <option value="" disabled selected>Selecciona una actividad</option>
-            <option *ngFor="let type of activityTypes" [value]="type">{{ type }}</option>
+
+        <div class="form-group">
+          <label for="state"><h2>Estado:</h2></label>
+          <select class="form-control" [(ngModel)]="estado" name="estado" required>
+            <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
           </select>
-          <div *ngIf="actividadForm.controls['activity']?.errors?.['required'] && actividadForm.controls['activity'].touched" class="text-danger">La actividad es requerida.</div>
         </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="activityName" class="form-label">Nombre de la Actividad:</label>
-          <input type="text" class="form-control" id="activityName" [(ngModel)]="actividad.activityName" name="activityName" required #activityName="ngModel">
-          <div *ngIf="activityName?.errors?.['required'] && activityName.touched" class="text-danger">El nombre de la actividad es requerido.</div>
+        <div class="form-group">
+          <label for="date"><h2>Fecha:</h2></label>
+          <input type="date" id="date" class="form-control" [(ngModel)]="fecha" name="fecha" required>
         </div>
-        <div class="col-md-6">
-          <label for="responsible" class="form-label">Responsable:</label>
-          <input type="text" class="form-control" id="responsible" [(ngModel)]="actividad.responsible[0]" name="responsible" required #responsible="ngModel">
-          <div *ngIf="responsible?.errors?.['required'] && responsible.touched" class="text-danger">El responsable es requerido.</div>
-        </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="daysToAnnounce" class="form-label">Días para Anunciar:</label>
-          <input type="number" class="form-control" id="daysToAnnounce" [(ngModel)]="actividad.daysToAnnounce" name="daysToAnnounce" required min="1" #daysToAnnounce="ngModel">
-          <div *ngIf="daysToAnnounce?.errors?.['required'] && daysToAnnounce.touched" class="text-danger">Los días para anunciar son requeridos.</div>
-          <div *ngIf="daysToAnnounce?.errors?.['min'] && daysToAnnounce.touched" class="text-danger">Los días para anunciar deben ser mayores que cero.</div>
+        <div class="form-group">
+          <label for="time"><h2>Hora:</h2></label>
+          <input type="time" id="time" class="form-control" [(ngModel)]="hora" name="hora" required>
         </div>
-        <div class="col-md-6">
-          <label for="daysToRemember" class="form-label">Días para Recordar:</label>
-          <input type="number" class="form-control" id="daysToRemember" [(ngModel)]="actividad.daysToRemember" name="daysToRemember" required min="1" #daysToRemember="ngModel">
-          <div *ngIf="daysToRemember?.errors?.['required'] && daysToRemember.touched" class="text-danger">Los días para recordar son requeridos.</div>
-          <div *ngIf="daysToRemember?.errors?.['min'] && daysToRemember.touched" class="text-danger">Los días para recordar deben ser mayores que cero.</div>
-        </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="isInPerson" class="form-label">¿Es en persona?</label>
-          <select class="form-select" id="isInPerson" [(ngModel)]="actividad.isInPerson" name="isInPerson" required>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
+        <div class="form-group">
+          <label for="type"><h2>Tipo:</h2></label>
+          <select class="form-control" [(ngModel)]="tipo" name="tipo" required>
+            <option *ngFor="let tipo of tipos" [value]="tipo">{{tipo}}</option>
           </select>
-          <div *ngIf="actividadForm.controls['isInPerson']?.errors?.['required'] && actividadForm.controls['isInPerson'].touched" class="text-danger">Por favor, selecciona si la actividad es en persona.</div>
         </div>
-        <div class="col-md-6">
-          <label for="meetingLink" class="form-label">Enlace de la Reunión:</label>
-          <input type="text" class="form-control" id="meetingLink" [(ngModel)]="actividad.meetingLink" name="meetingLink">
-        </div>
-      </div>
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="grabacion" class="form-label">Enlace a la grabación:</label>
-          <input type="text" class="form-control" id="grabacion" [(ngModel)]="actividad.evidence.recordingLink" name="grabacion" required #grabacion="ngModel">
-          <div *ngIf="grabacion?.errors?.['required'] && grabacion.touched" class="text-danger">La grabación es requerida es requerido.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="activityStatus" class="form-label">Estado de la Actividad:</label>
-          <select class="form-select" id="activityStatus" [(ngModel)]="actividad.activityStatus" name="activityStatus" required>
-            <option value="" disabled selected>Selecciona un estado</option>
-            <option *ngFor="let status of activityStatusTypes" [value]="status">{{ status }}</option>
+        <div class="form-group">
+          <label for="responsibles"><h2>Responsable:</h2></label>
+          <select class="form-control" [(ngModel)]="responsable" name="responsable" required>
+            <option *ngFor="let responsable of responsables" [value]="responsable">{{responsable}}</option>
           </select>
-          <div *ngIf="actividadForm.controls['activityStatus']?.errors?.['required'] && actividadForm.controls['activityStatus'].touched" class="text-danger">El estado de la actividad es requerido.</div>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="attendancePhoto" class="form-label">Foto de Asistencia:</label>
-          <input type="file" class="form-control" id="attendancePhoto" (change)="onAttendancePhotoSelected($event)"  accept="image/*" required #attendancePhotoInput>
-          <div *ngIf="actividadForm.controls['attendancePhoto']?.errors?.['required']" class="text-danger">La foto de asistencia es requerida.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="participantsPhoto" class="form-label">Foto de Participantes:</label>
-          <input type="file" class="form-control" id="participantsPhoto" (change)="onParticipantsPhotoSelected($event)"  accept="image/*" required #participantsPhotoInput>
-          <div *ngIf="actividadForm.controls['participantsPhoto']?.errors?.['required']" class="text-danger">La foto de participantes es requerida.</div>
         </div>
       </div>
 
       <div class="col-md-6">
-        <label for="poster" class="form-label">Poster de la actividad:</label>
-        <input type="file" class="form-control" id="poster" (change)="onPosterPhotoSelected($event)"  accept="image/*" required #posterPhotoInput>
-        <div *ngIf="actividadForm.controls['poster']?.errors?.['required']" class="text-danger">El poster es requerido.</div>
-      </div>
+        <div class="form-group">
+          <label for="week"><h2>Semana:</h2></label>
+          <input type="number" id="week" class="form-control" [(ngModel)]="semana" name="semana" required>
+        </div>
 
-      <button type="submit" class="btn btn-success btn-custom" [disabled]="actividadForm.invalid">Enviar Actividad</button>
-      <button type="button" class="btn btn-secondary btn-custom" (click)="irPaginaPrincipal()">Volver a Actividades</button>
-    </form>
-  </div>
+        <div class="form-group">
+          <label for="diasPreviosAnunciar"><h2>Días para anunciar:</h2></label>
+          <input type="number" id="diasPreviosAnunciar" class="form-control" [(ngModel)]="diasPreviosAnunciar" name="diasPreviosAnunciar" required>
+        </div>
+
+        <div class="form-group">
+          <label for="diasRequeridosRecordatorio"><h2>Días para recordatorios:</h2></label>
+          <input type="number" id="diasRequeridosRecordatorio" class="form-control" [(ngModel)]="diasRequeridosRecordatorio" name="diasRequeridosRecordatorio" required>
+        </div>
+
+        <div class="form-group">
+          <label for="modality"><h2>Modalidad:</h2></label>
+          <select class="form-control" [(ngModel)]="modalidad" name="modalidad" required>
+            <option *ngFor="let modalidad of modalidades" [value]="modalidad">{{modalidad}}</option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="modalidad === 'REMOTA'">
+          <label for="place"><h2>Enlace:</h2></label>
+          <input type="text" id="place" class="form-control" [(ngModel)]="lugarEnlace" placeholder="Enlace de la actividad" name="lugarEnlace" required>
+        </div>
+
+        <div class="form-group" *ngIf="modalidad === 'PRESENCIAL'">
+          <label for="place"><h2>Lugar:</h2></label>
+          <input type="text" id="place" class="form-control" [(ngModel)]="lugarEnlace" placeholder="Lugar de la actividad" name="lugarEnlace" required>
+        </div>
+
+        <div class="form-group">
+          <label for="poster"><h2>Imagen:</h2></label>
+          <input type="file" id="poster" class="form-control" (change)="onFileSelected($event)" name="poster" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description"><h2>Descripción:</h2></label>
+      <textarea class="form-control" [(ngModel)]="descripcion" rows="5" placeholder="Descripción de la actividad" name="descripcion" required></textarea>
+    </div>
+
+    <!-- Info message -->
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+      <p>{{error}}</p>
+    </div>
+
+    <button type="button" class="btn btn-secondary btn-custom" (click)="goBack()">Volver a Actividades</button>
+    <button type="submit" class="btn btn-success btn-custom" (click)="save()">Crear Actividad</button>
+  </form>
+</div>

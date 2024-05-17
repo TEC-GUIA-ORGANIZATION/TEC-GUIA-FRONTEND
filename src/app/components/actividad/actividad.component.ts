@@ -5,6 +5,9 @@ import { Actividad } from '../../models/actividad.model';
 import { GestorActividades } from '../../services/gestor-actividades.service';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { ModalidadActividad } from '../../models/modalidad-actividad.model';
+import { FormsModule } from '@angular/forms';
+import { EstadoActividad } from '../../models/estado-actividad.model';
+import { TipoActividad } from '../../models/tipo-actividad.model';
 
 @Component({
   standalone: true,
@@ -14,13 +17,20 @@ import { ModalidadActividad } from '../../models/modalidad-actividad.model';
   imports: [
     NavbarComponent,
     RouterLink,
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class ActividadComponent {
   actividadId: string = '';
   actividad: Actividad | null = null;
   responsables: string[] = [];
+  isEditable: boolean = false;
+  estados: string[] = Object.values(EstadoActividad);
+  modalidades: string[] = Object.values(ModalidadActividad);
+  tipos: string[] = Object.values(TipoActividad);
+  nuevaFecha: Date = new Date();
+  nuevaHora: string = '';
 
   constructor(
     private gestorActividadesService: GestorActividades,
@@ -77,5 +87,31 @@ export class ActividadComponent {
 
   goBack() {
     this.router.navigate(['/actividades']);
+  }
+
+  editActivity() {
+    this.isEditable = true;
+  }
+
+  saveActivity() {
+    if (this.actividad === null) {
+      return;
+    }
+
+    this.actividad.fecha = new Date(this.nuevaFecha.toDateString() + ' ' + this.nuevaHora);
+
+    this.gestorActividadesService.updateActividad(this.actividad).subscribe((actividad: Actividad | null) => {
+      if (actividad === null) {
+        return;
+      }
+
+      this.actividad = actividad;
+    });
+
+    this.isEditable = false;
+  }
+
+  cancelEditActivity() {
+    this.isEditable = false;
   }
 }

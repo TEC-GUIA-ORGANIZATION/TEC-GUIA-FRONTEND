@@ -126,14 +126,15 @@ export class ActividadesComponent{
   onSortChange() {
     if (this.selectedDateSort === 'asc') {
       this.actividades = this.actividades.sort((a, b) => {
-        return a.fecha.getTime() - b.fecha.getTime();
+        return new Date(a.fecha).getTime() - new Date(b.fecha).getTime();
       });
     } else {
       this.actividades = this.actividades.sort((a, b) => {
-        return b.fecha.getTime() - a.fecha.getTime();
+        return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
       });
     }
   }
+
 
   onSearchChange() {
     this.actividades = this.originalActividades.filter(actividad => {
