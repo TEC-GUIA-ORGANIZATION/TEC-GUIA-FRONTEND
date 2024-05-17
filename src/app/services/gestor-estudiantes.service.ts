@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from './constantes.service';
 import { Estudiante } from '../models/estudiante.model';
+import { GestorAutenticacion } from './gestor-autenticacion.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Estudiante } from '../models/estudiante.model';
 export class GestorEstudiantes {
   private url = `${API_URL}/studentList`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService:GestorAutenticacion) {}
 
   getEstudiantes(params: { semester: string, entryYear: number }): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}/getAllStudentsInPeriod`, params);
@@ -32,11 +33,32 @@ export class GestorEstudiantes {
     return this.http.delete<Estudiante>(`${this.url}/${id}`);
   }
 
-  getArchivoEstudiantes() {
-    // Implementar si es necesario
+  getArchivoEstudiantes(): Observable<Blob> {
+    // Obtener el campus como una cadena
+    const campus = this.authService.getCurrentUser()?.sede?.toString();
+  
+
+    // Realizar la solicitud GET para descargar el archivo Excel
+    return this.http.get(`${this.url}/download/${campus}`, { responseType: 'blob' });
   }
 
-  cargarArchivoEstudiantes(file: File) {
-    // Implementar si es necesario
+
+  cargarArchivoEstudiantes(fileExcel: File) {
+    const formData = new FormData();
+    formData.append('file', fileExcel);
+    
+    // Obtener el campus como una cadena
+    const campus = this.authService.getCurrentUser()?.sede?.toString();
+  
+    // Verificar si campus no es nulo o indefinido antes de agregarlo al FormData
+    if (campus) {
+      formData.append('campus', campus);
+    }
+    console.log(formData)
+  
+    // Enviar la solicitud POST al backend
+    return this.http.post(`${this.url}/upload`, formData, { responseType: 'text' }); // especificar responseType como 'text'
   }
+  
+  
 }

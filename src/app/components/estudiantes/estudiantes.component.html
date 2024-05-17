@@ -34,12 +34,15 @@
       </div>
 
       <div class="btn-group mt-2" role="group" aria-label="Registros">
-        <button type="button" class="btn btn-success btn-custom">
+
+        <button type="button" class="btn btn-success btn-custom" (click)="descargarExcel()">
           <i class="bi bi-download"></i> Descargar
         </button>
-        <button type="button" class="btn btn-info btn-custom">
+        
+        <label type="button" class="btn btn-info btn-custom">
+          <input #fileInput type="file" style="display: none;" (change)="cargarExcel($event)" accept=".xlsx, .xls">
           <i class="bi bi-upload"></i> Cargar
-        </button>
+        </label>
       </div>
     </div>
   </div>
