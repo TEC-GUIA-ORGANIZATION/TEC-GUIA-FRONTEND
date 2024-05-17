@@ -17,14 +17,7 @@ export class GestorPlanTrabajo {
   }
   getSemesterFromDate(date: Date): string {
     const month = date.getMonth() + 1;
-
-    if (month >= 1 && month <= 6) {
-        return "primer semestre";
-    } else if (month >= 7 && month <= 12) {
-        return "segundo semestre";
-    } else {
-        return "semestre no válido";
-    }
+    return month >= 1 && month <= 6 ? "primer semestre" :  "segundo semestre";
   }
   createPlanning(): Observable<PlanTrabajo | undefined> {
     const semester = this.getCurrentSemester();

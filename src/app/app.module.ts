@@ -50,7 +50,7 @@ import { ComentariosComponent } from './components/comentarios/comentarios.compo
     provideClientHydration(),
     provideAnimationsAsync(),
     CookieService,
-    provideHttpClient()
+    provideHttpClient(withFetch())
 
   ],
   bootstrap: [AppComponent]

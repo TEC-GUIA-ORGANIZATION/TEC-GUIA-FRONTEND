@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { GestorEstudiantes } from '../../services/gestor-estudiantes.service';
@@ -20,7 +20,7 @@ import { saveAs} from 'file-saver';
     NgxPaginationModule
   ],
 })
-export class EstudiantesComponent {
+export class EstudiantesComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   estudiantes: Estudiante[] = []
   estudianteSeleccionado: Estudiante | null = null;
@@ -32,11 +32,32 @@ export class EstudiantesComponent {
   selectedOrder: string = 'nombre'; // To store selected order filter value
   searchText: string = ''; // To store the search text
   documentoExcelEnviar: File | null = null;
+  estudiantesLoaded: boolean = false;
   constructor(
     private gestorEstudiantes: GestorEstudiantes,
     private gestorAutenticacion: GestorAutenticacion
   ) {
+    
   }
+  ngOnInit(): void {
+        // Llama al método del servicio para obtener todos los estudiantes
+    this.gestorEstudiantes.getCurrentFirstSemesterStudents().subscribe(
+     (estudiantes: Estudiante[]) => {
+       this.estudiantes = estudiantes; // Asigna la lista de estudiantes obtenida del servicio
+       console.log(this.estudiantes);
+       this.estudiantesLoaded = true; // Marca como cargados los estudiantes
+     },
+     error => {
+       console.error('Error al obtener estudiantes:', error);
+     }
+   );
+    console.log(this.estudiantes);
+  }
+
+
+  editStudent(_t90: Estudiante) {
+    throw new Error('Method not implemented.');
+    }
   cargarExcel(event: any) {
     this.documentoExcelEnviar = event.target.files[0];
     
@@ -77,18 +98,18 @@ export class EstudiantesComponent {
       }
     );
   }
-  hasPrivileges(): boolean {
-    var user = this.gestorAutenticacion.getCurrentUser();
-
-    if (user !== null) {
-      if (user.rol === 'admin' || user.rol === 'profesor guia' || user.rol === 'coordinador') {
-        return true;
-      }
-    }
-
-    return false;
+  isAdmin(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'admin';
   }
-  
+  isProfe(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'profesor guia';
+  }
+  isCoordinador(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'coordinador';
+  }
+  isEstudiante(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'estudiante';
+  }
   seleccionarEstudiante(estudiante: Estudiante): void {
     this.estudianteSeleccionado = estudiante;
   }

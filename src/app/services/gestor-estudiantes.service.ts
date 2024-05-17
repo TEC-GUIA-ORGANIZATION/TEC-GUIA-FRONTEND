@@ -13,20 +13,25 @@ export class GestorEstudiantes {
 
   constructor(private http: HttpClient, private authService:GestorAutenticacion) {}
 
-  getEstudiantes(params: { semester: string, entryYear: number }): Observable<any[]> {
-    return this.http.post<any[]>(`${this.url}/getAllStudentsInPeriod`, params);
+
+
+  getCurrentFirstSemesterStudents(): Observable<Estudiante[]> {
+    return this.http.get<Estudiante[]>(`${this.url}/currentFirstSemesterStudents`);
+  }
+  getEstudiantes(semester: string, entryYear: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/getAllStudents`, { params: { semester, entryYear } });
   }
 
   getEstudiante(id: string): Observable<Estudiante> {
     return this.http.get<Estudiante>(`${this.url}/${id}`);
   }
 
-  addEstudiante(estudiante: Estudiante): Observable<Estudiante> {
-    return this.http.post<Estudiante>(this.url, estudiante);
+  getEstudiantesPorSede(semester: string, entryYear: number, campus: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/getAllStudentsByCampus`, { params: { semester, entryYear, campus } });
   }
 
-  updateEstudiante(estudiante: Estudiante): Observable<Estudiante> {
-    return this.http.put<Estudiante>(`${this.url}/${estudiante.id}`, estudiante);
+  editarEstudiante(id: string, estudiante: Estudiante): Observable<Estudiante> {
+    return this.http.put<Estudiante>(`${this.url}/${id}`, estudiante);
   }
 
   deleteEstudiante(id: string): Observable<Estudiante> {
