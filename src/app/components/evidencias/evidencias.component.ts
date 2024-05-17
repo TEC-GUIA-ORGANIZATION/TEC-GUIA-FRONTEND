@@ -93,10 +93,10 @@ export class EvidenciasComponent {
 
   uploadAsistenciaFile() {
     if (this.file !== null) {
-      this.gestorBlobStorageService.uploadFile('attendance', this.file.name, this.file).then(() => {
-        var url = this.gestorBlobStorageService.getFileUrl('attendance', this.file!.name);
+      this.gestorBlobStorageService.uploadFile('attendance', this.actividad?.id + '-' + this.file.name, this.file).then(() => {
+        var url = this.gestorBlobStorageService.getFileUrl('attendance', this.actividad?.id + '-' + this.file!.name);
 
-        this.gestorEvidenciaService.updateAttendance(this.actividadId, url).subscribe(() => {
+        this.gestorEvidenciaService.updateAttendance(this.actividadId, url)?.subscribe(() => {
           this.asistencias.push(url);
           this.file = null;
           this.uploadAsistenciaIsVisible = false;
@@ -139,10 +139,10 @@ export class EvidenciasComponent {
 
   uploadParticipanteFile() {
     if (this.file !== null) {
-      this.gestorBlobStorageService.uploadFile('participants', this.file.name, this.file).then(() => {
-        var url = this.gestorBlobStorageService.getFileUrl('participants', this.file!.name)
+      this.gestorBlobStorageService.uploadFile('participants', this.actividad?.id + '-' + this.file.name, this.file).then(() => {
+        var url = this.gestorBlobStorageService.getFileUrl('participants', this.actividad?.id + '-' + this.file!.name);
 
-        this.gestorEvidenciaService.updateParticipants(this.actividadId, url).subscribe(() => {
+        this.gestorEvidenciaService.updateParticipants(this.actividadId, url)?.subscribe(() => {
           this.participantes.push(url);
           this.file = null;
           this.uploadParticipanteIsVisible = false;
