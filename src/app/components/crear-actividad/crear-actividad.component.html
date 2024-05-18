@@ -90,6 +90,9 @@
     <div class="alert alert-danger" role="alert" *ngIf="error">
       <p>{{error}}</p>
     </div>
+    <div class="alert alert-info" role="alert" *ngIf="info">
+      <p>{{info}}</p>
+    </div>
 
     <button type="button" class="btn btn-secondary btn-custom" (click)="goBack()">Volver a Actividades</button>
     <button type="submit" class="btn btn-success btn-custom" (click)="save()">Crear Actividad</button>

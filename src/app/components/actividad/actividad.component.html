@@ -41,7 +41,7 @@
           <input type="number" id="week" class="form-control" value="{{actividad?.semana}}" disabled *ngIf="!isEditable">
           <input type="number" id="week" class="form-control" *ngIf="isEditable && actividad !== null" [(ngModel)]="actividad.semana">
 
-          <label for="responsibles"><h2>Responsables:</h2></label>
+          <label for="responsibles"><h2>Responsable:</h2></label>
           <input type="text" id="responsibles" class="form-control" value="{{actividad?.responsable?.obtenerNombreCompleto()}}" disabled *ngIf="!isEditable">
           <!-- TODO: Add a list of responsibles -->
 

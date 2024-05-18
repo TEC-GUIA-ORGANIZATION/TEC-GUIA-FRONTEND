@@ -25,6 +25,7 @@ import { GestorAutenticacion } from '../../services/gestor-autenticacion.service
 })
 export class CrearActividadComponent implements OnInit {
   error: string = '';
+  info: string = '';
   nombre: string = '';
   descripcion: string = '';
   poster: File | null = null;
@@ -70,6 +71,8 @@ export class CrearActividadComponent implements OnInit {
       return;
     }
 
+    this.info = 'Por favor espere...';
+
     this.gestorActividades.createActividad(
       this.nombre,
       this.descripcion,
@@ -88,18 +91,20 @@ export class CrearActividadComponent implements OnInit {
       if (this.poster !== null) {
         var fileName = this.poster.name;
         this.gestorBlobStorage.uploadFile('posters', item._id + '-' + fileName, this.poster).then((url) => {
-          this.gestorActividades.updateActividadPoster(item._id, url).subscribe(() => {
-            console.log('File uploaded successfully');
-          }, error => {
-            console.error('Error updating file: ' + error);
+          this.gestorActividades.updateActividadPoster(item._id, url).subscribe(response => {
+            this.router.navigate(['/actividades']);
+          }, _ => {
+            this.error = 'Error al guardar la actividad';
+            this.info = '';
           });
-        }, error => {
-          console.error('Error uploading file: ' + error);
+        }, _ => {
+          this.error = 'Error al guardar la actividad';
+          this.info = '';
         });
       }
-      this.router.navigate(['/actividades']);
-    }, error => {
-      console.error(error);
+    }, _ => {
+      this.error = 'Error al guardar la actividad';
+      this.info = '';
     });
   }
 
