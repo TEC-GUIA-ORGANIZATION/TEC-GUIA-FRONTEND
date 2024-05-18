@@ -36,7 +36,7 @@
         <div class="form-group">
           <label for="responsibles"><h2>Responsable:</h2></label>
           <select class="form-control" [(ngModel)]="responsable" name="responsable" required>
-            <option *ngFor="let responsable of responsables" [value]="responsable">{{responsable}}</option>
+            <option *ngFor="let responsable of responsables" [value]="responsable.id">{{responsable.obtenerNombreCompleto()}}</option>
           </select>
         </div>
       </div>

@@ -8,6 +8,9 @@ import { ModalidadActividad } from '../../models/modalidad-actividad.model';
 import { EstadoActividad } from '../../models/estado-actividad.model';
 import { TipoActividad } from '../../models/tipo-actividad.model';
 import { GestorBlobStorage } from '../../services/gestor-blob-storage.service';
+import { ProfesorGuia } from '../../models/profesor-guia.model';
+import { GestorProfesoresGuia } from '../../services/gestor-profesores-guia.service';
+import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 
 @Component({
   standalone: true,
@@ -35,7 +38,7 @@ export class CrearActividadComponent implements OnInit {
   diasRequeridosRecordatorio: number = 0;
   modalidad: ModalidadActividad = ModalidadActividad.REMOTA;
   lugarEnlace: string = '';
-  responsables: string[] = [];
+  responsables: ProfesorGuia[] = [];
   estados: string[] = [];
   modalidades: string[] = [];
   tipos: string[] = [];
@@ -43,7 +46,9 @@ export class CrearActividadComponent implements OnInit {
   constructor(
     private gestorActividades: GestorActividades,
     private router: Router,
-    private gestorBlobStorage: GestorBlobStorage
+    private gestorBlobStorage: GestorBlobStorage,
+    private gestorProfesoresGuia: GestorProfesoresGuia,
+    private gestorAutenticacion: GestorAutenticacion
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +56,9 @@ export class CrearActividadComponent implements OnInit {
     this.modalidades = Object.values(ModalidadActividad);
     this.tipos = Object.values(TipoActividad);
 
-    // TODO: Obtener responsables
+    this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
+      this.responsables = profesores;
+    });
   }
 
   getPlaceLinkLabel() {
@@ -66,7 +73,7 @@ export class CrearActividadComponent implements OnInit {
     this.gestorActividades.createActividad(
       this.nombre,
       this.descripcion,
-      this.poster,
+      '',
       new Date(this.fecha + 'T' + this.hora),
       this.semana,
       this.responsable,
@@ -76,10 +83,16 @@ export class CrearActividadComponent implements OnInit {
       this.diasRequeridosRecordatorio,
       this.modalidad,
       this.lugarEnlace,
-    ).subscribe((item) => {
+      this.gestorAutenticacion.getCurrentUser()!.sede
+    ).subscribe((item: any) => {
       if (this.poster !== null) {
         var fileName = this.poster.name;
-        this.gestorBlobStorage.uploadFile('posters', item.id + '-' + fileName, this.poster).then(() => {
+        this.gestorBlobStorage.uploadFile('posters', item._id + '-' + fileName, this.poster).then((url) => {
+          this.gestorActividades.updateActividadPoster(item._id, url).subscribe(() => {
+            console.log('File uploaded successfully');
+          }, error => {
+            console.error('Error updating file: ' + error);
+          });
         }, error => {
           console.error('Error uploading file: ' + error);
         });

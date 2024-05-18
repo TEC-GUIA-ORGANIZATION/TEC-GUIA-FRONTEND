@@ -6,6 +6,7 @@ import { Sede } from '../../models/sede.model';
 import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { GestorProfesoresGuia } from '../../services/gestor-profesores-guia.service';
 
 @Component({
   standalone: true,
@@ -28,243 +29,23 @@ export class EquipoComponent {
   profesorSeleccionado: ProfesorGuia | null = null;
   editMode: boolean = false;
   originalProfesores: ProfesorGuia[] = []; // To store the original list of profesores
+  profesores: ProfesorGuia[] = [];
 
-  profesores: ProfesorGuia[] = [
-    new ProfesorGuia(
-      '6643c6211bcce33b1cc6056f',
-      'profe@gmail.com',
-      '123456',
-      'Profesor 1',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://blog.prepscholar.com/hs-fs/hubfs/body_professor_laptop.jpg?width=501&name=body_professor_laptop.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      true,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.CARTAGO,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.SAN_JOSE,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.SAN_CARLOS,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-    new ProfesorGuia(
-      'wfwaafw',
-      'profe2@gmail.com',
-      '123456',
-      'Profesor 2',
-      'Apellido 1',
-      'Apellido 2',
-      Sede.SAN_CARLOS,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg',
-      'Profesor Guía',
-      '1',
-      '12345678',
-      '87654321',
-      false,
-      true
-    ),
-  ];
-
-  constructor(private gestorAutenticacion: GestorAutenticacion) {
-    this.originalProfesores = [...this.profesores];
+  constructor(
+    private gestorAutenticacion: GestorAutenticacion,
+    private gestorProfesoresGuia: GestorProfesoresGuia
+  ) {
+    this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
+      this.profesores = profesores;
+      this.originalProfesores = [...profesores];
+    });
   }
 
   filterProfesores() {
     // Filter profesores based on selectedSede and selectedCoordinador
     this.profesores = this.originalProfesores.filter(profesor => {
       let sedeFilter = !this.selectedSede || profesor.sede === this.selectedSede;
-      let coordinadorFilter = !this.selectedCoordinador || profesor.esCoordinador.toString() === this.selectedCoordinador;
+      let coordinadorFilter = !this.selectedCoordinador || profesor.rol.includes(this.selectedCoordinador);
       return sedeFilter && coordinadorFilter;
     });
   }
@@ -306,7 +87,19 @@ export class EquipoComponent {
     var user = this.gestorAutenticacion.getCurrentUser();
 
     if (user !== null) {
-      if (user.rol === 'profesor guia' && user.id === profesor.id) {
+      if (user.id === profesor.id) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  isCurrentUserSameCampus(profesor: ProfesorGuia): boolean {
+    var user = this.gestorAutenticacion.getCurrentUser();
+
+    if (user !== null) {
+      if (user.sede === profesor.sede) {
         return true;
       }
     }
@@ -316,5 +109,13 @@ export class EquipoComponent {
 
   changeEditMode(mode: boolean): void {
     this.editMode = mode;
+  }
+
+  darDeBaja(profesor: ProfesorGuia): void {
+    this.gestorProfesoresGuia.changeState(profesor.id).subscribe(() => {
+      this.profesores = this.profesores.filter(p => p.id !== profesor.id);
+      this.originalProfesores = this.originalProfesores.filter(p => p.id !== profesor.id);
+      this.profesorSeleccionado = null;
+    });
   }
 }

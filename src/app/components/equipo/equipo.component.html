@@ -19,8 +19,8 @@
       <label for="coordinadorFilter">Filtrar por Coordinador:</label>
       <select class="form-control" id="coordinadorFilter" [(ngModel)]="selectedCoordinador" (change)="onFilterChange()">
         <option value="">Todos</option>
-        <option value="true">Si</option>
-        <option value="false">No</option>
+        <option value="coordinador">Si</option>
+        <option value="profesor guia">No</option>
       </select>
     </div>
   </div>
@@ -49,20 +49,19 @@
     <tbody *ngIf="profesores.length > 0">
       <tr *ngFor="let profesor of profesores | paginate: { itemsPerPage: pageSize, currentPage: p }">
         <ng-container *ngIf="profesor.estaActivo">
-        <td *ngIf="profesor.esCoordinador">{{profesor.rol}} (Coordinador)<p *ngIf="isCurrentUser(profesor)">(Tú)</p></td>
-        <td *ngIf="!profesor.esCoordinador">{{profesor.rol}}</td>
+        <td>{{profesor.rol}}<p *ngIf="isCurrentUser(profesor)">(Tú)</p></td>
         <td>{{profesor.nombre}}</td>
         <td>{{profesor.primerApellido}}</td>
         <td>{{profesor.segundoApellido}}</td>
         <td>{{profesor.correo}}</td>
         <td>{{profesor.telefonoOficina}}</td>
         <td>{{profesor.telefonoPersonal}}</td>
-        <td>{{profesor.obtenerCodigo()}}</td>
+        <td>{{profesor.codigo}}</td>
         <td>
           <button class="btn btn-custom action-btn" (click)="seleccionarProfesor(profesor);changeEditMode(false)">Ver Detalles</button>
 
-          <button *ngIf="isCurrentUser(profesor) || hasPrivileges()" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarProfesor(profesor)">Editar</button>
-          <button *ngIf="isCurrentUser(profesor) || hasPrivileges()" class="btn btn-custom action-btn">Dar de Baja</button>
+          <button *ngIf="isCurrentUser(profesor) || (hasPrivileges() && isCurrentUserSameCampus(profesor)) || hasMainPrivileges()" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarProfesor(profesor)">Editar</button>
+          <button *ngIf="isCurrentUser(profesor) || (hasPrivileges() && isCurrentUserSameCampus(profesor)) || hasMainPrivileges()" class="btn btn-custom action-btn" (click)="darDeBaja(profesor)">Dar de Baja</button>
         </td>
         </ng-container>
       </tr>
@@ -90,7 +89,7 @@
       <p><strong>Correo:</strong> {{profesorSeleccionado.correo}}</p>
       <p><strong>Telefono Oficina:</strong> {{profesorSeleccionado.telefonoOficina}}</p>
       <p><strong>Telefono Celular:</strong> {{profesorSeleccionado.telefonoPersonal}}</p>
-      <p><strong>Código:</strong> {{profesorSeleccionado.obtenerCodigo()}}</p>
+      <p><strong>Código:</strong> {{profesorSeleccionado.codigo}}</p>
     </div>
     <div class="professor-info-details" *ngIf="editMode">
       <form class="">

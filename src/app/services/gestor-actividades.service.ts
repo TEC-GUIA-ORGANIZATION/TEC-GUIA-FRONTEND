@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, zip } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { API_URL} from './constantes.service';
 import { Actividad } from '../models/actividad.model';
 import { BlobServiceClient } from "@azure/storage-blob";
 import { GestorUsuarios } from './gestor-usuarios.service';
 import { Evidencia } from '../models/evidencia.model';
 
-const account = "tecguiastorage";
-const sas = "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-06-13T11:00:24Z&st=2024-05-13T03:00:24Z&spr=https&sig=ISrprONOqg7brd%2FRSbs4mOABut12mBLdoCIZpA19E7s%3D";
-const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
-
-  @Injectable({
+@Injectable({
   providedIn: 'root'
 })
 // This service is responsible for managing activities
@@ -114,12 +110,16 @@ export class GestorActividades {
     );
   }
 
-  createActividad(nombre: string, descripcion: string, poster: File | null, fecha: Date, semana: number, responsable: string, tipo: string, estado: string, diasPreviosAnunciar: number, diasRequeridosRecordatorio: number, modalidad: string, lugarEnlace: string): Observable<Actividad> {
-    return this.http.post<Actividad>(this.url, { name: nombre, description: descripcion, poster: poster, date: fecha, week: semana, responsible: responsable, type: tipo, status: estado, daysToAnnounce: diasPreviosAnunciar, daysToRemember: diasRequeridosRecordatorio, modality: modalidad, placeLink: lugarEnlace });
+  createActividad(nombre: string, descripcion: string, poster: string, fecha: Date, semana: number, responsable: any, tipo: string, estado: string, diasPreviosAnunciar: number, diasRequeridosRecordatorio: number, modalidad: string, lugarEnlace: string, campus: string): Observable<any> {
+    return this.http.post<any>(this.url, { name: nombre, description: descripcion, poster: poster, date: fecha, week: semana, responsible: responsable, type: tipo, status: estado, daysToAnnounce: diasPreviosAnunciar, daysToRemember: diasRequeridosRecordatorio, modality: modalidad, placeLink: lugarEnlace, evidence: { attendance: [], participants: [], recordingLink: '' }, campus: campus });
   }
 
   updateActividad(actividad: Actividad): Observable<Actividad> {
     return this.http.put<Actividad>(`${this.url}/${actividad.id}`, actividad);
+  }
+
+  updateActividadPoster(id: string, poster: string): Observable<Actividad> {
+    return this.http.put<Actividad>(`${this.url}/${id}/poster`, { poster: poster });
   }
 
   deleteActividad(id: number): Observable<Actividad> {

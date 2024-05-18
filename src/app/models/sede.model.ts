@@ -2,7 +2,7 @@
 export enum Sede {
   CARTAGO = 'Cartago',
   SAN_CARLOS = 'San Carlos',
-  SAN_JOSE = 'San José',
+  SAN_JOSE = 'San Jose',
   ALAJUELA = 'Alajuela',
-  LIMON = 'Limón',
+  LIMON = 'Limon',
 }

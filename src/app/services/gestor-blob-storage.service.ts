@@ -12,13 +12,13 @@ export class GestorBlobStorage {
 
   constructor() {}
 
-  uploadFile(containerName: string, fileName: string, file: File): Promise<void> {
+  uploadFile(containerName: string, fileName: string, file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const containerClient = this.blobServiceClient.getContainerClient(containerName);
       const blockBlobClient = containerClient.getBlockBlobClient(fileName);
 
       blockBlobClient.uploadData(file).then(() => {
-        resolve();
+        resolve(this.getFileUrl(containerName, fileName));
       }).catch((error) => {
         reject(error);
       });
