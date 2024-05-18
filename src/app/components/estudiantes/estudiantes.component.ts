@@ -40,20 +40,23 @@ export class EstudiantesComponent implements OnInit {
     
   }
   ngOnInit(): void {
-        // Llama al método del servicio para obtener todos los estudiantes
-    this.gestorEstudiantes.getCurrentFirstSemesterStudents().subscribe(
-     (estudiantes: Estudiante[]) => {
-       this.estudiantes = estudiantes; // Asigna la lista de estudiantes obtenida del servicio
-       console.log(this.estudiantes);
-       this.estudiantesLoaded = true; // Marca como cargados los estudiantes
-     },
-     error => {
-       console.error('Error al obtener estudiantes:', error);
-     }
-   );
-    console.log(this.estudiantes);
+    this.obtenerEstudiantes();
   }
-
+  obtenerEstudiantes(): void {
+    this.gestorEstudiantes.getCurrentFirstSemesterStudents().subscribe(
+      (estudiantes: Estudiante[] | null) => {
+        console.log('Estudiantes:', estudiantes);
+        if (estudiantes !== null) {
+          this.estudiantes = estudiantes;
+        } else {
+          console.error('No se recibieron estudiantes.');
+        }
+      },
+      (error) => {
+        console.error('Error al obtener estudiantes:', error);
+      }
+    );
+  }
 
   editStudent(_t90: Estudiante) {
     throw new Error('Method not implemented.');

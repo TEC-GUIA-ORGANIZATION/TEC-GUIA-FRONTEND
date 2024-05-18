@@ -47,9 +47,7 @@
   </div>
 
   <hr>
-  <div *ngIf="!estudiantesLoaded">
-    <p>Cargando estudiantes...</p>
-  </div>
+
   <table class="table" *ngIf="estudiantes.length > 0">
     <thead>
       <tr>
@@ -58,29 +56,29 @@
         <th scope="col">Primer Apellido</th>
         <th scope="col">Segundo Apellido</th>
         <th scope="col">Correo Electrónico</th>
-        <th scope="col">Número de Celular</th>
+        <th scope="col">Teléfono Personal</th>
+        <th scope="col">Campus</th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
-    <tbody *ngIf="estudiantes.length === 0">
-      <tr>
-        <td colspan="7">No hay estudiantes registrados</td>
-      </tr>
-    </tbody>
     <tbody *ngIf="estudiantes.length > 0">
       <tr *ngFor="let estudiante of estudiantes | paginate: { itemsPerPage: pageSize, currentPage: p }">
-        <td>{{ estudiante.institutionID }}</td>
+        
+        
+        <td><label>{{ estudiante.institutionID }}</label></td>
         <td>{{ estudiante.nombre }}</td>
         <td>{{ estudiante.primerApellido }}</td>
         <td>{{ estudiante.segundoApellido }}</td>
         <td>{{ estudiante.correo }}</td>
-        <td>{{ estudiante.telefono }}</td>
+        <td>{{ estudiante.personalPhone }}</td>
+        <td>{{ estudiante.sede }}</td>
         <td> 
           <button *ngIf="isAdmin() || isCoordinador() || isProfe()" class="btn btn-custom action-btn" (click)="editStudent(estudiante)">Editar</button>
-<!-- Puedes agregar más botones de acciones aquí si es necesario -->
+          <!-- Puedes agregar más botones de acciones aquí si es necesario -->
         </td>
       </tr>
     </tbody>
+    
     <tfoot *ngIf="estudiantes.length > 0" class="table-footer">
       <tr>
         <td colspan="7">

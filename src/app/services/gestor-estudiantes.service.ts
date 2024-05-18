@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 import { API_URL } from './constantes.service';
 import { Estudiante } from '../models/estudiante.model';
 import { GestorAutenticacion } from './gestor-autenticacion.service';
-
+import { Observable, of, zip } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,9 +16,35 @@ export class GestorEstudiantes {
 
 
 
-  getCurrentFirstSemesterStudents(): Observable<Estudiante[]> {
-    return this.http.get<Estudiante[]>(`${this.url}/currentFirstSemesterStudents`);
+  getCurrentFirstSemesterStudents(): Observable<Estudiante[] | null> {
+    return this.http.get<any[]>(`${this.url}/currentFirstSemesterStudents`).pipe(
+      map(response => {
+        // Map each item in the response array to an Estudiante object
+        return response.map(item => {
+          // Assuming the properties of the item map directly to Estudiante properties
+          return new Estudiante(
+            item._id,
+            item.email,
+            item.name,
+            item.firstLastname,
+            item.secondLastname,
+            item.personalPhone,
+            item.campus,
+            item.institutionID.toString(), // Convertir a string
+            item.personalPhone,
+            item.semester,
+            item.entryYear,
+            item.photo
+          );
+        });
+      }),
+      catchError(error=> {
+        console.log(error);
+        return of(null);
+      })
+    );
   }
+
   getEstudiantes(semester: string, entryYear: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}/getAllStudents`, { params: { semester, entryYear } });
   }
