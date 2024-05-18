@@ -119,7 +119,7 @@ export class GestorActividades {
   }
 
   updateActividadPoster(id: string, poster: string): Observable<Actividad> {
-    return this.http.put<Actividad>(`${this.url}/${id}/poster`, { poster: poster });
+    return this.http.post<Actividad>(`${this.url}/${id}/poster`, { poster: poster });
   }
 
   deleteActividad(id: number): Observable<Actividad> {
