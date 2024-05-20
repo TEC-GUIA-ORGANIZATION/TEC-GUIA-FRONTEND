@@ -22,12 +22,13 @@
 
         <div class="col-3">
           <label for="orderFilter"><strong>Ordenar por:</strong></label>
-          <select class="form-control" id="orderFilter" [(ngModel)]="selectedOrder" (change)="onFilterChange()">
-            <option value="nombre">Nombre</option>
-            <option value="primerApellido">Primer Apellido</option>
-            <option value="segundoApellido">Segundo Apellido</option>
-            <option value="correo">Correo</option>
-            <option value="telefono">Telefono</option>
+          <select class="form-control" id="orderFilter" [(ngModel)]="selectedOrder" (change)="onSortChange()">
+            <option value="Carnet">Carné</option>
+            <option value="Nombre">Nombre</option>
+            <option value="Primer Apellido">Primer Apellido</option>
+            <option value="Segundo Apellido">Segundo Apellido</option>
+            <option value="Correo">Correo</option>
+            <option value="Telefono">Telefono</option>
           </select>
         </div>
       </div>
@@ -37,7 +38,7 @@
         <button type="button" *ngIf="isProfe()||isCoordinador()" class="btn btn-success btn-custom" (click)="descargarExcel()">
           <i class="bi bi-download"></i> Descargar
         </button>
-        
+
         <label type="button" *ngIf="isAdmin()" class="btn btn-info btn-custom">
           <input #fileInput type="file" style="display: none;" (change)="cargarExcel($event)" accept=".xlsx, .xls">
           <i class="bi bi-upload"></i> Cargar
@@ -63,8 +64,7 @@
     </thead>
     <tbody *ngIf="estudiantes.length > 0">
       <tr *ngFor="let estudiante of estudiantes | paginate: { itemsPerPage: pageSize, currentPage: p }">
-        
-        
+
         <td><label>{{ estudiante.institutionID }}</label></td>
         <td>{{ estudiante.nombre }}</td>
         <td>{{ estudiante.primerApellido }}</td>
@@ -72,13 +72,19 @@
         <td>{{ estudiante.correo }}</td>
         <td>{{ estudiante.personalPhone }}</td>
         <td>{{ estudiante.sede }}</td>
-        <td> 
+        <td>
           <button *ngIf="isAdmin() || isCoordinador() || isProfe()" class="btn btn-custom action-btn" (click)="editStudent(estudiante)">Editar</button>
           <!-- Puedes agregar más botones de acciones aquí si es necesario -->
         </td>
       </tr>
     </tbody>
-    
+
+    <tbody *ngIf="estudiantes.length == 0">
+      <tr>
+        <td colspan="7" class="text-center">No se encontraron estudiantes</td>
+      </tr>
+    </tbody>
+
     <tfoot *ngIf="estudiantes.length > 0" class="table-footer">
       <tr>
         <td colspan="7">
@@ -87,3 +93,4 @@
       </tr>
     </tfoot>
   </table>
+</div>

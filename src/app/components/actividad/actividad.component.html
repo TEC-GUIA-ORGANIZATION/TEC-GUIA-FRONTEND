@@ -82,7 +82,7 @@
   <!-- Action buttons -->
   <div class="d-flex justify-content-center mt-5">
     <button class="btn btn-primary activity-btn" (click)="goBack()" *ngIf="!isEditable">Volver</button>
-    <button class="btn btn-primary activity-btn" (click)="showComments()" *ngIf="!isEditable">Ver Comentarios</button>
+    <button class="btn btn-primary activity-btn" (click)="showComments()" *ngIf="!isEditable && !isAdmin()">Ver Comentarios</button>
     <button class="btn btn-primary activity-btn" (click)="showEvidences()" *ngIf="actividad?.estado === 'REALIZADA' && !isEditable">Ver Evidencias</button>
     <button class="btn btn-primary activity-btn" (click)="editActivity()" *ngIf="!isEditable">Editar</button>
 

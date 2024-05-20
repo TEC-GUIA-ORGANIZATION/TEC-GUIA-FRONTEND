@@ -31,6 +31,7 @@ export class ActividadesComponent{
 
   originalActividades: Actividad[] = [];
   actividades: Actividad[] = [];
+  proximaActividad: Actividad | undefined;
   estados: string[] = Object.values(EstadoActividad);
   p: number = 1; // Current page, initialized to 1
   selectedEstado: string = '';
@@ -52,6 +53,9 @@ export class ActividadesComponent{
       }
       this.actividades = actividades;
       this.originalActividades = actividades;
+      this.proximaActividad = this.actividades.find(actividad => {
+        return new Date(actividad.fecha).getTime() >= new Date().getTime();
+      });
     });
   }
 

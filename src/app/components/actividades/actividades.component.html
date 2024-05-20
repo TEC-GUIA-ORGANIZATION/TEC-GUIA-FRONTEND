@@ -3,7 +3,6 @@
 <div class="container mt-5" *ngIf="!isAsistenteAdministrativo()">
   <div class="d-flex justify-content-between">
     <h1>Plan de Trabajo</h1>
-    <button *ngIf="isCoordinador()" type="button" class="btn btn-primary" (click)="createPlanning()">Crear un Plan de Trabajo</button>
 
     <!-- Modal -->
     <div class="modal fade" id="planningConfirmationModal" tabindex="-1" aria-labelledby="planningConfirmationModalLabel" aria-hidden="true">
@@ -21,7 +20,10 @@
       </div>
     </div>
 
-    <button *ngIf="hasPrivileges()" class="btn btn-primary" [routerLink]="['/crear-actividad']">Crear Actividad</button>
+    <div class="d-flex justify-content-center mb-3">
+      <button *ngIf="isCoordinador()" type="button" class="btn btn-primary" (click)="createPlanning()" style="margin-right: 10px;">Crear Plan de Trabajo</button>
+      <button *ngIf="hasPrivileges()" class="btn btn-primary" [routerLink]="['/crear-actividad']">Crear Actividad</button>
+    </div>
   </div>
 
   <div class="filter-sort-options row">
@@ -80,6 +82,39 @@
 
       <div class="d-flex justify-content-center">
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="isAsistenteAdministrativo()">
+  <div class="d-flex justify-content-between">
+    <h1 class="mb-1">Próxima Actividad</h1>
+  </div>
+
+  <hr>
+
+  <div class="d-flex justify-content-center mt-4">
+    <div *ngIf="proximaActividad === null" class="alert alert-warning" role="alert">
+      No hay actividades programadas.
+    </div>
+
+    <div class="card card-activity">
+      <div class="card-header">
+        <img [src]="proximaActividad?.poster" alt="Actividad" class="activity-img" *ngIf="proximaActividad?.poster">
+        <img src="https://t3.ftcdn.net/jpg/00/72/98/56/360_F_72985661_LU1Xk0YQiPBwOuesuuJgwTn0NPlwP8ob.jpg" alt="Actividad" class="activity-img" *ngIf="!proximaActividad?.poster">
+      </div>
+
+      <div class="card-body">
+        <h1 class="activity-title">{{proximaActividad?.nombre}}</h1>
+        <div class="d-flex justify-content-between">
+          <h2><span class="badge text-bg-secondary">{{proximaActividad?.estado}}</span></h2>
+          <h3><strong>{{proximaActividad?.fecha | date: 'dd/MM/yyyy'}}</strong></h3>
+        </div>
+
+        <p>{{proximaActividad?.descripcion}}</p>
+
+        <a class="btn btn-primary" [routerLink]="['/actividad/', proximaActividad?.id]">Ver Actividad</a>
       </div>
     </div>
   </div>

@@ -161,4 +161,8 @@ export class ActividadComponent {
 
     this.newPoster = event.target.files[0];
   }
+
+  isAdmin() {
+    return this.gestorAutenticacion.getCurrentUser()!.rol === 'admin';
+  }
 }

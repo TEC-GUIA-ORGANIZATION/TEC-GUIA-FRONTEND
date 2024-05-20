@@ -80,3 +80,8 @@
 .row-eq-height .card-header, .row-eq-height .card-body {
   overflow: hidden; /* Para evitar que el contenido sobresalga */
 }
+
+.card-activity {
+  width: 50%;
+  height: 100%;
+}
