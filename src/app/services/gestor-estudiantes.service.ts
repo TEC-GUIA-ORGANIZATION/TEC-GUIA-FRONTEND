@@ -43,6 +43,33 @@ export class GestorEstudiantes {
       })
     );
   }
+  getCurrentFirstSemesterStudentsByCampus(): Observable<Estudiante[] | null> {
+    return this.http.get<any[]>(`${this.url}/currentFirstSemesterStudents`).pipe(
+      map(response => {
+        // Map each item in the response array to an Estudiante object
+        return response.map(item => {
+          // Assuming the properties of the item map directly to Estudiante properties
+          return new Estudiante(
+            item._id,
+            item.email,
+            item.name,
+            item.firstLastname,
+            item.secondLastname,
+            item.personalPhone,
+            item.campus,
+            item.institutionId,
+            item.personalPhone,
+            item.semester,
+            item.entryYear,
+            item.photo
+          );
+        });
+      }),
+      catchError(_ => {
+        return of(null);
+      })
+    );
+  }
 
   getEstudiantes(semester: string, entryYear: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}/getAllStudents`, { params: { semester, entryYear } });
@@ -52,9 +79,9 @@ export class GestorEstudiantes {
     return this.http.get<Estudiante>(`${this.url}/${id}`);
   }
 
-  getEstudiantesPorSede(semester: string, entryYear: number, campus: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/getAllStudentsByCampus`, { params: { semester, entryYear, campus } });
-  }
+  getEstudiantesPorSede(campus: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/getAllStudentsByCampus`, { params: { campus } });
+  } 
 
   updateStudent(student: Estudiante): Observable<any> {
     const url = `${this.url}/updateStudent/${student.id}`;
@@ -88,7 +115,11 @@ export class GestorEstudiantes {
     // Realizar la solicitud GET para descargar el archivo Excel
     return this.http.get(`${this.url}/download/${campus}`, { responseType: 'blob' });
   }
+  getArchivoEstudiantesTotal(): Observable<Blob> {
 
+    // Realizar la solicitud GET para descargar el archivo Excel
+    return this.http.get(`${this.url}/downloadAll`, { responseType: 'blob' });
+  }
   cargarArchivoEstudiantes(fileExcel: File) {
     const formData = new FormData();
     formData.append('file', fileExcel);

@@ -36,9 +36,11 @@
       <div class="btn-group mt-2" role="group" aria-label="Registros">
 
         <button type="button" *ngIf="isProfe()||isCoordinador()" class="btn btn-success btn-custom" (click)="descargarExcel()">
-          <i class="bi bi-download"></i> Descargar
+          <i class="bi bi-download"></i> Descargar Excel por Campus
         </button>
-
+        <button type="button" *ngIf="isProfe()||isCoordinador()" class="btn btn-success btn-custom" (click)="descargarExcelTodos()">
+          <i class="bi bi-download"></i> Descargar Todos los estudiantes
+        </button>
         <label type="button" *ngIf="isAdmin()" class="btn btn-info btn-custom">
           <input #fileInput type="file" style="display: none;" (change)="cargarExcel($event)" accept=".xlsx, .xls">
           <i class="bi bi-upload"></i> Cargar

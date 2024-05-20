@@ -122,7 +122,18 @@ export class EstudiantesComponent implements OnInit {
       }
     );
   }
-
+  descargarExcelTodos(): void {
+  this.gestorEstudiantes.getArchivoEstudiantesTotal().subscribe(
+    (archivo: Blob) => {
+      // Guardar el archivo descargado utilizando FileSaver.js
+      saveAs(archivo, 'students.xlsx');
+    },
+    error => {
+      console.error('Error al descargar el archivo de estudiantes:', error);
+      // Manejar el error, por ejemplo, mostrar un mensaje al usuario
+    }
+  );
+}
   isAdmin(){
     return this.gestorAutenticacion.getCurrentUserRol() === 'admin';
   }
