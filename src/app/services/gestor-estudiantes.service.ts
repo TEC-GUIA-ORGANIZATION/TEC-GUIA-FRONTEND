@@ -12,7 +12,9 @@ import { catchError, map } from 'rxjs/operators';
 export class GestorEstudiantes {
   private url = `${API_URL}/studentList`;
 
-  constructor(private http: HttpClient, private authService:GestorAutenticacion) { }
+  constructor(private http: HttpClient, private authService:GestorAutenticacion) {
+    
+   }
 
   getCurrentFirstSemesterStudents(): Observable<Estudiante[] | null> {
     return this.http.get<any[]>(`${this.url}/currentFirstSemesterStudents`).pipe(
@@ -54,9 +56,26 @@ export class GestorEstudiantes {
     return this.http.get<any[]>(`${this.url}/getAllStudentsByCampus`, { params: { semester, entryYear, campus } });
   }
 
-  editarEstudiante(id: string, estudiante: Estudiante): Observable<Estudiante> {
-    return this.http.put<Estudiante>(`${this.url}/${id}`, estudiante);
+  updateStudent(student: Estudiante): Observable<any> {
+    const url = `${this.url}/updateStudent/${student.id}`;
+    const body = {
+      email: student.correo,
+      name: student.nombre,
+      firstLastname: student.primerApellido,
+      secondLastname: student.segundoApellido,
+      campus: student.sede, // Ejemplo de cómo obtener la sede del estudiante
+      photo: student.foto,
+      rol: 'estudiante',
+      userType: 'Students',
+      institutionID: student.institutionID,
+      personalPhone: student.personalPhone,
+      semester: student.semester,
+      entryYear: student.entryYear,
+    };
+
+    return this.http.patch(url, body);
   }
+
 
   deleteEstudiante(id: string): Observable<Estudiante> {
     return this.http.delete<Estudiante>(`${this.url}/${id}`);

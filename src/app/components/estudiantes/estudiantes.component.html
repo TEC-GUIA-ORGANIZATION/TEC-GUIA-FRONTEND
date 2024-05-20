@@ -66,15 +66,30 @@
       <tr *ngFor="let estudiante of estudiantes | paginate: { itemsPerPage: pageSize, currentPage: p }">
 
         <td><label>{{ estudiante.institutionID }}</label></td>
-        <td>{{ estudiante.nombre }}</td>
-        <td>{{ estudiante.primerApellido }}</td>
-        <td>{{ estudiante.segundoApellido }}</td>
-        <td>{{ estudiante.correo }}</td>
-        <td>{{ estudiante.personalPhone }}</td>
-        <td>{{ estudiante.sede }}</td>
         <td>
-          <button *ngIf="isAdmin() || isCoordinador() || isProfe()" class="btn btn-custom action-btn" (click)="editStudent(estudiante)">Editar</button>
-          <!-- Puedes agregar más botones de acciones aquí si es necesario -->
+        <input #nombreInput type="text" class="form-control" [value]="estudiante.nombre" [readonly]="!estudiante.editable">
+        </td>
+        <td>
+          <input #primerApellidoInput type="text" class="form-control" [value]="estudiante.primerApellido" [readonly]="!estudiante.editable">
+        </td>
+        <td>
+          <input #segundoApellidoInput type="text" class="form-control" [value]="estudiante.segundoApellido" [readonly]="!estudiante.editable">
+        </td>
+        <td>
+          <input #correoInput type="text" class="form-control" [value]="estudiante.correo" [readonly]="!estudiante.editable">
+        </td>
+        <td>
+          <input #personalPhoneInput type="text" class="form-control" [value]="estudiante.personalPhone" [readonly]="!estudiante.editable">
+        </td>
+        <td>
+          <input #sedeInput type="text" class="form-control" [value]="estudiante.sede" [readonly]="!estudiante.editable">
+        </td>
+
+        <td>
+          <button *ngIf="mismaSede(estudiante.sede)&&(isCoordinador() || isProfe())"class="btn btn-primary btn-custom" (click)="toggleEdit(estudiante,[nombreInput, primerApellidoInput, segundoApellidoInput, correoInput, personalPhoneInput, sedeInput])">
+              {{ estudiante.editable? 'Guardar' : 'Editar' }}
+          </button>
+<!-- Puedes agregar más botones de acciones aquí si es necesario -->
         </td>
       </tr>
     </tbody>

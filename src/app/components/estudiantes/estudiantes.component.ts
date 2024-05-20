@@ -59,9 +59,26 @@ export class EstudiantesComponent implements OnInit {
       }
     );
   }
+  mismaSede(sede:String): boolean{
+    return sede === this.gestorAutenticacion.getCurrentUser()?.sede;
+  }
+  toggleEdit(estudiante: Estudiante,inputs:HTMLInputElement[]) {
+    if(estudiante.editable==true){
+      estudiante.nombre=inputs[0].value;
+      estudiante.primerApellido=inputs[1].value;
+      estudiante.segundoApellido=inputs[2].value;
+      estudiante.correo=inputs[3].value;
+      estudiante.personalPhone=inputs[4].value;
+      estudiante.sede = inputs[5].value as Sede;
+      this.gestorEstudiantes.updateStudent(estudiante).subscribe( response => {
+        console.log("Estudiante actualizado exitosamente.", response);
+      },
+      error => {
+        console.error("Error al actualizar el estudiante:", error);
+      });
+    }
+    estudiante.changeEditMode(!estudiante.editable);
 
-  editStudent(_t90: Estudiante) {
-    throw new Error('Method not implemented.');
   }
 
   cargarExcel(event: any) {
