@@ -8,6 +8,10 @@ import { ModalidadActividad } from '../../models/modalidad-actividad.model';
 import { FormsModule } from '@angular/forms';
 import { EstadoActividad } from '../../models/estado-actividad.model';
 import { TipoActividad } from '../../models/tipo-actividad.model';
+import { ProfesorGuia } from '../../models/profesor-guia.model';
+import { GestorProfesoresGuia } from '../../services/gestor-profesores-guia.service';
+import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
+import { GestorBlobStorage } from '../../services/gestor-blob-storage.service';
 
 @Component({
   standalone: true,
@@ -24,16 +28,20 @@ import { TipoActividad } from '../../models/tipo-actividad.model';
 export class ActividadComponent {
   actividadId: string = '';
   actividad: Actividad | null = null;
-  responsables: string[] = [];
+  responsables: ProfesorGuia[] = [];
   isEditable: boolean = false;
   estados: string[] = Object.values(EstadoActividad);
   modalidades: string[] = Object.values(ModalidadActividad);
   tipos: string[] = Object.values(TipoActividad);
-  nuevaFecha: Date = new Date();
+  nuevaFecha: string = '';
   nuevaHora: string = '';
+  newPoster: File | null = null;
 
   constructor(
     private gestorActividadesService: GestorActividades,
+    private gestorProfesoresGuia: GestorProfesoresGuia,
+    private gestorAutenticacion: GestorAutenticacion,
+    private gestorBlobStorage: GestorBlobStorage,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -46,6 +54,15 @@ export class ActividadComponent {
       }
 
       this.actividad = actividad;
+
+      var tempDate = new Date(this.actividad.fecha);
+      this.nuevaFecha = `${tempDate.getFullYear()}-${(tempDate.getMonth() + 1).toString().padStart(2, '0')}-${tempDate.getDate().toString().padStart(2, '0')}`;
+      this.nuevaHora = `${tempDate.getHours().toString().padStart(2, '0')}:${tempDate.getMinutes().toString().padStart(2, '0')}`;
+    });
+
+    this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
+      profesores = profesores.filter(profesor => profesor.sede === this.gestorAutenticacion.getCurrentUser()!.sede);
+      this.responsables = profesores;
     });
   }
 
@@ -98,20 +115,50 @@ export class ActividadComponent {
       return;
     }
 
-    this.actividad.fecha = new Date(this.nuevaFecha.toDateString() + ' ' + this.nuevaHora);
+    this.actividad.fecha = new Date(`${this.nuevaFecha}T${this.nuevaHora}`);
 
-    this.gestorActividadesService.updateActividad(this.actividad).subscribe((actividad: Actividad | null) => {
-      if (actividad === null) {
-        return;
+    this.gestorActividadesService.updateActividad(
+      this.actividad.id,
+      this.actividad.nombre,
+      this.actividad.descripcion,
+      "",
+      this.actividad.fecha,
+      this.actividad.semana,
+      this.actividad.responsable.id,
+      this.actividad.tipo,
+      this.actividad.estado,
+      this.actividad.diasPreviosAnunciar,
+      this.actividad.diasRequeridosRecordatorio,
+      this.actividad.modalidad,
+      this.actividad.lugarEnlace
+    ).subscribe((response: any) => {
+      if (this.newPoster !== null) {
+        var fileName = this.newPoster.name;
+        var activityId = response._id;
+        this.gestorBlobStorage.uploadFile('posters', activityId + '-' + fileName, this.newPoster).then((url) => {
+          this.gestorActividadesService.updateActividadPoster(activityId, url).subscribe(_ => {
+            this.actividad!.poster = url;
+          }, _ => {
+            console.log('Error uploading poster');
+          });
+        });
+      } else {
+        this.gestorActividadesService.updateActividadPoster(this.actividad!.id, this.actividad!.poster).subscribe(_ => {
+        });
       }
-
-      this.actividad = actividad;
+      this.isEditable = false;
     });
-
-    this.isEditable = false;
   }
 
   cancelEditActivity() {
     this.isEditable = false;
+  }
+
+  onFileSelected(event: any) {
+    if (this.actividad === null) {
+      return;
+    }
+
+    this.newPoster = event.target.files[0];
   }
 }

@@ -37,6 +37,7 @@ export class ActividadesComponent{
   selectedDateSort: string = 'asc';
   searchText: string = '';
   confirmationPlanningMessage: string = '';
+  selectedWeek: number = 0;
 
   constructor(
     private gestorPlanes:GestorPlanTrabajo,
@@ -135,6 +136,17 @@ export class ActividadesComponent{
     }
   }
 
+  onWeekChange() {
+    this.actividades = this.originalActividades.filter(actividad => {
+      if (this.selectedWeek > 0 && this.selectedWeek <= 16) {
+        if (actividad.semana !== this.selectedWeek) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
 
   onSearchChange() {
     this.actividades = this.originalActividades.filter(actividad => {

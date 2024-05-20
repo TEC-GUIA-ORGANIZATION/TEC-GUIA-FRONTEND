@@ -58,6 +58,7 @@ export class CrearActividadComponent implements OnInit {
     this.tipos = Object.values(TipoActividad);
 
     this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
+      profesores = profesores.filter(profesor => profesor.sede === this.gestorAutenticacion.getCurrentUser()!.sede);
       this.responsables = profesores;
     });
   }

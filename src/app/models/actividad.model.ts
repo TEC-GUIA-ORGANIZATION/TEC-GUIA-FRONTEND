@@ -10,7 +10,7 @@ export class Actividad {
   id: string;
   nombre: string;
   descripcion: string;
-  poster: File | null;
+  poster: string;
   fecha: Date;
   semana: number;
   responsable: Usuario;
@@ -44,7 +44,7 @@ export class Actividad {
     id: string,
     nombre: string,
     descripcion: string,
-    poster: File | null,
+    poster: string,
     fecha: Date,
     semana: number,
     responsables: Usuario,

@@ -114,8 +114,8 @@ export class GestorActividades {
     return this.http.post<any>(this.url, { name: nombre, description: descripcion, poster: poster, date: fecha, week: semana, responsible: responsable, type: tipo, status: estado, daysToAnnounce: diasPreviosAnunciar, daysToRemember: diasRequeridosRecordatorio, modality: modalidad, placeLink: lugarEnlace, evidence: { attendance: [], participants: [], recordingLink: '' }, campus: campus });
   }
 
-  updateActividad(actividad: Actividad): Observable<Actividad> {
-    return this.http.put<Actividad>(`${this.url}/${actividad.id}`, actividad);
+  updateActividad(id: string, nombre: string, descripcion: string, poster: string, fecha: Date, semana: number, responsable: any, tipo: string, estado: string, diasPreviosAnunciar: number, diasRequeridosRecordatorio: number, modalidad: string, lugarEnlace: string): Observable<any> {
+    return this.http.patch<any>(`${this.url}/${id}`, { name: nombre, description: descripcion, poster: poster, date: fecha, week: semana, responsible: responsable, type: tipo, status: estado, daysToAnnounce: diasPreviosAnunciar, daysToRemember: diasRequeridosRecordatorio, modality: modalidad, placeLink: lugarEnlace });
   }
 
   updateActividadPoster(id: string, poster: string): Observable<any> {
