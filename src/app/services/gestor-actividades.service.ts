@@ -18,53 +18,7 @@ export class GestorActividades {
 
   constructor(private http: HttpClient, private gestorUsuarios: GestorUsuarios) {}
 
-  getActividades(): Observable<Actividad[] | null> {
-    return this.http.get<any[]>(this.url).pipe(
-      switchMap(response => {
-        // Create an array of observables for each getUsuario call
-        const observables: Observable<Actividad | null>[] = response.map(item => {
-          return this.gestorUsuarios.getUsuario(item.responsible).pipe(
-            catchError(_ => of(null)),
-              map(responsable => {
-              if (responsable === null) {
-                console.log('Error getting user');
-                return null;
-              }
 
-              var evidencia: Evidencia = new Evidencia(item.evidence.attendance, item.evidence.participants, item.evidence.recordingLink);
-
-              // Create and return Actividad object
-              return new Actividad(
-                item._id,
-                item.name,
-                item.description,
-                item.poster,
-                item.date,
-                item.week,
-                responsable,
-                item.type,
-                item.status,
-                item.daysToAnnounce,
-                item.daysToRemember,
-                item.modality,
-                item.placeLink,
-                item.comments,
-                evidencia
-              );
-            })
-          );
-        });
-
-        // Combine the results of all observables into one observable emitting arrays
-        return zip(...observables).pipe(
-          map(actividades => actividades.filter(actividad => actividad !== null) as Actividad[])
-        );
-      }),
-      catchError(_ => {
-        return of(null);
-      })
-    );
-  }
 
   getActividadesTotal(): Observable<Actividad[]> {
     return this.http.get<any[]>(`${this.url}/total`);

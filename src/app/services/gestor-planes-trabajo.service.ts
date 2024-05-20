@@ -1,19 +1,73 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, map, of, switchMap, zip } from 'rxjs';
 import { API_URL } from './constantes.service';
 import { PlanTrabajo } from '../models/plan-trabajo.model';
 import { GestorAutenticacion } from './gestor-autenticacion.service';
 import { Usuario } from '../models/usuario.model';
+import { Actividad } from '../models/actividad.model';
+import { Evidencia } from '../models/evidencia.model';
+import { GestorUsuarios } from './gestor-usuarios.service';
 @Injectable({
     providedIn: 'root'
 })
 export class GestorPlanTrabajo {
   private url = `${API_URL}/planning`; // Ajusta la URL base según tus necesidades
 
-  constructor(private http: HttpClient,private authService: GestorAutenticacion) {
+  constructor(private http: HttpClient,private authService: GestorAutenticacion,private gestorUsuarios: GestorUsuarios) {
 
 
+  }
+
+
+  getActividades(): Observable<Actividad[] | null> {
+
+
+    return this.http.get<any[]>(`${this.url}/getActivitiesOfPlanning?semester=${this.getCurrentSemester()}&campus=${this.authService.getCurrentUser()?.sede}`).pipe(
+      switchMap(response => {
+        // Create an array of observables for each getUsuario call
+        const observables: Observable<Actividad | null>[] = response.map(item => {
+          return this.gestorUsuarios.getUsuario(item.responsible).pipe(
+            catchError(_ => of(null)),
+              map(responsable => {
+              if (responsable === null) {
+                console.log('Error getting user');
+                return null;
+              }
+
+              var evidencia: Evidencia = new Evidencia(item.evidence.attendance, item.evidence.participants, item.evidence.recordingLink);
+
+              // Create and return Actividad object
+              return new Actividad(
+                item._id,
+                item.name,
+                item.description,
+                item.poster,
+                item.date,
+                item.week,
+                responsable,
+                item.type,
+                item.status,
+                item.daysToAnnounce,
+                item.daysToRemember,
+                item.modality,
+                item.placeLink,
+                item.comments,
+                evidencia
+              );
+            })
+          );
+        });
+
+        // Combine the results of all observables into one observable emitting arrays
+        return zip(...observables).pipe(
+          map(actividades => actividades.filter(actividad => actividad !== null) as Actividad[])
+        );
+      }),
+      catchError(_ => {
+        return of(null);
+      })
+    );
   }
   getSemesterFromDate(date: Date): string {
     const month = date.getMonth() + 1;

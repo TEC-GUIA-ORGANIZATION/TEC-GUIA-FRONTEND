@@ -47,7 +47,7 @@ export class ActividadesComponent{
   }
 
   getActividades() {
-    this.gestor.getActividades().subscribe(actividades => {
+    this.gestorPlanes.getActividades().subscribe(actividades => {
       if (actividades === null) {
         return;
       }
