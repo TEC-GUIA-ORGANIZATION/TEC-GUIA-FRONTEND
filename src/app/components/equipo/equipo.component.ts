@@ -36,11 +36,31 @@ export class EquipoComponent {
     private gestorProfesoresGuia: GestorProfesoresGuia
   ) {
     this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
-      this.profesores = profesores;
+      if (this.isAdmin()) {
+        this.profesores = profesores.filter(profesor => profesor.sede === this.gestorAutenticacion.getCurrentUser()?.sede);
+      }
+      else{
+        this.profesores = profesores;
+      }
+      
       this.originalProfesores = [...profesores];
     });
   }
+  isAdmin(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'admin';
+  }
 
+  isProfe(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'profesor guia';
+  }
+
+  isCoordinador(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'coordinador';
+  }
+
+  isEstudiante(){
+    return this.gestorAutenticacion.getCurrentUserRol() === 'estudiante';
+  }
   filterProfesores() {
     // Filter profesores based on selectedSede and selectedCoordinador
     this.profesores = this.originalProfesores.filter(profesor => {

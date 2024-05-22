@@ -48,7 +48,13 @@ export class EstudiantesComponent implements OnInit {
     this.gestorEstudiantes.getCurrentFirstSemesterStudents().subscribe(
       (estudiantes: Estudiante[] | null) => {
         if (estudiantes !== null) {
-          this.estudiantes = estudiantes;
+          if (this.isAdmin()) {
+            this.estudiantes = estudiantes.filter(estudiante => estudiante.sede === this.gestorAutenticacion.getCurrentUser()?.sede);
+          }
+          else{
+            this.estudiantes = estudiantes;
+          }
+          
           this.estudiantesOriginal = estudiantes;
         } else {
           console.error('No se recibieron estudiantes.');

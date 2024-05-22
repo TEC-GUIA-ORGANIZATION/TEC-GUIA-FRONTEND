@@ -9,7 +9,7 @@ export class Estudiante {
     segundoApellido: string;
     telefono: string;
     sede: Sede;
-    institutionID: number;
+    institutionId: number;
     personalPhone: string;
     semester: string;
     entryYear: number;
@@ -24,7 +24,7 @@ export class Estudiante {
         segundoApellido: string,
         telefono: string,
         sede: Sede,
-        institutionID: number,
+        institutionId: number,
         personalPhone: string,
         semester: string,
         entryYear: number,
@@ -37,7 +37,7 @@ export class Estudiante {
         this.segundoApellido = segundoApellido;
         this.telefono = telefono;
         this.sede = sede;
-        this.institutionID = institutionID;
+        this.institutionId = institutionId;
         this.personalPhone = personalPhone;
         this.semester = semester;
         this.entryYear = entryYear;

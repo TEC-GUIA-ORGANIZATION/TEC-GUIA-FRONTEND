@@ -67,7 +67,7 @@
     <tbody *ngIf="estudiantes.length > 0">
       <tr *ngFor="let estudiante of estudiantes | paginate: { itemsPerPage: pageSize, currentPage: p }">
 
-        <td><label>{{ estudiante.institutionID }}</label></td>
+        <td><label>{{ estudiante.institutionId }}</label></td>
         <td>
         <input #nombreInput type="text" class="form-control" [value]="estudiante.nombre" [readonly]="!estudiante.editable">
         </td>

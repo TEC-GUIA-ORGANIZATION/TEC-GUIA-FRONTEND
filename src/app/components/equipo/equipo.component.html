@@ -6,8 +6,8 @@
     <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn">Agregar Profesor</button>
   </div>
 
-  <div class="filter-options row">
-    <div class="col">
+  <div class="filter-options row" *ngIf="isProfe()||isCoordinador()">
+    <div class="col" >
       <label for="sedeFilter">Filtrar por Sede:</label>
       <select class="form-control" id="sedeFilter" [(ngModel)]="selectedSede" (change)="onFilterChange()">
         <option value="">Todos</option>

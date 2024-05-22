@@ -94,7 +94,7 @@ export class GestorEstudiantes {
       photo: student.foto,
       rol: 'estudiante',
       userType: 'Students',
-      institutionID: student.institutionID,
+      institutionId: student.institutionId,
       personalPhone: student.personalPhone,
       semester: student.semester,
       entryYear: student.entryYear,

@@ -11,6 +11,7 @@ import { EstadoActividad } from '../../models/estado-actividad.model';
 import { GestorPlanTrabajo } from '../../services/gestor-planes-trabajo.service';
 import { CommonModule } from '@angular/common';
 import { ViewChild, ElementRef } from '@angular/core';
+import { throws } from 'assert';
 
 @Component({
   standalone: true,
@@ -31,6 +32,7 @@ export class ActividadesComponent{
 
   originalActividades: Actividad[] = [];
   actividades: Actividad[] = [];
+  selectedActividades: string = 'all';
   proximaActividad: Actividad | undefined;
   estados: string[] = Object.values(EstadoActividad);
   p: number = 1; // Current page, initialized to 1
@@ -157,4 +159,34 @@ export class ActividadesComponent{
       return actividad.nombre.toLowerCase().includes(this.searchText.toLowerCase());
     });
   }
+  onNextActivityFilterChange() {
+    if (this.selectedActividades === 'all') {
+      this.actividades = this.originalActividades;
+      return true; // Return true since all activities are displayed
+    } else if (this.selectedActividades === 'upcoming') {
+      const today = new Date().getTime();
+      
+      // Filter activities to get only those with a date >= today
+      const upcomingActivities = this.originalActividades.filter(actividad => {
+        return new Date(actividad.fecha).getTime() >= today;
+      });
+    
+      if (upcomingActivities.length > 0) {
+        // Find the activity with the closest date
+        const closestActivity = upcomingActivities.reduce((closest, current) => {
+          return new Date(current.fecha).getTime() < new Date(closest.fecha).getTime() ? current : closest;
+        });
+    
+        this.actividades = [closestActivity]; // Set the closest activity as the only item in actividades
+        return true; // Return true since a closest activity exists
+      } else {
+        this.actividades = []; // No upcoming activities
+        return false; // Return false since there are no upcoming activities
+      }
+    }
+    else{
+      return false;
+    }
+  }
 }
+
