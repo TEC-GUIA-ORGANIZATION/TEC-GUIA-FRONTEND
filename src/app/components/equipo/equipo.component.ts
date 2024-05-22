@@ -36,12 +36,14 @@ export class EquipoComponent {
     private gestorProfesoresGuia: GestorProfesoresGuia
   ) {
     this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
-      if (this.isAdmin()) {
+      /*
+      esto solo si los asistentes pueden ver solo su propio campus
+      if (this.isAdmin()&&this.gestorAutenticacion.getCurrentUser()?.campus !== 'Cartago'{
         this.profesores = profesores.filter(profesor => profesor.sede === this.gestorAutenticacion.getCurrentUser()?.sede);
       }
-      else{
+      else{*/
         this.profesores = profesores;
-      }
+      
       
       this.originalProfesores = [...profesores];
     });
