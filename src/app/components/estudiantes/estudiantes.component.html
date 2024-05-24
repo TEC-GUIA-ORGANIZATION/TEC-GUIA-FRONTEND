@@ -39,7 +39,7 @@
           <i class="bi bi-download"></i> Descargar Excel por Campus
         </button>
         <button type="button" *ngIf="isProfe()||isCoordinador()" class="btn btn-success btn-custom" (click)="descargarExcelTodos()">
-          <i class="bi bi-download"></i> Descargar Todos los estudiantes
+          <i class="bi bi-download"></i> Descargar Excel Todos los Estudiantes
         </button>
         <label type="button" *ngIf="isAdmin()" class="btn btn-info btn-custom">
           <input #fileInput type="file" style="display: none;" (change)="cargarExcel($event)" accept=".xlsx, .xls">
