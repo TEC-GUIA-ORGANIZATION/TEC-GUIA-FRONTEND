@@ -1,3 +1,4 @@
+/* Estilos generales */
 .card {
   width: 20em;
 }
@@ -12,16 +13,36 @@
   object-fit: cover;
 }
 
+/* Estilo para los botones */
+.btn-icon {
+  background-color: transparent; /* Fondo transparente */
+  color: #002855; /* Color de texto */
+  transition: background-color 0.3s ease; /* Transición para el cambio de color de fondo */
+  border: none; /* Sin bordes */
+  padding: 0; /* Sin relleno */
+  cursor: pointer; /* Cursor tipo puntero */
+}
+
+/* Estilo adicional para los iconos dentro de los botones */
+.btn-icon i {
+  font-size: 1.5rem; /* Tamaño del icono */
+}
+
 .btn-custom {
   background-color: #fff;
-  border: 1px solid #002855;
+  border-color: #002855;
   color: #002855;
-  transition: background-color 0.3s ease;
+  cursor: pointer; /* Cursor tipo puntero */
 }
 
 .btn-custom:hover {
   background-color: #002855;
   color: #fff;
+}
+
+/* Estilo adicional para los iconos dentro de los botones */
+.btn-custom i {
+  font-size: 1.5rem; /* Tamaño del icono */
 }
 
 .action-btn {
@@ -54,9 +75,54 @@ table {
 }
 
 tfoot {
-  display: table-row-group;
+  display: table-footer-group; /* Asegúrate de que sea table-footer-group */
 }
 
-.table-footer td {
-  text-align: center;
+.pagination-container {
+  text-align: center; /* Centra el contenido del td */
+}
+
+/* Mantén los estilos de paginación previamente definidos */
+.table-pagination ::ng-deep pagination-controls {
+  display: inline-flex; /* Cambia de flex a inline-flex para centrar mejor */
+  justify-content: center;
+  align-items: center;
+}
+
+.table-pagination ::ng-deep .ngx-pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.table-pagination ::ng-deep .ngx-pagination li {
+  margin: 0 5px;
+}
+
+.table-pagination ::ng-deep .ngx-pagination a,
+.table-pagination ::ng-deep .ngx-pagination button {
+  display: block;
+  padding: 5px 10px;
+  color: #002855;
+  background-color: white;
+  border: 1px solid #002855;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.table-pagination ::ng-deep .ngx-pagination a:hover,
+.table-pagination ::ng-deep .ngx-pagination button:hover {
+  background-color: #002855;
+  color: white;
+}
+
+.table-pagination ::ng-deep .ngx-pagination .current a,
+.table-pagination ::ng-deep .ngx-pagination .current button,
+.table-pagination ::ng-deep .ngx-pagination .current {
+  background-color: #002855 !important;
+  color: white !important;
+  border-color: #002855 !important;
+  border-radius: 3px;
 }

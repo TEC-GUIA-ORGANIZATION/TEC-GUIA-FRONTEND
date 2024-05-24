@@ -133,31 +133,56 @@
     background-color: #f8f9fa; /* Ajustar el color de las filas alternas para que combine con el tema */
   }
   
-  /* Estilos para los enlaces de paginación */
-  .pagination .page-item .page-link {
-    color: #002855; /* Cambia el color de los enlaces según tus preferencias */
-    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
-    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
+  tfoot {
+    display: table-footer-group; /* Asegúrate de que sea table-footer-group */
   }
-  .pagination .page-item .page-link:hover {
-    color: #EF3340; /* Color del enlace al pasar por encima */
-
+  
+  .pagination-container {
+    text-align: center; /* Centra el contenido del td */
   }
-  .pagination .page-item.active .page-link {
-    background-color: #002855;
-    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
-    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
-    
+  
+  /* Mantén los estilos de paginación previamente definidos */
+  .table-pagination ::ng-deep pagination-controls {
+    display: inline-flex; /* Cambia de flex a inline-flex para centrar mejor */
+    justify-content: center;
+    align-items: center;
   }
-  .pagination .page-item.active .page-link:hover {
-    background-color: #EF3340;
-    
+  
+  .table-pagination ::ng-deep .ngx-pagination {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
   }
-  .pagination .page-item.disabled .page-link {
+  
+  .table-pagination ::ng-deep .ngx-pagination li {
+    margin: 0 5px;
+  }
+  
+  .table-pagination ::ng-deep .ngx-pagination a,
+  .table-pagination ::ng-deep .ngx-pagination button {
+    display: block;
+    padding: 5px 10px;
     color: #002855;
-    border: none; /* Eliminar bordes de los inputs dentro de las celdas */
-    outline: none; /* Eliminar el contorno alrededor del input cuando está enfocado */
+    background-color: white;
+    border: 1px solid #002855;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  .pagination .page-item.disabled .page-link:hover {
-    color: #EF3340;
+  
+  .table-pagination ::ng-deep .ngx-pagination a:hover,
+  .table-pagination ::ng-deep .ngx-pagination button:hover {
+    background-color: #002855;
+    color: white;
   }
+  
+  .table-pagination ::ng-deep .ngx-pagination .current a,
+  .table-pagination ::ng-deep .ngx-pagination .current button,
+  .table-pagination ::ng-deep .ngx-pagination .current {
+    background-color: #002855 !important;
+    color: white !important;
+    border-color: #002855 !important;
+    border-radius: 3px;
+  }
+  

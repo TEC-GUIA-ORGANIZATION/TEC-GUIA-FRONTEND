@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_URL } from './constantes.service';
 import { ProfesorGuia } from '../models/profesor-guia.model';
+import { Sede } from '../models/sede.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,9 +49,49 @@ export class GestorProfesoresGuia {
       })
     );
   }
+  updateProfesor(profesor: ProfesorGuia): Observable<any> {
+    const url = `${this.url}/updateProfessor/${profesor.id}`;
+    const body = {
+      email: profesor.correo,
+      name: profesor.nombre,
+      firstLastname: profesor.primerApellido,
+      secondLastname: profesor.segundoApellido,
+      campus: profesor.sede, // Ejemplo de cómo obtener la sede del estudiante
+      photo: profesor.fotografia,
+      rol: profesor.rol,
+      code: profesor.codigo,
+      userType: 'ProfesorGuia',
+      officePhone: profesor.telefonoOficina,
+      personalPhone: profesor.telefonoPersonal,
+      isCoordinator:profesor.esCoordinador,
+      isActive:profesor.estaActivo
+    };
 
+    return this.http.patch(url, body);
+  }
   changeState(professorId: string): Observable<any> {
     return this.http.patch(`${this.url2}/changeStatus`, { professorId });
+  }
+  setCoordinador(newCoordinatorId: string,campus:Sede): Observable<any>{
+    return this.http.patch(`${this.url2}/setCoordinator`, { campus, newCoordinatorId })
+  }
+  createProfessor(professorData: ProfesorGuia): Observable<any> { // Usa ProfesorGuia como tipo de datos
+    const body= {
+      "email":professorData.correo,
+      "password":professorData.contrasena,
+      "name":professorData.nombre,
+      "firstLastname": professorData.primerApellido,
+      "secondLastname":professorData.segundoApellido,
+      "campus":professorData.sede,
+      "photo":professorData.fotografia,
+      "rol":professorData.rol,
+      "userType":"ProfesorGuia",
+      "officePhone":professorData.telefonoOficina,
+      "personalPhone":professorData.telefonoPersonal,
+      "isCoordinator":false,
+      "isActive":true
+  }
+    return this.http.post(`${this.url}/createProfessor`, body);
   }
 
   /**

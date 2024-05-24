@@ -8,6 +8,7 @@ export class ProfesorGuia extends Usuario {
   telefonoPersonal: string;
   esCoordinador: boolean;
   estaActivo: boolean;
+  editable: boolean = false;
 
   /**
    * Constructor
@@ -68,4 +69,9 @@ export class ProfesorGuia extends Usuario {
         return "LI-" + this.codigo;
     }
   }
+  changeEditMode(mode: boolean): void {
+    this.editable = mode;
+
+}
+
 }

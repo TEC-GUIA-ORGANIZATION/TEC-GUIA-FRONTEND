@@ -3,10 +3,10 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between table-header">
     <h1>Equipo de Profesores</h1>
-    <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn">Agregar Profesor</button>
+    <button *ngIf="hasPrivileges()" class="btn btn-custom action-btn" (click)="changeCreatingMode(true)">Agregar Profesor</button>
   </div>
 
-  <div class="filter-options row" *ngIf="isProfe()||isCoordinador()">
+  <div class="filter-options row" *ngIf="isProfe()||isCoordinador()||isAdmin()">
     <div class="col" >
       <label for="sedeFilter">Filtrar por Sede:</label>
       <select class="form-control" id="sedeFilter" [(ngModel)]="selectedSede" (change)="onFilterChange()">
@@ -58,17 +58,24 @@
         <td>{{profesor.telefonoPersonal}}</td>
         <td>{{profesor.codigo}}</td>
         <td>
-          <button class="btn btn-custom action-btn" (click)="seleccionarProfesor(profesor);changeEditMode(false)">Ver Detalles</button>
-
-          <button *ngIf="isCurrentUser(profesor) || (hasPrivileges() && isCurrentUserSameCampus(profesor)) || hasMainPrivileges()" class="btn btn-custom action-btn" (click)="changeEditMode(true);seleccionarProfesor(profesor)">Editar</button>
-          <button *ngIf="isCurrentUser(profesor) || (hasPrivileges() && isCurrentUserSameCampus(profesor)) || hasMainPrivileges()" class="btn btn-custom action-btn" (click)="darDeBaja(profesor)">Dar de Baja</button>
+          <button class="btn btn-icon action-btn" (click)="seleccionarProfesor(profesor);changeEditMode(false)">
+            <i class="fas fa-info-circle"></i> <!-- Icono para ver detalles -->
+          </button>
+          
+          <button class="btn btn-icon action-btn" *ngIf="isCurrentUser(profesor) || (hasPrivileges() && isCurrentUserSameCampus(profesor)) || hasMainPrivileges()"  (click)="changeEditMode(true);seleccionarProfesor(profesor)">
+            <i class="fas fa-edit"></i> <!-- Icono para editar -->
+          </button>
+          
+          <button class="btn btn-icon action-btn" *ngIf="isCurrentUser(profesor) || (hasPrivileges() && isCurrentUserSameCampus(profesor)) || hasMainPrivileges()"  (click)="darDeBaja(profesor)">
+            <i class="fas fa-user-times"></i> <!-- Icono para dar de baja -->
+          </button>
         </td>
         </ng-container>
       </tr>
     </tbody>
     <tfoot *ngIf="profesores.length > 0" class="table-footer">
       <tr>
-        <td colspan="9">
+        <td colspan="9" class="pagination-container">
           <pagination-controls (pageChange)="p = $event" class="table-pagination"></pagination-controls>
         </td>
       </tr>
@@ -79,7 +86,7 @@
     <div class="d-flex justify-content-start">
       <div class="card">
         <div class="card-body">
-          <img src="{{profesorSeleccionado.fotografia}}" class="card-img-top card-img" alt="...">
+          <img [src]="getFileUrl('users', profesorSeleccionado.id)" class="card-img-top card-img" alt="...">
           <h3 class="card-title">{{profesorSeleccionado.obtenerNombreCompleto()}}</h3>
         </div>
       </div>
@@ -90,50 +97,103 @@
       <p><strong>Telefono Oficina:</strong> {{profesorSeleccionado.telefonoOficina}}</p>
       <p><strong>Telefono Celular:</strong> {{profesorSeleccionado.telefonoPersonal}}</p>
       <p><strong>Código:</strong> {{profesorSeleccionado.codigo}}</p>
+      <button class="btn btn-custom action-btn" (click)="profesorSeleccionado=null">Volver</button>
+        
     </div>
     <div class="professor-info-details" *ngIf="editMode">
-      <form class="">
-        <div class="form-group">
+      <form>
+        <div class="form-group" *ngIf="isCurrentUser(profesorSeleccionado) || (hasPrivileges() && isCurrentUserSameCampus(profesorSeleccionado))">
           <div class="row">
             <div class="col">
               <label for="nombre">Nombre</label>
-              <input type="text" class="form-control" id="nombre" value="{{profesorSeleccionado.nombre}}">
+              <input #nombreInput type="text" class="form-control" id="nombre" value="{{profesorSeleccionado.nombre}}">
             </div>
             <div class="col">
               <label for="primerApellido">Primer Apellido</label>
-              <input type="text" class="form-control" id="primerApellido" value="{{profesorSeleccionado.primerApellido}}">
+              <input #primerApellidoInput type="text" class="form-control" id="primerApellido" value="{{profesorSeleccionado.primerApellido}}">
             </div>
             <div class="col">
               <label for="segundoApellido">Segundo Apellido</label>
-              <input type="text" class="form-control" id="segundoApellido" value="{{profesorSeleccionado.segundoApellido}}">
+              <input #segundoApellidoInput type="text" class="form-control" id="segundoApellido" value="{{profesorSeleccionado.segundoApellido}}">
             </div>
           </div>
           <div class="row">
             <div class="col">
               <label for="correo">Correo</label>
-              <input type="email" class="form-control" id="correo" value="{{profesorSeleccionado.correo}}">
+              <input #correoInput type="email" class="form-control" id="correo" value="{{profesorSeleccionado.correo}}">
             </div>
             <div class="col">
               <label for="telefonoOficina">Telefono Oficina</label>
-              <input type="text" class="form-control" id="telefonoOficina" value="{{profesorSeleccionado.telefonoOficina}}">
+              <input #telefonoOficinaInput type="text" class="form-control" id="telefonoOficina" value="{{profesorSeleccionado.telefonoOficina}}">
             </div>
             <div class="col">
               <label for="telefonoPersonal">Telefono Personal</label>
-              <input type="text" class="form-control" id="telefonoPersonal" value="{{profesorSeleccionado.telefonoPersonal}}">
+              <input #telefonoPersonalInput type="text" class="form-control" id="telefonoPersonal" value="{{profesorSeleccionado.telefonoPersonal}}">
             </div>
           </div>
-
+      
           <label for="fotografia">Fotografía</label>
-          <input class="form-control" type="file" id="fotografia">
-
-          <label for="coordinador" *ngIf="hasMainPrivileges()">Es Coordinador?</label>
-          <input class="form-checkbox" type="checkbox" id="coordinador" [checked]="profesorSeleccionado.esCoordinador" *ngIf="hasMainPrivileges()">
+          <input #fotoInput class="form-control" type="file" id="fotografia">
+        </div>
+        <div class="form-group" *ngIf="hasMainPrivileges()">
+          <label for="coordinador">¿Es Coordinador?</label>
+          <input #isCoordinadorInput class="form-checkbox" type="checkbox" id="coordinador" [(ngModel)]="profesorSeleccionado.esCoordinador" [ngModelOptions]="{standalone: true}">
         </div>
       </form>
       <div class="d-flex justify-content-between mt-3">
-        <button class="btn btn-custom action-btn" (click)="changeEditMode(false)">Cancelar</button>
-        <button class="btn btn-custom action-btn">Guardar</button>
+        <button class="btn btn-custom action-btn" (click)="changeEditMode(false);profesorSeleccionado=null">Cancelar</button>
+        <button class="btn btn-custom action-btn"(click)="guardarProfesor()">Guardar</button>
       </div>
     </div>
   </div>
-</div>
+  <div class="container mt-5 professor-info" *ngIf="creatingMode">
+
+    <div class="professor-info-details">
+      <form>
+        <div class="form-group" >
+          <div class="row">
+            <div class="col">
+              <label for="nombre">Nombre</label>
+              <input #nombreCreationInput type="text" class="form-control" id="nombre" >
+            </div>
+            <div class="col">
+              <label for="primerApellido">Primer Apellido</label>
+              <input #primerApellidoCreationInput type="text" class="form-control" id="primerApellido" >
+            </div>
+            <div class="col">
+              <label for="segundoApellido">Segundo Apellido</label>
+              <input #segundoApellidoCreationInput type="text" class="form-control" id="segundoApellido" >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="correo">Correo</label>
+              <input #correoCreationInput type="email" class="form-control" id="correo" >
+            </div>
+            <div class="col">
+              <label for="telefonoOficina">Telefono Oficina</label>
+              <input #telefonoOficinaCreationInput type="text" class="form-control" id="telefonoOficina" >
+            </div>
+            <div class="col">
+              <label for="telefonoPersonal">Telefono Personal</label>
+              <input #telefonoPersonalCreationInput type="text" class="form-control" id="telefonoPersonal" >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="password">Contraseña</label>
+              <input #contraseniaCreationInput type="password" class="form-control" id="password" >
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-custom action-btn" (click)="changeCreatingMode(false)">Cancelar</button>
+        <button class="btn btn-custom action-btn"(click)="crearProfesor()">Guardar</button>
+      </div>
+    </div>
+  </div>
+  
+
+
+
