@@ -2,13 +2,13 @@
 .logo {
   font-family: 'Roboto', sans-serif;
   font-size: 1.5rem; /* Tamaño del texto del logo */
-  /*font-weight: bold;*/ /* Negrita para el logo */
   margin-left: 1%; /* Agrega un espacio entre el logo y los elementos a la derecha */
+}
 
-}
 .bg-custom {
-  background-color: #002855; /* Change this to the desired color */
+  background-color: #002855; /* Cambia esto al color deseado */
 }
+
 /* Alinear los elementos a la derecha */
 .navbar-nav {
   margin-right: auto;
@@ -16,9 +16,12 @@
 
 /* Estilos para los enlaces del navbar */
 .navbar-nav .nav-link {
-  padding: 0.5rem 1rem; /* Espaciado interior de los enlaces */
+  padding: 0.5rem 1rem 0; /* Espaciado interior de los enlaces, sin padding inferior */
   position: relative; /* Establecer posición relativa para alinear la línea */
   color: #fff; /* Color del texto */
+  display: inline-block;
+  
+
 }
 
 /* Ajustar el espacio entre los elementos de la lista desplegable */
@@ -26,14 +29,28 @@
   margin-top: 10px; /* Agrega espacio entre el nombre de usuario y los elementos de la lista desplegable */
 }
 
-/* Estilos para la línea debajo del enlace activo */
-/* Cambiar el color del botón cuando está seleccionado */
+/* Estilos para la línea debajo del enlace */
+.navbar-nav .nav-link::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  bottom: -14px; /* Ajusta la posición vertical de la línea */
+  left: 0;
+}
 
-/* Resaltar el botón al pasar el mouse por encima */
+/* Estilo para la línea al pasar el mouse */
+.navbar-nav .nav-item:hover .nav-link::after {
+  
+  background-color: #EF3340;
+}
 
-.navbar-nav .nav-item:hover .nav-link {
-  border-bottom: 2px solid #FFF; /* Añade el borde inferior */
-  padding-bottom: 0.4rem; /* Ajusta el relleno inferior para compensar el borde */
+/* Estilo para la línea en el enlace activo */
+.navbar-nav .nav-item.active .nav-link::after {
+  background-color: #EF3340;
 }
 
 /* Estilos para el botón del navbar-toggler */
@@ -53,18 +70,12 @@
   }
 }
 
-/* Estilos para el enlace activo */
-.navbar-nav .nav-item.active .nav-link {
-  color: #fff; /* Cambia el color a tu preferencia */
-  border-bottom: 2px solid #fff; /* Añade el borde inferior */
-  padding-bottom: 0.4rem; /* Ajusta el relleno inferior para compensar el borde */
-}
-
 .logout-btn {
   margin-right: 1%; /* Agrega espacio entre el botón de cierre de sesión y los elementos a la izquierda */
 }
 
 /* When clicked */
 .logout-btn:active {
-  background-color: #A5A5A5; /* Change this to the desired color */
+  background-color: #A5A5A5; /* Cambia esto al color deseado */
 }
+

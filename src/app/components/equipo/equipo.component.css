@@ -22,6 +22,14 @@
   padding: 0; /* Sin relleno */
   cursor: pointer; /* Cursor tipo puntero */
 }
+.btn-icon:hover {
+  background-color: transparent; /* Fondo transparente */
+  color: #EF3340; /* Color de texto */
+  transition: background-color 0.3s ease; /* Transición para el cambio de color de fondo */
+  border: none; /* Sin bordes */
+  padding: 0; /* Sin relleno */
+  cursor: pointer; /* Cursor tipo puntero */
+}
 
 /* Estilo adicional para los iconos dentro de los botones */
 .btn-icon i {
