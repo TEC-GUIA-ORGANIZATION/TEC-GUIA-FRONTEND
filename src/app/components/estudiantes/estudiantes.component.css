@@ -185,4 +185,17 @@
     border-color: #002855 !important;
     border-radius: 3px;
   }
+  .btn-icon {
+    border: none; /* Elimina los bordes */
+    background: transparent; /* Fondo transparente */
+    padding: 0; /* Sin relleno */
+    cursor: pointer; /* Cursor tipo puntero */
+  }
   
+  .btn-icon i {
+    font-size: 1.5rem; /* Tamaño del icono */
+  }
+  
+  .btn-icon:hover i {
+    color: #EF3340; /* Cambia el color del ícono al pasar el mouse */
+  }
