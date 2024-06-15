@@ -14,16 +14,14 @@ import { GestorUsuarios } from './gestor-usuarios.service';
 export class GestorPlanTrabajo {
   private url = `${API_URL}/planning`; // Ajusta la URL base según tus necesidades
 
-  constructor(private http: HttpClient,private authService: GestorAutenticacion,private gestorUsuarios: GestorUsuarios) {
-
-
-  }
-
+  constructor(
+    private http: HttpClient,
+    private authService: GestorAutenticacion,
+    private gestorUsuarios: GestorUsuarios
+  ) { }
 
   getActividades(): Observable<Actividad[] | null> {
-
-
-    return this.http.get<any[]>(`${this.url}/getActivitiesOfPlanning?semester=${this.getCurrentSemester()}&campus=${this.authService.getCurrentUser()?.sede}`).pipe(
+    return this.http.get<any[]>(`${this.url}/getActivitiesOfPlanning?semester=${this.getCurrentSemester()}&year=${new Date().getFullYear()}`).pipe(
       switchMap(response => {
         // Create an array of observables for each getUsuario call
         const observables: Observable<Actividad | null>[] = response.map(item => {
@@ -69,10 +67,7 @@ export class GestorPlanTrabajo {
       })
     );
   }
-  getSemesterFromDate(date: Date): string {
-    const month = date.getMonth() + 1;
-    return month >= 1 && month <= 6 ? "primer semestre" :  "segundo semestre";
-  }
+
   createPlanning(): Observable<PlanTrabajo | undefined> {
     const semester = this.getCurrentSemester();
     const user = this.authService.getCurrentUser();
@@ -87,6 +82,12 @@ export class GestorPlanTrabajo {
       return of(undefined); // Si el usuario no está autenticado o no tiene una sede, devuelve undefined
     }
   }
+
+  getSemesterFromDate(date: Date): string {
+    const month = date.getMonth() + 1;
+    return month >= 1 && month <= 6 ? "primer semestre" :  "segundo semestre";
+  }
+
   getCurrentSemester(): string {
     const currentDate = new Date();
     return this.getSemesterFromDate(currentDate);
@@ -94,9 +95,5 @@ export class GestorPlanTrabajo {
 
   getPlannings(): Observable<PlanTrabajo[]> {
       return this.http.get<PlanTrabajo[]>(`${this.url}`);
-  }
-
-  getPlanningByCampus(campus: string): Observable<PlanTrabajo[]> {
-      return this.http.get<PlanTrabajo[]>(`${this.url}/getByCampus?campus=${campus}`);
   }
 }

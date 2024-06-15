@@ -51,13 +51,15 @@ export class EstudiantesComponent implements OnInit {
           if (this.isAdmin()) {
             this.estudiantes = estudiantes.filter(estudiante => estudiante.sede === this.gestorAutenticacion.getCurrentUser()?.sede);
           }
-          else{
+
+          else {
             this.estudiantes = estudiantes;
           }
-          
-          this.estudiantesOriginal = estudiantes;
+
+          this.estudiantesOriginal = this.estudiantes;
         } else {
           console.error('No se recibieron estudiantes.');
+          this.estudiantes = [];
         }
       },
       (error) => {
@@ -65,9 +67,15 @@ export class EstudiantesComponent implements OnInit {
       }
     );
   }
+
+  thereAreStudents(): boolean {
+    return this.estudiantes.length > 0;
+  }
+
   mismaSede(sede:String): boolean{
     return sede === this.gestorAutenticacion.getCurrentUser()?.sede;
   }
+
   toggleEdit(estudiante: Estudiante,inputs:HTMLInputElement[]) {
     if(estudiante.editable==true){
       estudiante.nombre=inputs[0].value;
@@ -128,18 +136,19 @@ export class EstudiantesComponent implements OnInit {
       }
     );
   }
+
   descargarExcelTodos(): void {
-  this.gestorEstudiantes.getArchivoEstudiantesTotal().subscribe(
-    (archivo: Blob) => {
-      // Guardar el archivo descargado utilizando FileSaver.js
-      saveAs(archivo, 'students.xlsx');
-    },
-    error => {
-      console.error('Error al descargar el archivo de estudiantes:', error);
-      // Manejar el error, por ejemplo, mostrar un mensaje al usuario
-    }
-  );
-}
+    this.gestorEstudiantes.getArchivoEstudiantesTotal().subscribe(
+      (archivo: Blob) => {
+        // Guardar el archivo descargado utilizando FileSaver.js
+        saveAs(archivo, 'students.xlsx');
+      },
+      error => {
+        console.error('Error al descargar el archivo de estudiantes:', error);
+        // Manejar el error, por ejemplo, mostrar un mensaje al usuario
+      }
+    );
+  }
   isAdmin(){
     return this.gestorAutenticacion.getCurrentUserRol() === 'admin';
   }

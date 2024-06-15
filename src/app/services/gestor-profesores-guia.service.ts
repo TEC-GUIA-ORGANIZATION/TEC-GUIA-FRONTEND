@@ -12,8 +12,7 @@ import { Sede } from '../models/sede.model';
 // GestorProfesoresGuia service
 // This service is used to manage the profesores guia in the system
 export class GestorProfesoresGuia {
-  private url = `${API_URL}/generalProfessors`;
-  private url2 = `${API_URL}/guideProfessors`;
+  private url = `${API_URL}/professors`;
 
   /**
    * Constructor
@@ -70,10 +69,10 @@ export class GestorProfesoresGuia {
     return this.http.patch(url, body);
   }
   changeState(professorId: string): Observable<any> {
-    return this.http.patch(`${this.url2}/changeStatus`, { professorId });
+    return this.http.patch(`${this.url}/changeStatus`, { professorId });
   }
   setCoordinador(newCoordinatorId: string,campus:Sede): Observable<any>{
-    return this.http.patch(`${this.url2}/setCoordinator`, { campus, newCoordinatorId })
+    return this.http.patch(`${this.url}/setCoordinator`, { campus, newCoordinatorId })
   }
   createProfessor(professorData: ProfesorGuia): Observable<any> { // Usa ProfesorGuia como tipo de datos
     const body= {

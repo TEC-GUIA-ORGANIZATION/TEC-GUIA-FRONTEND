@@ -4,5 +4,4 @@ export enum EstadoActividad {
   NOTIFICADA = 'NOTIFICADA',
   REALIZADA = 'REALIZADA',
   CANCELADA = 'CANCELADA',
-  PUBLICADA = 'PUBLICADA',
 }

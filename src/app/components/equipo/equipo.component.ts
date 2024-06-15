@@ -40,7 +40,7 @@ export class EquipoComponent {
   @ViewChild('fotoCreationInput', { static: false }) fotoCreationInput!: ElementRef;
   @ViewChild('contraseniaCreationInput', { static: false }) contraseniaCreationInput!: ElementRef;
 
-  
+
   pageSize: number = 5; // Number of items per page
   p: number = 1; // Current page, initialized to 1
   sedes: string[] = Object.values(Sede); // To store the list of sedes
@@ -52,21 +52,14 @@ export class EquipoComponent {
   nuevoProfesor!:ProfesorGuia;
   originalProfesores: ProfesorGuia[] = []; // To store the original list of profesores
   profesores: ProfesorGuia[] = [];
+
   constructor(
     private gestorAutenticacion: GestorAutenticacion,
     private gestorProfesoresGuia: GestorProfesoresGuia,
     private gestorBlob: GestorBlobStorage
   ) {
     this.gestorProfesoresGuia.getProfesoresGuia().subscribe((profesores) => {
-      /*
-      esto solo si los asistentes pueden ver solo su propio campus
-      if (this.isAdmin()&&this.gestorAutenticacion.getCurrentUser()?.campus !== 'Cartago'{
-        this.profesores = profesores.filter(profesor => profesor.sede === this.gestorAutenticacion.getCurrentUser()?.sede);
-      }
-      else{*/
-        this.profesores = profesores;
-      
-      
+      this.profesores = profesores;
       this.originalProfesores = [...profesores];
     });
   }
@@ -83,27 +76,27 @@ export class EquipoComponent {
         if (this.correoInput) this.profesorSeleccionado.correo = this.correoInput.nativeElement.value;
         if (this.telefonoOficinaInput) this.profesorSeleccionado.telefonoOficina = this.telefonoOficinaInput.nativeElement.value;
         if (this.telefonoPersonalInput) this.profesorSeleccionado.telefonoPersonal = this.telefonoPersonalInput.nativeElement.value;
-            
+
         if (this.fotoInput &&this.fotoInput.nativeElement.files.length > 0) {
           const file = this.fotoInput.nativeElement.files[0];
           if(this.profesorSeleccionado.fotografia!=""){
             this.gestorBlob.deleteFile("users", this.profesorSeleccionado.id);
           }
-          
+
           this.gestorBlob.uploadFile("users", this.profesorSeleccionado.id, file).then();
           this.profesorSeleccionado.fotografia="https://tecguia.blob.core.windows.net/users/"+this.profesorSeleccionado.id;
         }
-        this.gestorProfesoresGuia.updateProfesor(this.profesorSeleccionado).subscribe(
-          response => {
-            console.log("Profesor actualizado exitosamente.", response);
-          },
-          error => {
-            console.error("Error al actualizar el profesor:", error);
-          }
-        );
+          this.gestorProfesoresGuia.updateProfesor(this.profesorSeleccionado).subscribe(
+            response => {
+              console.log("Profesor actualizado exitosamente.", response);
+            },
+            error => {
+              console.error("Error al actualizar el profesor:", error);
+            }
+          );
       }
       if(this.hasMainPrivileges()){
-      this.gestorProfesoresGuia.setCoordinador(this.profesorSeleccionado.id, this.profesorSeleccionado.sede).subscribe(
+        this.gestorProfesoresGuia.setCoordinador(this.profesorSeleccionado.id, this.profesorSeleccionado.sede).subscribe(
           (respuesta) => {
             // Maneja la respuesta aquí, por ejemplo, muestra un mensaje de éxito o realiza otras acciones necesarias.
             console.log('La operación se realizó con éxito:', respuesta);
@@ -146,7 +139,7 @@ export class EquipoComponent {
       });
     }
     this.creatingMode=false;
-  }    
+  }
 
   isAdmin(){
     return this.gestorAutenticacion.getCurrentUserRol() === 'admin';

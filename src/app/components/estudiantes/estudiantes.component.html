@@ -64,7 +64,8 @@
         <th scope="col">Acciones</th>
       </tr>
     </thead>
-    <tbody *ngIf="estudiantes.length > 0">
+
+    <tbody *ngIf="thereAreStudents()">
       <tr *ngFor="let estudiante of estudiantes | paginate: { itemsPerPage: pageSize, currentPage: p }">
 
         <td><label>{{ estudiante.institutionId }}</label></td>
@@ -96,19 +97,13 @@
                 <i class="fas fa-edit"></i> <!-- Icono de Editar -->
             </ng-template>
         </button>
-        
-<!-- Puedes agregar más botones de acciones aquí si es necesario -->
         </td>
       </tr>
     </tbody>
 
-    <tbody *ngIf="estudiantes.length == 0">
-      <tr>
-        <td colspan="7" class="text-center">No se encontraron estudiantes</td>
-      </tr>
-    </tbody>
+    <hr>
 
-    <tfoot *ngIf="estudiantes.length > 0" class="table-footer">
+    <tfoot *ngIf="thereAreStudents()" class="table-footer">
       <tr>
         <td colspan="7">
           <pagination-controls (pageChange)="p = $event" class="table-pagination"></pagination-controls>

@@ -18,8 +18,6 @@ export class GestorActividades {
 
   constructor(private http: HttpClient, private gestorUsuarios: GestorUsuarios) {}
 
-
-
   getActividadesTotal(): Observable<Actividad[]> {
     return this.http.get<any[]>(`${this.url}/total`);
   }

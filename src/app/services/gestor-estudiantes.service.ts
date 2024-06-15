@@ -10,14 +10,12 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GestorEstudiantes {
-  private url = `${API_URL}/studentList`;
+  private url = `${API_URL}/students`;
 
-  constructor(private http: HttpClient, private authService:GestorAutenticacion) {
-    
-   }
+  constructor(private http: HttpClient, private authService:GestorAutenticacion) { }
 
   getCurrentFirstSemesterStudents(): Observable<Estudiante[] | null> {
-    return this.http.get<any[]>(`${this.url}/currentFirstSemesterStudents`).pipe(
+    return this.http.get<any[]>(`${this.url}/current-semester`).pipe(
       map(response => {
         // Map each item in the response array to an Estudiante object
         return response.map(item => {
@@ -30,34 +28,7 @@ export class GestorEstudiantes {
             item.secondLastname,
             item.personalPhone,
             item.campus,
-            item.institutionId,
-            item.personalPhone,
-            item.semester,
-            item.entryYear,
-            item.photo
-          );
-        });
-      }),
-      catchError(_ => {
-        return of(null);
-      })
-    );
-  }
-  getCurrentFirstSemesterStudentsByCampus(): Observable<Estudiante[] | null> {
-    return this.http.get<any[]>(`${this.url}/currentFirstSemesterStudents`).pipe(
-      map(response => {
-        // Map each item in the response array to an Estudiante object
-        return response.map(item => {
-          // Assuming the properties of the item map directly to Estudiante properties
-          return new Estudiante(
-            item._id,
-            item.email,
-            item.name,
-            item.firstLastname,
-            item.secondLastname,
-            item.personalPhone,
-            item.campus,
-            item.institutionId,
+            item.institutionID,
             item.personalPhone,
             item.semester,
             item.entryYear,
@@ -81,7 +52,7 @@ export class GestorEstudiantes {
 
   getEstudiantesPorSede(campus: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}/getAllStudentsByCampus`, { params: { campus } });
-  } 
+  }
 
   updateStudent(student: Estudiante): Observable<any> {
     const url = `${this.url}/updateStudent/${student.id}`;

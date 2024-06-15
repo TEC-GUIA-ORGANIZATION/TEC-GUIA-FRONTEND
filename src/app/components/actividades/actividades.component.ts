@@ -44,7 +44,8 @@ export class ActividadesComponent{
 
   constructor(
     private gestorPlanes:GestorPlanTrabajo,
-    private gestor: GestorActividades, private gestorAutenticacion: GestorAutenticacion) {
+    private gestorAutenticacion: GestorAutenticacion
+  ) {
       this.getActividades()
   }
 
@@ -165,18 +166,18 @@ export class ActividadesComponent{
       return true; // Return true since all activities are displayed
     } else if (this.selectedActividades === 'upcoming') {
       const today = new Date().getTime();
-      
+
       // Filter activities to get only those with a date >= today
       const upcomingActivities = this.originalActividades.filter(actividad => {
         return new Date(actividad.fecha).getTime() >= today;
       });
-    
+
       if (upcomingActivities.length > 0) {
         // Find the activity with the closest date
         const closestActivity = upcomingActivities.reduce((closest, current) => {
           return new Date(current.fecha).getTime() < new Date(closest.fecha).getTime() ? current : closest;
         });
-    
+
         this.actividades = [closestActivity]; // Set the closest activity as the only item in actividades
         return true; // Return true since a closest activity exists
       } else {
