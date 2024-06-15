@@ -20,7 +20,7 @@
   position: relative; /* Establecer posición relativa para alinear la línea */
   color: #fff; /* Color del texto */
   display: inline-block;
-  
+
 
 }
 
@@ -44,7 +44,7 @@
 
 /* Estilo para la línea al pasar el mouse */
 .navbar-nav .nav-item:hover .nav-link::after {
-  
+
   background-color: #EF3340;
 }
 
@@ -71,11 +71,10 @@
 }
 
 .logout-btn {
-  margin-right: 1%; /* Agrega espacio entre el botón de cierre de sesión y los elementos a la izquierda */
+  margin: 0 1%; /* Agrega espacio entre el botón de cierre de sesión y los elementos a la izquierda */
 }
 
 /* When clicked */
 .logout-btn:active {
   background-color: #A5A5A5; /* Cambia esto al color deseado */
 }
-

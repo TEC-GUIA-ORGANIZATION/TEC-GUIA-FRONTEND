@@ -33,4 +33,14 @@ export class NavbarComponent {
   isStudent(): boolean {
     return this.gestorAutenticacion.getCurrentUserRol() === 'estudiante';
   }
+
+  hasNotifications(): boolean {
+    // TODO: Implement this method
+    return true;
+  }
+
+  countNotifications(): number {
+    // TODO: Implement this method
+    return 1;
+  }
 }
