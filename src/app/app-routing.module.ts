@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'actividad/:id/comentarios', component: ComentariosComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id/evidencias', component: EvidenciasComponent, canActivate: [AuthGuard] },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante'] } },
-  { path: 'notificaciones', component: NotificationsComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante', 'profesor guia'] } }, // XXX: Delete profesor guia
+  { path: 'notificaciones', component: NotificationsComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante'] } },
 
   // Wildcard route
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
