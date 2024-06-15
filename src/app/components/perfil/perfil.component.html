@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Perfil del Estudiante</h1>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="container d-flex flex-column justify-content-center align-items-center mb-3">
+        <img [src]="photoUrl" class="rounded-circle mb-3" width="200" height="200" style="object-fit: cover" />
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <h3>{{ estudiante?.getNombreCompleto() }}</h3>
+          <h4><strong>{{ estudiante?.correo }}</strong></h4>
+        </div>
+      </div>
+
+      <!-- Información Básica -->
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="institutionId">ID de la Institución</label>
+          <input type="text" id="institutionId" class="form-control" [value]="estudiante?.institutionId" disabled />
+        </div>
+        <div class="form-group mb-3">
+          <label for="entryYear">Año de Ingreso</label>
+          <input type="text" id="entryYear" class="form-control" [value]="estudiante?.entryYear" disabled />
+        </div>
+        <div class="form-group mb-3" *ngIf="!isEditable">
+          <label for="telefono">Teléfono</label>
+          <input type="text" id="telefono" class="form-control" [value]="estudiante?.telefono" disabled />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="sede">Sede</label>
+          <input type="text" id="sede" class="form-control" [value]="estudiante?.sede" disabled />
+        </div>
+        <div class="form-group mb-3">
+          <label for="semester">Semestre</label>
+          <input type="text" id="semester" class="form-control" [value]="estudiante?.semester" disabled />
+        </div>
+      </div>
+
+      <!-- Sección de edición -->
+      <div class="col-md-6" *ngIf="isEditable">
+        <div class="form-group mb-3">
+          <label for="telefono">Teléfono</label>
+          <input type="text" id="telefono" class="form-control" formControlName="telefono" />
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="isEditable">
+        <div class="form-group mb-3">
+          <label for="foto">Fotografía</label>
+          <input type="file" id="foto" class="form-control" (change)="onFileSelected($event)" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón cambiar contraseña -->
+    <button type="button" class="btn btn-primary" (click)="changePassword()">Cambiar Contraseña</button>
+
+    <!-- Botón de edición -->
+    <button type="button" class="btn btn-primary" (click)="toggleEdit()">{{ isEditable ? 'Cancelar' : 'Editar' }}</button>
+
+    <!-- Botón de envío -->
+    <button type="submit" class="btn btn-primary" *ngIf="isEditable">Guardar Cambios</button>
+  </form>
+</div>

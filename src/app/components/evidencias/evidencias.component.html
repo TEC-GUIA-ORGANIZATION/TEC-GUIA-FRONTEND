@@ -18,9 +18,9 @@
 
       <div class="d-flex justify-content-left mb-3 align-items-center" *ngIf="actividad?.modalidad === 'REMOTA' && actividad?.evidencia?.linkGrabacion === ''">
         <!-- Input field and button to upload the recording link -->
-        <input type="text" class="form-control recording-input" placeholder="Enlace de grabación" [(ngModel)]="grabacion">
-        <button class="btn btn-custom" (click)="uploadRecordingLink()">Subir</button>
-        <button class="btn btn-custom" (click)="cancelRecordingLink()" *ngIf="backupGrabacion !== ''">Cancelar</button>
+        <input type="text" class="form-control recording-input" placeholder="Enlace de grabación" [(ngModel)]="grabacion" *ngIf="!isStudent()">
+        <button class="btn btn-custom" (click)="uploadRecordingLink()" *ngIf="!isStudent()">Subir</button>
+        <button class="btn btn-custom" (click)="cancelRecordingLink()" *ngIf="backupGrabacion !== '' && !isStudent()">Cancelar</button>
       </div>
 
       <div class="d-flex justify-content-between mb-3 align-items-center" *ngIf="actividad?.modalidad === 'REMOTA' && actividad?.evidencia?.linkGrabacion !== ''">
@@ -28,7 +28,7 @@
           <img src="/assets/images/record-logo.svg" alt="Grabación" class="recording-logo">
           Enlace de grabación
         </a>
-        <button class="btn btn-custom" (click)="editRecordingLink()">Editar</button>
+        <button class="btn btn-custom" (click)="editRecordingLink()" *ngIf="!isStudent()">Editar</button>
       </div>
 
       <div class="actions">
@@ -41,7 +41,7 @@
         <h1 class="mb-1">Asistencia</h1>
 
         <!-- Button to upload a new image -->
-        <div *ngIf="!uploadAsistenciaIsVisible">
+        <div *ngIf="!uploadAsistenciaIsVisible && !isStudent()">
           <button class="btn btn-custom" (click)="uploadAsistencia()">Subir nueva</button>
           <button class="btn btn-custom" (click)="eliminarAsistenciaActual()">Eliminar actual</button>
         </div>
@@ -67,7 +67,7 @@
         <h1 class="mb-1">Participantes</h1>
 
         <!-- Button to upload a new image -->
-        <div *ngIf="!uploadParticipanteIsVisible">
+        <div *ngIf="!uploadParticipanteIsVisible && !isStudent()">
           <button class="btn btn-custom" (click)="uploadParticipante()">Subir nueva</button>
           <button class="btn btn-custom" (click)="eliminarParticipanteActual()">Eliminar actual</button>
         </div>

@@ -43,10 +43,11 @@ export class Estudiante {
         this.entryYear = entryYear;
         this.foto = foto; // Asignación del parámetro foto al atributo de la clase
     }
+
     changeEditMode(mode: boolean): void {
         this.editable = mode;
-    
     }
+
     getNombreCompleto(): string {
         return `${this.nombre} ${this.primerApellido} ${this.segundoApellido}`;
     }

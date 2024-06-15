@@ -107,5 +107,4 @@ export class GestorAutenticacion {
   getCurrentUserRol(): string | null {
     return this.currentUser?.rol || null;
   }
-
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 
@@ -8,16 +9,18 @@ import { GestorAutenticacion } from '../../services/gestor-autenticacion.service
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   imports: [
+    CommonModule,
     RouterLink,
     RouterLinkActive
   ],
 })
 
-export class NavbarComponent implements OnInit {
-  constructor(private router: Router, public gestorAutenticacion: GestorAutenticacion) { }
+export class NavbarComponent {
 
-  ngOnInit(): void {
-  }
+  constructor(
+    private router: Router,
+    public gestorAutenticacion: GestorAutenticacion
+  ) { }
 
   isSelected(url: string): boolean {
     return this.router.isActive(url, true);
@@ -25,5 +28,9 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.gestorAutenticacion.logout();
+  }
+
+  isStudent(): boolean {
+    return this.gestorAutenticacion.getCurrentUserRol() === 'estudiante';
   }
 }

@@ -8,6 +8,7 @@ import { Actividad } from '../../models/actividad.model';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { GestorEvidencia } from '../../services/gestor-evidencia.service';
+import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 
 @Component({
   standalone: true,
@@ -37,6 +38,7 @@ export class EvidenciasComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private gestorAutenticacion: GestorAutenticacion,
     private gestorActividadesService: GestorActividades,
     private gestorBlobStorageService: GestorBlobStorage,
     private gestorEvidenciaService: GestorEvidencia
@@ -181,5 +183,9 @@ export class EvidenciasComponent {
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
+  }
+
+  isStudent(): boolean {
+    return this.gestorAutenticacion.getCurrentUserRol() === 'estudiante';
   }
 }

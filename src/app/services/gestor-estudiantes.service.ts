@@ -46,8 +46,28 @@ export class GestorEstudiantes {
     return this.http.get<any[]>(`${this.url}/getAllStudents`, { params: { semester, entryYear } });
   }
 
-  getEstudiante(id: string): Observable<Estudiante> {
-    return this.http.get<Estudiante>(`${this.url}/${id}`);
+  getEstudiante(id: string): Observable<Estudiante | null> {
+    return this.http.get<any>(`${this.url}/wrapped/${id}`).pipe(
+      map(response => {
+        return new Estudiante(
+          response._id,
+          response.email,
+          response.name,
+          response.firstLastname,
+          response.secondLastname,
+          response.personalPhone,
+          response.campus,
+          response.institutionID,
+          response.personalPhone,
+          response.semester,
+          response.entryYear,
+          response.photo
+        );
+      }),
+      catchError(_ => {
+        return of(null);
+      })
+    );
   }
 
   getEstudiantesPorSede(campus: string): Observable<any[]> {

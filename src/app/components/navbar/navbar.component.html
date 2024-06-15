@@ -9,14 +9,17 @@
       <li class="nav-item" [class.active]="isSelected('/')">
         <a class="nav-link" routerLink="/" routerLinkActive="active">Inicio</a>
       </li>
-      <li class="nav-item" [class.active]="isSelected('/estudiantes')">
+      <li class="nav-item" [class.active]="isSelected('/estudiantes')" *ngIf="!isStudent()">
         <a class="nav-link" routerLink="/estudiantes" routerLinkActive="active">Estudiantes</a>
       </li>
       <li class="nav-item" [class.active]="isSelected('/actividades')">
         <a class="nav-link" routerLink="/actividades" routerLinkActive="active">Actividades</a>
       </li>
-      <li class="nav-item" [class.active]="isSelected('/equipo')">
+      <li class="nav-item" [class.active]="isSelected('/equipo')" *ngIf="!isStudent()">
         <a class="nav-link" routerLink="/equipo" routerLinkActive="active">Equipo</a>
+      </li>
+      <li class="nav-item" [class.active]="isSelected('/perfil')" *ngIf="isStudent()">
+        <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Perfil</a>
       </li>
     </ul>
   </div>

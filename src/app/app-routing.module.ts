@@ -13,6 +13,7 @@ import { ActividadComponent } from './components/actividad/actividad.component';
 import { ComentariosComponent } from './components/comentarios/comentarios.component';
 import { RoleChecker } from './guards/role-checker.guard';
 import { EvidenciasComponent } from './components/evidencias/evidencias.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 // import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id/comentarios', component: ComentariosComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id/evidencias', component: EvidenciasComponent, canActivate: [AuthGuard] },
+  { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante'] } },
 
   // Wildcard route
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }

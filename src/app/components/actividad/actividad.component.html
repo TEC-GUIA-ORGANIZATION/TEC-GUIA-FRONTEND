@@ -84,7 +84,7 @@
     <button class="btn btn-primary activity-btn" (click)="goBack()" *ngIf="!isEditable">Volver</button>
     <button class="btn btn-primary activity-btn" (click)="showComments()" *ngIf="!isEditable && !isAdmin()">Ver Comentarios</button>
     <button class="btn btn-primary activity-btn" (click)="showEvidences()" *ngIf="actividad?.estado === 'REALIZADA' && !isEditable">Ver Evidencias</button>
-    <button class="btn btn-primary activity-btn" (click)="editActivity()" *ngIf="!isEditable">Editar</button>
+    <button class="btn btn-primary activity-btn" (click)="editActivity()" *ngIf="!isEditable && !isStudent()">Editar</button>
 
     <button class="btn btn-primary activity-btn" (click)="saveActivity()" *ngIf="isEditable">Guardar</button>
     <button class="btn btn-primary activity-btn" (click)="cancelEditActivity()" *ngIf="isEditable">Cancelar</button>

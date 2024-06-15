@@ -165,4 +165,8 @@ export class ActividadComponent {
   isAdmin() {
     return this.gestorAutenticacion.getCurrentUser()!.rol === 'admin';
   }
+
+  isStudent() {
+    return this.gestorAutenticacion.getCurrentUser()!.rol === 'estudiante';
+  }
 }
