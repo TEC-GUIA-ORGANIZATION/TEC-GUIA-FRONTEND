@@ -127,4 +127,9 @@ export class GestorEstudiantes {
     // Enviar la solicitud POST al backend
     return this.http.post(`${this.url}/upload`, formData, { responseType: 'text' }); // especificar responseType como 'text'
   }
+  updatePhoneNumber(id:string,phoneNumber:string): Observable<any> {
+    return this.http.patch<any>(`${this.url}/updatePhoneNumber`, {id,phoneNumber}).pipe(
+      catchError(_ => of(false))
+    );
+  }
 }

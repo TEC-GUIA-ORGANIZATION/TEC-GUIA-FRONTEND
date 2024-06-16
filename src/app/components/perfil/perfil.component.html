@@ -22,9 +22,9 @@
           <label for="entryYear">Año de Ingreso</label>
           <input type="text" id="entryYear" class="form-control" [value]="estudiante?.entryYear" disabled />
         </div>
-        <div class="form-group mb-3" *ngIf="!isEditable">
+        <div class="form-group mb-3" >
           <label for="telefono">Teléfono</label>
-          <input type="text" id="telefono" class="form-control" [value]="estudiante?.telefono" disabled />
+          <input type="text" id="telefono" class="form-control" [value]="estudiante?.telefono" [readonly]="!isEditable" formControlName="telefono" />
         </div>
       </div>
       <div class="col-md-6">
@@ -38,13 +38,8 @@
         </div>
       </div>
 
-      <!-- Sección de edición -->
-      <div class="col-md-6" *ngIf="isEditable">
-        <div class="form-group mb-3">
-          <label for="telefono">Teléfono</label>
-          <input type="text" id="telefono" class="form-control" formControlName="telefono" />
-        </div>
-      </div>
+      <!-- Sección de edición password -->
+
       <div class="col-md-6" *ngIf="isPasswordEditable">
         <div class="form-group mb-3">
           <label for="oldPassword">Contraseña Actual</label>

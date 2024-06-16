@@ -76,7 +76,12 @@ export class PerfilComponent {
         this.photoUrl = url;
       });
     }
-
+    if(this.profileForm.value.telefono)
+    this.gestorEstudiantes.updatePhoneNumber(this.estudiante.id.toString(), this.profileForm.value.telefono).subscribe(() => {
+      console.log('Telefono actualizado');
+    }, error => {
+      console.error(error);
+    });
     // TODO: Actualizar datos del estudiante
 
     this.isEditable = false;
