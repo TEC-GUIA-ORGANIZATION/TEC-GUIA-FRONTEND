@@ -1,3 +1,15 @@
 .btn {
   margin-right: 10px;
 }
+
+.btn-primary{
+  background-color: transparent;
+  color: #002855;
+  border: 1px solid #002855;
+  transition: background-color 0.3s ease;
+
+}
+.btn-primary:hover{
+  background-color: #002855;
+  color: #fff;
+}
