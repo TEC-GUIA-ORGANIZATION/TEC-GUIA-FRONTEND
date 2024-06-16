@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
+import { GestorNotificaciones } from '../../services/gestor-notificaciones.service';
 
 @Component({
   standalone: true,
@@ -16,11 +17,19 @@ import { GestorAutenticacion } from '../../services/gestor-autenticacion.service
 })
 
 export class NavbarComponent {
+  notificationsCount: number = 0;
+  hasNotification: boolean = false;
 
   constructor(
     private router: Router,
-    public gestorAutenticacion: GestorAutenticacion
-  ) { }
+    public gestorAutenticacion: GestorAutenticacion,
+    public gestorNotificaciones: GestorNotificaciones
+  ) {
+    this.gestorNotificaciones.obtenerNumeroNotificacionesNoLeidas().subscribe((count: number) => {
+      this.notificationsCount = count;
+      this.hasNotification = count > 0;
+    });
+  }
 
   isSelected(url: string): boolean {
     return this.router.isActive(url, true);
@@ -32,15 +41,5 @@ export class NavbarComponent {
 
   isStudent(): boolean {
     return this.gestorAutenticacion.getCurrentUserRol() === 'estudiante';
-  }
-
-  hasNotifications(): boolean {
-    // TODO: Implement this method
-    return true;
-  }
-
-  countNotifications(): number {
-    // TODO: Implement this method
-    return 1;
   }
 }

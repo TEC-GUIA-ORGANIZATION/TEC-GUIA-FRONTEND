@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Notificacion } from '../../models/notificacion.model';
 import { CommonModule } from '@angular/common';
+import { GestorNotificaciones } from '../../services/gestor-notificaciones.service';
 
 @Component({
   standalone: true,
@@ -22,48 +23,17 @@ export class NotificationsComponent {
   totalPages: number[] = [];
   totalPageCount: number = 0;
 
-  constructor() {}
-
-  ngOnInit(): void {
-    // Simula la carga de notificaciones
-    this.loadNotifications();
-    this.filterNotifications('all');
-  }
-
-  // XXX: Eliminar este texto y cargar notificaciones desde el servidor
-  text: string = `Recordatorio de actividad: [Nombre de actividad]
-
-Se le recuerda la realización próxima de la actividad [Nombre de la actividad] dentro de [cantidad de días faltantes] días.
-
-A continuación se le presenta el resumen de su información:
-
-Fecha de realización: [fecha]
-Hora: [hora]
-Modalidad: [Modalidad]
-Lugar: [lugarEnlace].
-
-Agradecemos su participación.
-`
-
-  loadNotifications(): void {
-    // TODO: Cargar notificaciones desde el servidor
-    this.allNotifications = [
-      new Notificacion('1', "Hola", new Date("2021-09-01"), 'Actividad 1', true),
-      new Notificacion('2', this.text, new Date(), 'Actividad 2', false),
-      new Notificacion('3', this.text, new Date(), 'Actividad 3', true),
-      new Notificacion('4', this.text, new Date(), 'Actividad 4', false),
-      new Notificacion('5', this.text, new Date(), 'Actividad 5', true),
-      new Notificacion('6', this.text, new Date(), 'Actividad 6', false),
-      new Notificacion('7', this.text, new Date(), 'Actividad 7', true),
-      new Notificacion('8', this.text, new Date(), 'Actividad 8', false),
-      new Notificacion('9', this.text, new Date(), 'Actividad 9', false),
-      new Notificacion('10', this.text, new Date(), 'Actividad 10', false),
-      new Notificacion('11', this.text, new Date(), 'Actividad 11', false),
-      new Notificacion('12', this.text, new Date(), 'Actividad 12', false),
-    ];
-
-    this.sortNotifications('desc');
-    this.calculateTotalPages();
+  constructor(
+    private gestorNotificaciones: GestorNotificaciones
+  ) {
+    this.gestorNotificaciones.obtenerNotificacionesUsuario().subscribe((notifications: Notificacion[]) => {
+      console.log('Notificaciones cargadas:', notifications);
+      this.allNotifications = notifications;
+      this.sortNotifications('desc');
+      this.calculateTotalPages();
+    }, (error) => {
+      console.error('Error al cargar las notificaciones:', error);
+    });
   }
 
   filterNotifications(filter: string): void {
@@ -126,23 +96,45 @@ Agradecemos su participación.
   }
 
   markAllAsRead(): void {
-    this.allNotifications.forEach(n => n.leida = true);
+    this.allNotifications.forEach((n) => {
+      this.gestorNotificaciones.toggleReadStatus(n.id).subscribe(() => {
+        n.leida = true
+      }, (error) => {
+        console.error('Error al marcar todas las notificaciones como leídas:', error);
+      });
+    });
     this.filterNotifications('all');
   }
 
   markAsUnread(id: string): void {
     const notification = this.allNotifications.find(n => n.id === id);
     if (notification) {
-      notification.leida = false;
+      this.gestorNotificaciones.toggleReadStatus(id).subscribe(() => {
+        notification.leida = false;
+      }, (error) => {
+        console.error('Error al marcar la notificación como no leída:', error);
+      });
     }
   }
 
   deleteNotification(id: string): void {
-    this.allNotifications = this.allNotifications.filter(n => n.id !== id);
+    this.gestorNotificaciones.eliminarNotificacion(id).subscribe(() => {
+      this.allNotifications = this.allNotifications.filter(n => n.id !== id);
+      this.filterNotifications('all');
+    }, (error) => {
+      console.error('Error al eliminar la notificación:', error);
+    });
   }
 
   deleteReadNotifications(): void {
-    this.allNotifications = this.allNotifications.filter(n => !n.leida);
-    this.filterNotifications('all');
+    const readNotifications = this.allNotifications.filter(n => n.leida);
+    readNotifications.forEach((n) => {
+      this.gestorNotificaciones.eliminarNotificacion(n.id).subscribe(() => {
+        this.allNotifications = this.allNotifications.filter(notification => notification.id !== n.id);
+        this.filterNotifications('all');
+      }, (error) => {
+        console.error('Error al eliminar la notificación:', error);
+      });
+    });
   }
 }

@@ -1,12 +1,9 @@
-import { Actividad } from "./actividad.model";
-
 // Notificacion model
 // This model is used to represent a notification in the system
 export class Notificacion {
   id: string;
   contenido: string;
   fecha: Date;
-  // emisor: Actividad;
   emisor: string;
   leida: boolean;
 
@@ -14,7 +11,6 @@ export class Notificacion {
     id: string,
     contenido: string,
     fecha: Date,
-    // emisor: Actividad,
     emisor: string,
     leida: boolean
   ) {
