@@ -74,10 +74,7 @@
   margin: 0 1%; /* Agrega espacio entre el botón de cierre de sesión y los elementos a la izquierda */
 }
 
-/* When clicked */
-.logout-btn:active {
-  background-color: #A5A5A5; /* Cambia esto al color deseado */
-}
+
 .button {
   background-color: transparent;
   border: none;
@@ -89,10 +86,7 @@
   justify-content: center;
 }
 
-.button i {
-  color: white; /* Color del ícono */
-  transition: color 0.3s; /* Transición suave para el cambio de color */
-}
+
 
 .button:hover i {
   color: #EF3340; /* Color del ícono al hacer hover */
