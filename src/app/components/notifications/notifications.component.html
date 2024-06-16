@@ -7,23 +7,23 @@
     <div>
       <p class="btn-group-header"><strong>Filtrar por:</strong></p>
       <div class="btn-group" role="group" aria-label="Filtro de Notificaciones">
-        <button type="button" class="btn btn-outline-primary" (click)="filterNotifications('all')">Todas</button>
-        <button type="button" class="btn btn-outline-success" (click)="filterNotifications('unread')">No Leídas</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="filterNotifications('all')">Todas</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="filterNotifications('unread')">No Leídas</button>
         <button type="button" class="btn btn-outline-secondary" (click)="filterNotifications('read')">Leídas</button>
       </div>
     </div>
     <div>
       <p class="btn-group-header"><strong>Ordenar por:</strong></p>
       <div class="btn-group" role="group" aria-label="Orden de Notificaciones">
-        <button type="button" class="btn btn-outline-primary" (click)="sortNotifications('asc')">Ascendente</button>
-        <button type="button" class="btn btn-outline-primary" (click)="sortNotifications('desc')">Descendente</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="sortNotifications('asc')">Ascendente</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="sortNotifications('desc')">Descendente</button>
       </div>
     </div>
     <div>
       <p class="btn-group-header"><strong>Acciones:</strong></p>
       <div class="btn-group" role="group" aria-label="Acciones de Notificaciones">
-        <button type="button" class="btn btn-warning" (click)="markAllAsRead()">Marcar todas como leídas</button>
-        <button type="button" class="btn btn-danger" (click)="deleteReadNotifications()">Eliminar Leídas</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="markAllAsRead()">Marcar todas como leídas</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="deleteReadNotifications()">Eliminar Leídas</button>
       </div>
     </div>
   </div>
@@ -46,33 +46,37 @@
           <!-- Botones de acción -->
           <div class="d-flex justify-content-end">
             <div>
+              
               <!-- Botón para marcar notificación como leída -->
               <button
                   *ngIf="!notificacion.leida"
                   type="button"
-                  class="btn btn-success btn-sm"
+                  class="btn btn-success btn-sm btn-icon"
                   (click)="markAsRead(notificacion.id)"
                   >
-                  Marcar como leída
+                  <i class="bi bi-eye-slash"></i> 
               </button>
+
               <!-- Botón para marcar notificación como no leída -->
               <button
                   *ngIf="notificacion.leida"
                   type="button"
-                  class="btn btn-warning btn-sm"
+                  class="btn btn-warning btn-sm btn-icon"
                   (click)="markAsUnread(notificacion.id)"
                   >
-                  Marcar como no leída
+                  <i class="bi bi-eye"></i>
               </button>
-              <!-- Botón para eliminar notificación -->
-              <button
-                  *ngIf="notificacion.leida"
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  (click)="deleteNotification(notificacion.id)"
-                  >
-                  Eliminar
-              </button>
+
+      <!-- Botón para eliminar notificación -->
+      <button
+          *ngIf="notificacion.leida"
+          type="button"
+          class="btn btn-danger btn-sm btn-icon"
+          (click)="deleteNotification(notificacion.id)"
+          >
+          <i class="bi bi-trash"></i> 
+      </button>
+
             </div>
           </div>
       </div>
