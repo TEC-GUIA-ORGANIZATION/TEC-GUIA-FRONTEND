@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
 import { API_URL } from './constantes.service';
+import { GestorEstudiantes } from './gestor-estudiantes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class GestorAutenticacion {
   private authUrl = `${API_URL}/auth`;
   private currentUser: Usuario | null = null;
 
-  constructor(private http: HttpClient, @Inject(CookieService) private cookieService: CookieService, private router: Router) { }
+  constructor(private http: HttpClient, 
+    @Inject(CookieService) private cookieService: CookieService, 
+    private router: Router) { }
 
   login(correo: string, contrasena: string): Observable<boolean> {
     return this.http.post<any>(`${this.authUrl}/signin`, { "email": correo, "password": contrasena }, { observe: 'response' }).pipe(
@@ -52,6 +55,13 @@ export class GestorAutenticacion {
 
   register(usuario: Usuario): Observable<any> {
     return this.http.post<any>(`${this.authUrl}/register`, usuario).pipe(
+      catchError(_ => of(false))
+    );
+  }
+  changePassword(email:string|undefined,newPassword:string): Observable<any> {
+    const password = this.currentUser?.contrasena;
+    console.log(email,password,newPassword)
+    return this.http.patch<any>(`${this.authUrl}/updatePassword`, {email,password,newPassword}).pipe(
       catchError(_ => of(false))
     );
   }

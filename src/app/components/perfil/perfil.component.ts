@@ -26,6 +26,7 @@ export class PerfilComponent {
   photoUrl = "/assets/images/default-user.jpg";
   photo: File | null = null;
   isEditable = false;
+  isPasswordEditable = false;
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +38,11 @@ export class PerfilComponent {
     this.profileForm = this.fb.group({
       telefono: [this.estudiante?.telefono],
       personalPhone: [this.estudiante?.personalPhone],
+      
+      oldPassword: [''],
+      newPassword: [''],
+      confirmPassword: ['']
+      
     });
 
     this.gestorEstudiantes.getEstudiante(this.gestorAutenticacion.getCurrentUser()!.id).subscribe(estudiante => {
@@ -81,6 +87,24 @@ export class PerfilComponent {
   }
 
   changePassword() {
-    // TODO: Implementar
+    this.isPasswordEditable = !this.isPasswordEditable;
+    if(!this.isPasswordEditable) {
+      this.profileForm.addControl('oldPassword', this.fb.control('', Validators.required));
+      this.profileForm.addControl('newPassword', this.fb.control('', Validators.required));
+      this.profileForm.addControl('confirmPassword', this.fb.control('', Validators.required));
+      if (this.profileForm.value.newPassword !== this.profileForm.value.confirmPassword) {
+        console.error('Las contraseñas no coinciden');
+        return;
+      }
+      else {
+
+        this.gestorAutenticacion.changePassword(this.estudiante?.correo,this.profileForm.value.newPassword).subscribe(() => {
+          console.log('Contraseña actualizada');
+        }, error => {
+          console.error(error);
+        });
+      }
+    
+    }
   }
 }
