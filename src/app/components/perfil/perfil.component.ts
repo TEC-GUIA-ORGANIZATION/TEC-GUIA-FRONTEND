@@ -112,4 +112,7 @@ export class PerfilComponent {
     
     }
   }
+  toggleEditPassword(){
+    this.isPasswordEditable = !this.isPasswordEditable;
+  }
 }

@@ -63,12 +63,14 @@
     </div>
 
     <!-- Botón cambiar contraseña -->
-    <button type="button" class="btn btn-primary" (click)="changePassword()">{{ isPasswordEditable ? 'Guardar contraseña' : 'Cambiar contraseña' }}</button>
+    <button type="button" class="btn btn-primary" *ngIf="!isEditable" (click)="toggleEditPassword()" >{{ isPasswordEditable ? 'Cancelar' : 'Cambiar contraseña' }}</button>
 
     <!-- Botón de edición -->
-    <button type="button" class="btn btn-primary" (click)="toggleEdit()">{{ isEditable ? 'Cancelar' : 'Editar' }}</button>
+    <button type="button" class="btn btn-primary" *ngIf="!isPasswordEditable" (click)="toggleEdit()">{{ isEditable ? 'Cancelar' : 'Editar' }}</button>
 
     <!-- Botón de envío -->
     <button type="submit" class="btn btn-primary" *ngIf="isEditable">Guardar Cambios</button>
+    <!-- Botón de envío -->
+    <button type="submit" class="btn btn-primary" (click)="changePassword()" *ngIf="isPasswordEditable">Guardar Contraseña</button>
   </form>
 </div>
