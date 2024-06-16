@@ -25,10 +25,12 @@
   </div>
 
   <!-- Notifications -->
-  <button type="button" class="btn" [ngClass]="{'btn-danger': hasNotification, 'btn-secondary': !hasNotification}" routerLink="/notificaciones" *ngIf="isStudent()">
+  <button type="button" class="btn button" [ngClass]="{'btn-danger': hasNotification, 'btn-secondary': !hasNotification}" routerLink="/notificaciones" *ngIf="isStudent()">
       <i class="bi" [ngClass]="{'bi-bell-fill': hasNotification, 'bi-bell': !hasNotification}"></i>
       <span *ngIf="hasNotification" class="badge badge-light">{{ notificationsCount }}</span>
   </button>
 
-  <button class="logout-btn btn btn-outline-light my-2 my-sm-0" (click)="logout()">Cerrar sesión</button>
+  <button class="logout-btn" (click)="logout()">
+    <i class="fas fa-sign-out-alt"></i> 
+</button>
 </nav>
