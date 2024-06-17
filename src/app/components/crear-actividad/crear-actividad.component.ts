@@ -102,6 +102,8 @@ export class CrearActividadComponent implements OnInit {
           this.error = 'Error al guardar la actividad';
           this.info = '';
         });
+      } else {
+        this.router.navigate(['/actividades']);
       }
     }, _ => {
       this.error = 'Error al guardar la actividad';
