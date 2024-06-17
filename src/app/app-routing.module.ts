@@ -15,6 +15,7 @@ import { RoleChecker } from './guards/role-checker.guard';
 import { EvidenciasComponent } from './components/evidencias/evidencias.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { CalendarComponent } from './components/activity-calendar/activity-calendar.component';
 // import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
@@ -24,13 +25,14 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'equipo', component: EquipoComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia', 'coordinador'] } },
   { path: 'estudiantes', component: EstudiantesComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia', 'coordinador'] } },
-  { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
+  { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['admin', 'profesor guia', 'coordinador'] } },
   { path: 'crear-actividad', component: CrearActividadComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['coordinador'] } },
   { path: 'actividad/:id', component: ActividadComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id/comentarios', component: ComentariosComponent, canActivate: [AuthGuard] },
   { path: 'actividad/:id/evidencias', component: EvidenciasComponent, canActivate: [AuthGuard] },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante'] } },
   { path: 'notificaciones', component: NotificationsComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante'] } },
+  { path: 'calendario', component: CalendarComponent, canActivate: [AuthGuard, RoleChecker], data: { allowedRoles: ['estudiante'] } },
 
   // Wildcard route
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }

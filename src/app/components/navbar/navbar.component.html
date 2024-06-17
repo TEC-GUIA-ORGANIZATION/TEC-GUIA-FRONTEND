@@ -12,8 +12,11 @@
       <li class="nav-item" [class.active]="isSelected('/estudiantes')" *ngIf="!isStudent()">
         <a class="nav-link" routerLink="/estudiantes" routerLinkActive="active">Estudiantes</a>
       </li>
-      <li class="nav-item" [class.active]="isSelected('/actividades')">
+      <li class="nav-item" [class.active]="isSelected('/actividades')" *ngIf="!isStudent()">
         <a class="nav-link" routerLink="/actividades" routerLinkActive="active">Actividades</a>
+      </li>
+      <li class="nav-item" [class.active]="isSelected('/calendario')" *ngIf="isStudent()">
+        <a class="nav-link" routerLink="/calendario" routerLinkActive="active">Calendario</a>
       </li>
       <li class="nav-item" [class.active]="isSelected('/equipo')" *ngIf="!isStudent()">
         <a class="nav-link" routerLink="/equipo" routerLinkActive="active">Equipo</a>
@@ -31,6 +34,6 @@
   </button>
 
   <button class="logout-btn" (click)="logout()">
-    <i class="fas fa-sign-out-alt"></i> 
+    <i class="fas fa-sign-out-alt"></i>
 </button>
 </nav>
