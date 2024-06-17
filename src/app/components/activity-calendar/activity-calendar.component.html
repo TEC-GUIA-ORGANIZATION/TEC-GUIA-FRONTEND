@@ -1,9 +1,8 @@
 <app-navbar></app-navbar>
 
 <div class="container mt-5">
+  <h1>Calendario de Actividades</h1>
   <div class="d-flex justify-content-between">
-    <h1>Calendario de Actividades</h1>
-    <h3><strong>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</strong></h3>
     <div class="btn-group">
       <div class="btn btn-primary align-self-center" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
         Anterior
@@ -15,11 +14,11 @@
         Siguiente
       </div>
     </div>
+    <h3><strong>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</strong></h3>
     <div class="btn-group">
       <div class="btn btn-primary align-self-center" (click)="goToNextActivity()">
         Próxima Actividad
       </div>
-
     </div>
   </div>
   <hr>
