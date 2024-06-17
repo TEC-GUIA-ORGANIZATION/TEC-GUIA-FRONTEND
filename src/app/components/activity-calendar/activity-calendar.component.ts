@@ -88,6 +88,26 @@ export class CalendarComponent implements OnInit {
     // Redirige a la página de la actividad
     this.router.navigate(['/actividad/' + event.id]);
   }
+  goToNextActivity() {
+    const currentDate = new Date();
+    let nextActivityId = null;
+
+    // Sort events by start date
+    const sortedEvents = this.events.sort((a, b) => a.start.getTime() - b.start.getTime());
+
+    for (const actividad of sortedEvents) {
+      if (actividad.start > currentDate) {
+        nextActivityId = actividad.id;
+        break;
+      }
+    }
+
+    if (nextActivityId) {
+      this.router.navigate(['/actividad/' + nextActivityId]);
+    } else {
+      console.log('No upcoming activities found');
+    }
+  }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;

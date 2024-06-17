@@ -18,7 +18,7 @@ import { saveAs} from 'file-saver';
     NavbarComponent,
     FormsModule,
     CommonModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
 })
 export class EstudiantesComponent implements OnInit {
