@@ -150,3 +150,7 @@
 .btn-icon:hover i {
   color: #EF3340; /* Cambia el color del ícono al pasar el mouse */
 }
+
+.notification-content {
+  white-space: pre-line;
+}
