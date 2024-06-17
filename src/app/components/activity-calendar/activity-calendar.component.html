@@ -1,43 +1,32 @@
 <app-navbar></app-navbar>
 
 <div class="container mt-5">
-  <div class="row">
-    <div class="col">
-      <h3>Ejemplo de Calendario en Angular</h3>
-      <!-- Botones de navegación -->
-      <div class="d-flex justify-content-between my-2">
-        <button class="btn btn-primary" (click)="previousMonth()">Mes Anterior</button>
-        <button class="btn btn-primary" (click)="nextMonth()">Mes Siguiente</button>
+  <div class="d-flex justify-content-between">
+    <h1>Calendario de Actividades</h1>
+    <h3><strong>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</strong></h3>
+    <div class="btn-group">
+      <div class="btn btn-primary align-self-center" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+        Anterior
       </div>
-
-      <!-- Vista del calendario -->
-      <mwl-calendar-month-view
+      <div class="btn btn-outline-secondary align-self-center" mwlCalendarToday [(viewDate)]="viewDate">
+        Hoy
+      </div>
+      <div class="btn btn-primary align-self-center" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+        Siguiente
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+        *ngSwitchCase="CalendarView.Month"
         [viewDate]="viewDate"
         [events]="events"
-        [activeDayIsOpen]="false"
-        (dayClicked)="dayClicked($event, content)"
-        (eventClicked)="handleEvent('Clicked', $event.event)">
-      </mwl-calendar-month-view>
-    </div>
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent($event.event)"
+        >
+    </mwl-calendar-month-view>
   </div>
 </div>
-
-<!-- Modal para mostrar las actividades del día -->
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Actividades del {{ selectedDayViewDate | date:'fullDate' }}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <div *ngFor="let event of events">
-      <div *ngIf="isSameDay(selectedDayViewDate, event.start)">
-        <p><strong>{{ event.title }}</strong></p>
-        <p>Inicio: {{ event.start | date:'shortTime' }}</p>
-        <p *ngIf="event.end">Fin: {{ event.end | date:'shortTime' }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cerrar</button>
-  </div>
-</ng-template>

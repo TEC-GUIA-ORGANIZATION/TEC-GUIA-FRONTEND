@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, zip } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { API_URL} from './constantes.service';
 import { Actividad } from '../models/actividad.model';
-import { BlobServiceClient } from "@azure/storage-blob";
 import { GestorUsuarios } from './gestor-usuarios.service';
 import { Evidencia } from '../models/evidencia.model';
 

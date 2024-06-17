@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MaterialModule } from '../../material/material.module';
-import { GestorActividades } from '../../services/gestor-actividades.service';
 import { GestorAutenticacion } from '../../services/gestor-autenticacion.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +10,6 @@ import { EstadoActividad } from '../../models/estado-actividad.model';
 import { GestorPlanTrabajo } from '../../services/gestor-planes-trabajo.service';
 import { CommonModule } from '@angular/common';
 import { ViewChild, ElementRef } from '@angular/core';
-import { throws } from 'assert';
 
 @Component({
   standalone: true,

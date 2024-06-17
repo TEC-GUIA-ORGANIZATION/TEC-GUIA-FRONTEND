@@ -103,7 +103,11 @@ export class ActividadComponent {
   }
 
   goBack() {
-    this.router.navigate(['/actividades']);
+    if (this.gestorAutenticacion.getCurrentUserRol() === 'estudiante') {
+      this.router.navigate(['calendario']);
+      return;
+    }
+    this.router.navigate(['actividades']);
   }
 
   editActivity() {
